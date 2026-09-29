@@ -48,7 +48,7 @@ public class DialogueManager : MonoBehaviour
 
         //add common ink funcs
         activeScript.BindExternalFunction<object>("DebugLog", Debug.Log);
-        activeScript.BindExternalFunction<float>("evnt_Wait", time => StartCoroutine(WaitThenAdvance(time)));
+        activeScript.BindExternalFunction<float>("evnt_Wait", time => { StartCoroutine(WaitThenAdvance(time)); });
 
         OnInitInkScript?.Invoke(activeScript);
         AdvanceDialogue();
@@ -82,7 +82,7 @@ public class DialogueManager : MonoBehaviour
             string nextLine = activeScript.Continue();
             //handle tags
 
-            if (nextLine == "!!EVENT!!")
+            if (nextLine.Trim() == "!!EVENT!!")
             {
                 dialogueBox.HideDialogue();
             }

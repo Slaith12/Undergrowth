@@ -51,7 +51,6 @@ public class DialogueTestScene : MonoBehaviour
                 SetCharacterAlpha(Mathf.Lerp(fadeEndAlpha, fadeStartAlpha, fadeTimer / fadeMaxTimer));
             }
         }
-
     }
 
     private void FadeCharacter(float startAlpha, float endAlpha, float time)

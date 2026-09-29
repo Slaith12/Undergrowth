@@ -7,4 +7,5 @@ Can I buy a plant please?
 *   [Refuse]
     Aw, man. :(
 - ~FadeOutCharacter(1)
+~Wait(0.4)
 -> END
