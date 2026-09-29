@@ -16,6 +16,18 @@ public class DialogueBox : MonoBehaviour
     {
         text.text = dialogue;
         button.gameObject.SetActive(true);
+        ShowDialogue();
+    }
+
+    public void HideDialogue()
+    {
+        //nothing on this object uses the update function right now, so this is a good enough way to handle this
+        gameObject.SetActive(false);
+    }
+
+    public void ShowDialogue()
+    {
+        gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -23,7 +35,7 @@ public class DialogueBox : MonoBehaviour
     /// </summary>
     public void OnAdvanceButtonPressed()
     {
-        dialogueManager.AdvanceDialogue();
         button.gameObject.SetActive(false);
+        dialogueManager.AdvanceDialogue();
     }
 }

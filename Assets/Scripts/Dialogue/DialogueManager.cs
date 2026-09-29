@@ -11,7 +11,7 @@ public class DialogueManager : MonoBehaviour
 {
     public event Action<Story> OnInitInkScript;
 
-    [SerializeField] List<TextAsset> inkScripts;
+    [SerializeField] List<Ink.UnityIntegration.InkFile> inkScripts;
     [SerializeField] List<int> scriptWeights;
     [SerializeField] DialogueBox dialogueBox;
 
@@ -35,15 +35,15 @@ public class DialogueManager : MonoBehaviour
             }
         }
 
-        InitInkScript(inkScripts[index]);
+        InitInkScript(inkScripts[index].storyJson);
     }
 
     /// <summary>
     /// Loads a new ink script from an asset and initializes it.
     /// </summary>
-    private void InitInkScript(TextAsset scriptAsset)
+    private void InitInkScript(string scriptAsset)
     {
-        activeScript = new Story(scriptAsset.text);
+        activeScript = new Story(scriptAsset);
         activeScript.onError += OnInkError;
 
         //add common ink funcs
@@ -82,8 +82,14 @@ public class DialogueManager : MonoBehaviour
             string nextLine = activeScript.Continue();
             //handle tags
 
-            if (nextLine != "!!EVENT!!")
+            if (nextLine == "!!EVENT!!")
+            {
+                dialogueBox.HideDialogue();
+            }
+            else
+            {
                 dialogueBox.DisplayDialogue(nextLine);
+            }
         }
         else if(activeScript.currentChoices.Count > 0)
         {

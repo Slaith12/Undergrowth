@@ -6,3 +6,5 @@ Can I buy a plant please?
     Thanks!
 *   [Refuse]
     Aw, man. :(
+- ~FadeOutCharacter(1)
+-> END

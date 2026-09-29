@@ -8,8 +8,11 @@ EXTERNAL evnt_FadeCharacter(startAlpha, endAlpha, time)
 #Set character alpha to {alpha}
 
 === function evnt_FadeCharacter(startAlpha, endAlpha, time) ===
-
-#NEXT_EVENT: Character fades {startAlpha < endAlpha: in } for {time} seconds
+~temp in_out = "out"
+{startAlpha < endAlpha: 
+    ~in_out = "in"
+}
+#NEXT_EVENT: Character fades {in_out} for {time} seconds
 
 === function FadeCharacter(startAlpha, endAlpha, time) ===
 ~ evnt_FadeCharacter(startAlpha, endAlpha, time)
