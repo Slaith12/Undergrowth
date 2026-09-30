@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class DialogueTestScene : MonoBehaviour
 {
+    [SerializeField] GameObject gameOverOverlay;
     [SerializeField] Image characterSprite;
     [SerializeField] List<Color> colors;
 
@@ -29,7 +30,9 @@ public class DialogueTestScene : MonoBehaviour
         //Bind functions
         story.BindExternalFunction<float>("SetCharacterAlpha", SetCharacterAlpha);
         story.BindExternalFunction<float, float, float>("evnt_FadeCharacter", FadeCharacter);
-        //Reset character
+        story.BindExternalFunction("evnt_CopArrest", CopArrest);
+        //Reset character and overlay
+        gameOverOverlay.SetActive(false);
         characterSprite.color = colors[Random.Range(0, colors.Count)];
         SetCharacterAlpha(0);
         fadeActive = false;
@@ -68,5 +71,16 @@ public class DialogueTestScene : MonoBehaviour
         Color color = characterSprite.color;
         color.a = alpha;
         characterSprite.color = color;
+    }
+
+    private void CopArrest()
+    {
+        gameOverOverlay.SetActive(true);
+    }
+
+    public void Retry()
+    {
+        gameOverOverlay.SetActive(false);
+        manager.BeginNewScript();
     }
 }

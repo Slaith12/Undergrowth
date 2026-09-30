@@ -2,6 +2,7 @@ INCLUDE Common.ink
 
 EXTERNAL SetCharacterAlpha(alpha)
 EXTERNAL evnt_FadeCharacter(startAlpha, endAlpha, time)
+EXTERNAL evnt_CopArrest()
 
 //Fallback+Wrapper functions
 === function SetCharacterAlpha(alpha) ===
@@ -16,6 +17,13 @@ EXTERNAL evnt_FadeCharacter(startAlpha, endAlpha, time)
 
 === function FadeCharacter(startAlpha, endAlpha, time) ===
 ~ evnt_FadeCharacter(startAlpha, endAlpha, time)
+~ SignalEvent()
+
+=== function evnt_CopArrest() ===
+#NEXT_EVENT: Player is arrested
+
+=== function CopArrest() ===
+~ evnt_CopArrest()
 ~ SignalEvent()
 
 //Helper functions
