@@ -1,5 +1,6 @@
 using Ink;
 using Ink.Runtime;
+using Ink.UnityIntegration;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,9 +12,10 @@ public class DialogueManager : MonoBehaviour
 {
     public event Action<Story> OnInitInkScript;
 
-    [SerializeField] List<Ink.UnityIntegration.InkFile> inkScripts;
+    [SerializeField] List<InkFile> inkScripts;
     [SerializeField] List<int> scriptWeights;
     [SerializeField] DialogueBox dialogueBox;
+    [SerializeField] ChoiceManager choiceManager;
 
     private Story activeScript;
 
@@ -31,7 +33,7 @@ public class DialogueManager : MonoBehaviour
             while(randWeight >= 0)
             {
                 index++;
-                randWeight -= scriptWeights.Count;
+                randWeight -= scriptWeights[index];
             }
         }
 
@@ -41,9 +43,9 @@ public class DialogueManager : MonoBehaviour
     /// <summary>
     /// Loads a new ink script from an asset and initializes it.
     /// </summary>
-    private void InitInkScript(string scriptAsset)
+    private void InitInkScript(string scriptJson)
     {
-        activeScript = new Story(scriptAsset);
+        activeScript = new Story(scriptJson);
         activeScript.onError += OnInkError;
 
         //add common ink funcs
@@ -93,7 +95,8 @@ public class DialogueManager : MonoBehaviour
         }
         else if(activeScript.currentChoices.Count > 0)
         {
-            DisplayChoices(activeScript.currentChoices);
+            List<string> choiceTexts = activeScript.currentChoices.Select(choice => choice.text).ToList();
+            choiceManager.ShowChoices(choiceTexts, SelectChoiceAndAdvance);
         }
         else
         {
@@ -102,14 +105,10 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    private void DisplayChoices(List<Choice> choices)
-    {
-
-    }
-
     public void SelectChoiceAndAdvance(int index)
     {
         activeScript.ChooseChoiceIndex(index);
+        choiceManager.HideChoices();
         AdvanceDialogue();
     }
 
