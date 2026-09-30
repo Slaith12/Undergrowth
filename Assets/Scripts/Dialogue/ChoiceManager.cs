@@ -13,6 +13,11 @@ public class ChoiceManager : MonoBehaviour
         buttons = new();
     }
 
+    /// <summary>
+    /// Displays choices on screen.
+    /// </summary>
+    /// <param name="choiceTexts">The strings to be used for each choice.</param>
+    /// <param name="buttonCallback">Callback to be used for each choice button. Button index is passed in through the parameter.</param>
     public void ShowChoices(List<string> choiceTexts, Action<int> buttonCallback)
     {
         //If button cache doesn't have enough buttons, create more of them.
@@ -38,6 +43,9 @@ public class ChoiceManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Hides choice buttons
+    /// </summary>
     public void HideChoices()
     {
         foreach(ChoiceButton button in buttons)

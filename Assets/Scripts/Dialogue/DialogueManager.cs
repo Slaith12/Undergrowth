@@ -10,10 +10,17 @@ using Random = UnityEngine.Random;
 
 public class DialogueManager : MonoBehaviour
 {
+    /// <summary>
+    /// Called when a new Ink Script is initialized (i.e. a new converstation starts).
+    /// Can be used to register external functions to be used within the script.
+    /// </summary>
     public event Action<Story> OnInitInkScript;
 
+    [Tooltip("Scripts to be randomly chosen for dialogue")]
     [SerializeField] List<InkFile> inkScripts;
+    [Tooltip("Weights for how likely each ink script is to be selected")]
     [SerializeField] List<int> scriptWeights;
+
     [SerializeField] DialogueBox dialogueBox;
     [SerializeField] ChoiceManager choiceManager;
 
@@ -24,6 +31,10 @@ public class DialogueManager : MonoBehaviour
         BeginNewScript();
     }
 
+    /// <summary>
+    /// Begins a new conversation.
+    /// </summary>
+    /// <param name="index">The index of the script to be used. An index of -1 causes a random script to be chosen based on their weights.</param>
     public void BeginNewScript(int index = -1)
     {
         if(index == -1)
@@ -63,7 +74,8 @@ public class DialogueManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Continue the dialogue, showing the next line or choice.
+    /// If a choice is active, SelectChoiceAndAdvance() should be used instead.
     /// </summary>
     public void AdvanceDialogue()
     {
@@ -105,6 +117,10 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Advances the dialogue with a certain choice selected. If no choice is active, use AdvanceDialogue() instead.
+    /// </summary>
+    /// <param name="index">The index of the choice to be selected.</param>
     public void SelectChoiceAndAdvance(int index)
     {
         activeScript.ChooseChoiceIndex(index);

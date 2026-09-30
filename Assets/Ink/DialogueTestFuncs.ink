@@ -4,7 +4,7 @@ EXTERNAL SetCharacterAlpha(alpha)
 EXTERNAL evnt_FadeCharacter(startAlpha, endAlpha, time)
 EXTERNAL evnt_CopArrest()
 
-//Fallback+Wrapper functions
+//Fallback+Wrapper functions (See Common.ink for details)
 === function SetCharacterAlpha(alpha) ===
 #Set character alpha to {alpha}
 

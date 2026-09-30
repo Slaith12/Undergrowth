@@ -56,6 +56,7 @@ public class DialogueTestScene : MonoBehaviour
         }
     }
 
+    //Ink Script Functions
     private void FadeCharacter(float startAlpha, float endAlpha, float time)
     {
         SetCharacterAlpha(startAlpha);
@@ -78,6 +79,7 @@ public class DialogueTestScene : MonoBehaviour
         gameOverOverlay.SetActive(true);
     }
 
+    //UI Callbacks
     public void Retry()
     {
         gameOverOverlay.SetActive(false);
