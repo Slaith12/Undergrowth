@@ -11,6 +11,13 @@ public class Dialogue_View : MonoBehaviour, IDialogue_View
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private GameObject dialoguePanel;
     [SerializeField] private Button nextDialogueButton;
+    [SerializeField] private GameObject choiceButtonPanel;
+    [SerializeField] private TextMeshProUGUI characterName;
+    [SerializeField] private GameObject character;
+    [SerializeField] private Button retryButton;
+
+    private SpriteRenderer spriteRenderer; 
+
 
     [SerializeField] ChoiceButton choiceButtonPrefab; 
     private List<ChoiceButton> choiceButtons;
@@ -18,25 +25,30 @@ public class Dialogue_View : MonoBehaviour, IDialogue_View
     // Events exposed to the Presenter 
     public event Action OnContinueClicked;
     public event Action<int> OnChoiceSelected;
+    public event Action OnRetryClicked; 
 
     private void Awake()
     {
         // Hook button up to fire presenter's event 
         nextDialogueButton.onClick.AddListener(() => OnContinueClicked?.Invoke());
+        retryButton.onClick.AddListener(() => OnRetryClicked?.Invoke());
         choiceButtons = new();
+        spriteRenderer = character.GetComponentInChildren<SpriteRenderer>();
     }
    
     // Logic for displaying the text 
-    public void DisplayDialogue(string text)
+    public void DisplayDialogue(string _dialogueText)
     {
         // For now, 
-        dialogueText.text = text;
-
+        dialogueText.text = _dialogueText;
         // TODO: Make typewritter effect
     }
 
     public void ShowDialogue() => dialoguePanel.SetActive(true);
-    public void HideDialogue() => dialoguePanel.SetActive(false);
+    public void HideDialogue()
+    {
+        dialoguePanel.SetActive(false);
+    }
 
     public void DisplayChoices(List<string> choiceTexts, Action<int> buttonCallback)
     {
@@ -44,7 +56,7 @@ public class Dialogue_View : MonoBehaviour, IDialogue_View
         for (int i = choiceButtons.Count; i < choiceTexts.Count; i++)
         {
             // Add new buttons 
-            choiceButtons.Add(Instantiate(choiceButtonPrefab, transform));
+            choiceButtons.Add(Instantiate(choiceButtonPrefab, choiceButtonPanel.transform));
         }
 
         // Initialize all used buttons 
@@ -70,5 +82,45 @@ public class Dialogue_View : MonoBehaviour, IDialogue_View
         {
             button.gameObject.SetActive(false);
         }
+    }
+
+    public void HideContinueButton()
+    {
+        nextDialogueButton.gameObject.SetActive(false);
+    }
+
+    public void ShowContinueButton()
+    {
+        nextDialogueButton.gameObject.SetActive(true);
+    }
+
+    public void SetSpeaker(string name, Sprite sprite)
+    {
+        if (name == null)
+        {
+            Debug.Log("Name is null");
+        }else if (sprite == null)
+        {
+            Debug.Log("Sprite is null");
+        }
+        characterName.text = name;
+        spriteRenderer.sprite = sprite;
+    }
+
+    public void SetCharacterAlpha(float alpha)
+    {
+        Color color = character.GetComponentInChildren<SpriteRenderer>().color;
+        color.a = alpha;
+        character.GetComponentInChildren<SpriteRenderer>().color = color;
+    }
+
+    public void ShowRetryButton()
+    {
+        retryButton.gameObject.SetActive(true);
+    }
+
+    public void HideRetryButton()
+    {
+        retryButton.gameObject.SetActive(false);
     }
 }
