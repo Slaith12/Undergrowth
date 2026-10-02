@@ -4,7 +4,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Character_Database", menuName = "Scriptable Objects/Character_Database")]
 public class Character_Database : ScriptableObject
 {
-    [SerializeField] private List<Characater_Data> characters;
+    [SerializeField] public List<Characater_Data> characters;
 
     public Characater_Data GetCharacter(string characterId)
     {

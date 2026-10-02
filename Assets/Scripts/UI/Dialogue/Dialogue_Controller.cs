@@ -10,7 +10,7 @@ public class Dialogue_Controller : MonoBehaviour
 {
     [Header("Dependencies")]
     [SerializeField] private Dialogue_View dialogueView;
-    [SerializeField] private InkFile inkFile;
+    [SerializeField] public InkFile inkFile;
     [SerializeField] private Character_Database character_Database;
 
     private Dialogue_Model _model;
