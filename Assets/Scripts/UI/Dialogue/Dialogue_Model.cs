@@ -7,21 +7,18 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+public enum StoryState {Dialogue, Choice, Event, End}
+
 public class Dialogue_Model
 {
+
     public Story story;
 
     // Properties to expose structured data to the Presenter 
     public string CurrentText { get; private set; } = string.Empty;
     public List<Choice> CurrentChoices => story.currentChoices;
     public bool CanContinue => story.canContinue;
-
-    public event Action<float> OnSetCharacterAlpha;
-    public event Action OnCopArrest;
-    public event Action<float, float, float> OnFadeCharacter;
-    public event Action OnEvent;
-    public event Action<string> OnSetCharacter;
-    public event Action<Sprite> OnSetCharacterSprite;
+    
     public Dialogue_Model(string scriptJson)
     {
         // Initialize the Ink story engine 
@@ -29,16 +26,17 @@ public class Dialogue_Model
 
         // Add the OnInkError Listener 
         story.onError += OnInkError;
-
-        // Bind the external functions 
     }
 
-    public void AdvanceStory()
+    public StoryState AdvanceStory()
     {
         // If the story cannot continue 
         if (!CanContinue)
         {
-            return; 
+            if(story.currentChoices.Count > 0)
+                return StoryState.Choice;
+            else
+                return StoryState.End; 
         }
 
         // Advance the ink state and pull the text 
@@ -46,11 +44,12 @@ public class Dialogue_Model
 
         if (nextLine == "!!EVENT!!")
         {
-            OnEvent?.Invoke();
+            return StoryState.Event;
         }
         else
         {
             CurrentText = nextLine;
+            return StoryState.Dialogue;
         }
     }
 
@@ -70,4 +69,21 @@ public class Dialogue_Model
             Debug.LogWarning(message);
     }
 
+    public Dictionary<string,string> GetTags()
+    {
+        Dictionary<string,string> result = new Dictionary<string,string>();
+
+        foreach (string tag in story.currentTags)
+        {
+            string[] split = tag.Split(':');
+            if (split.Length == 2)
+            {
+                string key = split[0].Trim();
+                string value = split[1].Trim();
+                result[key] = value;
+            }
+        }
+
+        return result;
+    }
 }

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System;
 
 [CreateAssetMenu(fileName = "Character_Data", menuName = "Scriptable Objects/Character_Data")]
-public class Characater_Data : ScriptableObject
+public class Character_Data : ScriptableObject
 {
     [SerializeField] private string characterId;
     [SerializeField] private string displayName;
