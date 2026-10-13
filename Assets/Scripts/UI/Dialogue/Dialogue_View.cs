@@ -44,7 +44,10 @@ public class Dialogue_View : MonoBehaviour, IDialogue_View
         // TODO: Make typewritter effect
     }
 
-    public void ShowDialogue() => dialoguePanel.SetActive(true);
+    public void ShowDialogue()
+    {
+        dialoguePanel.SetActive(true);
+    }
     public void HideDialogue()
     {
         dialoguePanel.SetActive(false);
