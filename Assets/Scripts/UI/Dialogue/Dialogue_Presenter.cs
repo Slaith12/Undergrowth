@@ -22,8 +22,6 @@ public class Dialogue_Presenter
         // Listen to the User Inputs from the view 
         _view.OnContinueClicked += HandleContinueClicked;
         _view.OnChoiceSelected += HandleChoiceSelected;
-        // Listen to the inputs from the model 
-        _model.OnEvent += HandleEvent;
 
         _view.ShowDialogue();
         ProgressDialogue();
@@ -36,82 +34,42 @@ public class Dialogue_Presenter
 
     public void ProgressDialogue()
     {
-        // If the model can continue 
-        if (_model.CanContinue)
+        StoryState state = _model.AdvanceStory();
+        switch(state)
         {
-            // Advance the story 
-            _model.AdvanceStory();
-            // Get the tags 
-            List<string> tags = _model.story.currentTags;
-            // Make a dictionary of the tags 
-            Dictionary<string, string> parsedTags = ParseTags(tags);
-            string speakerId = parsedTags.GetValueOrDefault("speaker");
-            string portraitKey = parsedTags.GetValueOrDefault("portrait");
-            string displayName = null;
-            Sprite characterSprite = null;
-
-            // If there is a character with this speakerId
-            if (!string.IsNullOrEmpty(speakerId))
-            {
-                // Get the character
-                Characater_Data character = _characterDatabase.GetCharacter(speakerId);
-                // Set the display name 
-                if (character != null)
-                {
-                    displayName = character.DisplayName;
-                    characterSprite = character.GetSprite(portraitKey);
-
-                    if (characterSprite != null && displayName != null)
-                    {
-                        _view.SetSpeaker(displayName, characterSprite);
-                    }else if (characterSprite == null)
-                    {
-                        Debug.Log("No Character sprite with portrait key: " + portraitKey);
-                    }
-                }
-                else
-                {
-                    Debug.Log("No Character exists with id: " + speakerId);
-                }
-            }
-
-            // Pull data from the model and assign it to the view 
-            _view.DisplayDialogue(_model.CurrentText);
-            _view.ShowContinueButton();
-
-            // If there are choices to be made 
-            if (_model.CurrentChoices.Count > 0)
-            {
-                var choiceTexts = new List<string>();
-                foreach (var choice in _model.CurrentChoices)
-                {
-                    choiceTexts.Add(choice.text);
-                }
-                // Display the choices 
-                _view.DisplayChoices(choiceTexts, HandleChoiceSelected);
-                // Remove the continue button 
+            case StoryState.Dialogue:
+                _view.ShowDialogue();
+                HandleDialogueTags();
+                _view.DisplayDialogue(_model.CurrentText);
+                _view.ShowContinueButton();
+                break;
+            case StoryState.Choice:
+                List<string> choiceTexts = _model.CurrentChoices.Select(choice => choice.text).ToList();
+                _view.DisplayChoices(choiceTexts);
                 _view.HideContinueButton();
-                
-            }
-        }else if (_model.CurrentChoices.Count == 0)
-        {
-            EndDialogue();
+                break;
+            case StoryState.Event:
+                //The presenter does nothing during an event.
+                //An event indicates that an external function was called, and that external function handles the event.
+                _view.HideDialogue();
+                break;
+            case StoryState.End:
+                EndDialogue();
+                break;
+            default:
+                throw new Exception($"Unhandled story state detected: {state}");
         }
     }
 
     private void HandleChoiceSelected(int choiceIndex)
     {
-        // Choose the choice 
+        // Choose the choice
         _model.ChooseIndex(choiceIndex);
         _view.HideChoices();
-        // Progress Dialogue 
+        // Progress Dialogue
         ProgressDialogue();
     }
 
-    private void HandleEvent()
-    {
-        Debug.Log("EVENT?");
-    }
     private void EndDialogue()
     {
         _view.HideDialogue();
@@ -119,23 +77,65 @@ public class Dialogue_Presenter
         // Remove Subscribers
         _view.OnContinueClicked -= HandleContinueClicked;
         _view.OnChoiceSelected -= HandleChoiceSelected;
-        _model.OnEvent -= HandleEvent;
     }
-    private Dictionary<string,string> ParseTags(List<string> tags)
+    private void HandleDialogueTags()
     {
-        Dictionary<string,string> result = new Dictionary<string,string>();
+        Dictionary<string,string> tags = _model.GetTags();
+        string speakerId = tags.GetValueOrDefault("speaker");
+        if(!string.IsNullOrEmpty(speakerId))
+            SetSpeaker(speakerId);
+        
+        string portraitKey = tags.GetValueOrDefault("portrait");
+        if(!string.IsNullOrEmpty(portraitKey))
+            SetPortrait(portraitKey, speakerId);
+    }
 
-        foreach (string tag in tags)
+    private void SetSpeaker(string speakerId)
+    {
+        Character_Data character = _characterDatabase.GetCharacter(speakerId);
+        if(character == null)
         {
-            string[] split = tag.Split(':');
-            if (split.Length == 2)
-            {
-                string key = split[0].Trim();
-                string value = split[1].Trim();
-                result[key] = value;
-            }
+            Debug.LogError($"Unable to set speaker to missing character \"{speakerId}\"");
+            return;
+        }
+        _view.SetSpeakerName(character.DisplayName);
+    }
+
+    private void SetPortrait(string portraitKey, string speakerId)
+    {
+        string[] keyIds = portraitKey.Split('.');
+        string characterId;
+        //if portrait tag only includes a key, use the current speaker as the character
+        //if portrait tag is listed as [name].[key], ignore speakerId and use the name provided instead
+        if(keyIds.Length == 1)
+        {
+            characterId = speakerId;
+        }
+        else
+        {
+            characterId = keyIds[0];
+            portraitKey = keyIds[1];
         }
 
-        return result;
+        if(string.IsNullOrEmpty(characterId))
+        {
+            Debug.LogError("Character id required in order to set portrait.\n" +
+                        "Either include a #speaker tag with the #portrait tag, or write the #portrait tag as \"[character].[portrait]\"");
+            return;
+        }
+
+        Character_Data character = _characterDatabase.GetCharacter(characterId);
+        if(character == null)
+        {
+            Debug.LogError($"Unable to get portrait of missing character \"{characterId}\".");
+            return;
+        }
+
+        Sprite sprite = character.GetSprite(portraitKey);
+        if(sprite == null)
+        {
+            Debug.LogError($"Unable to get missing portrait \"{portraitKey}\" from character \"{characterId}\".");
+        }
+        _view.SetPortraitSprite(sprite);
     }
 }

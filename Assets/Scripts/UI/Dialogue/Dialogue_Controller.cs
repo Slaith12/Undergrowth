@@ -24,8 +24,9 @@ public class Dialogue_Controller : MonoBehaviour
 
     private void Start()
     {
-        StartLevel();
+        dialogueView.OnRetryClicked += Retry;
 
+        StartLevel();
     }
 
     private void StartLevel()
@@ -37,7 +38,6 @@ public class Dialogue_Controller : MonoBehaviour
         _presenter = new Dialogue_Presenter(_model, dialogueView, character_Database);
     }
 
-
     private void InitInkScript(string scriptJson)
     {
         _model = new Dialogue_Model(scriptJson);
@@ -46,7 +46,6 @@ public class Dialogue_Controller : MonoBehaviour
         _model.story.BindExternalFunction<float, float, float>("evnt_FadeCharacter", FadeCharacter);
         _model.story.BindExternalFunction("evnt_CopArrest", CopArrest);
         _model.story.BindExternalFunction<float>("SetCharacterAlpha", SetCharacterAlpha);
-        dialogueView.OnRetryClicked += Retry;
         SetCharacterAlpha(0);
         fadeActive = false;
     
@@ -87,7 +86,10 @@ public class Dialogue_Controller : MonoBehaviour
 
     private void CopArrest()
     {
-
+        //Placeholder since game over screen is missing
+        //This still needs to eventually call ProgressDialogue() like a regular event, so it uses the Wait event.
+        Debug.Log("Arrested! Oh no!");
+        StartCoroutine(WaitThenAdvance(0.1f));
     }
 
     private void SetCharacterAlpha(float alpha)

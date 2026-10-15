@@ -16,7 +16,7 @@ public class Dialogue_View : MonoBehaviour, IDialogue_View
     [SerializeField] private GameObject character;
     [SerializeField] private Button retryButton;
 
-    private SpriteRenderer spriteRenderer; 
+    private SpriteRenderer portraitRenderer; 
 
 
     [SerializeField] ChoiceButton choiceButtonPrefab; 
@@ -33,7 +33,7 @@ public class Dialogue_View : MonoBehaviour, IDialogue_View
         nextDialogueButton.onClick.AddListener(() => OnContinueClicked?.Invoke());
         retryButton.onClick.AddListener(() => OnRetryClicked?.Invoke());
         choiceButtons = new();
-        spriteRenderer = character.GetComponentInChildren<SpriteRenderer>();
+        portraitRenderer = character.GetComponentInChildren<SpriteRenderer>();
     }
    
     // Logic for displaying the text 
@@ -44,19 +44,25 @@ public class Dialogue_View : MonoBehaviour, IDialogue_View
         // TODO: Make typewritter effect
     }
 
-    public void ShowDialogue() => dialoguePanel.SetActive(true);
+    public void ShowDialogue()
+    {
+        dialoguePanel.SetActive(true);
+    }
     public void HideDialogue()
     {
         dialoguePanel.SetActive(false);
     }
 
-    public void DisplayChoices(List<string> choiceTexts, Action<int> buttonCallback)
+    public void DisplayChoices(List<string> choiceTexts)
     {
         // If button cache doesn't have enough buttons, create more of them 
         for (int i = choiceButtons.Count; i < choiceTexts.Count; i++)
         {
-            // Add new buttons 
-            choiceButtons.Add(Instantiate(choiceButtonPrefab, choiceButtonPanel.transform));
+            // Add new buttons
+            ChoiceButton newButton = Instantiate(choiceButtonPrefab, choiceButtonPanel.transform);
+            int buttonIndex = i; //temp variable needed for delegate, using i directly won't work
+            newButton.SetCallback(delegate { OnChoiceSelected?.Invoke(buttonIndex); });
+            choiceButtons.Add(newButton);
         }
 
         // Initialize all used buttons 
@@ -65,8 +71,6 @@ public class Dialogue_View : MonoBehaviour, IDialogue_View
             //We don't have to worry about the buttons' positions, the VerticalLayoutGroup component will handle it
             choiceButtons[i].gameObject.SetActive(true);
             choiceButtons[i].SetText(choiceTexts[i]);
-            int buttonIndex = i; //temp variable needed for delegate, using i directly won't work
-            choiceButtons[i].SetCallback(delegate { buttonCallback(buttonIndex); });
         }
 
         // Hide all of the unused buttons 
@@ -94,17 +98,14 @@ public class Dialogue_View : MonoBehaviour, IDialogue_View
         nextDialogueButton.gameObject.SetActive(true);
     }
 
-    public void SetSpeaker(string name, Sprite sprite)
+    public void SetSpeakerName(string name)
     {
-        if (name == null)
-        {
-            Debug.Log("Name is null");
-        }else if (sprite == null)
-        {
-            Debug.Log("Sprite is null");
-        }
         characterName.text = name;
-        spriteRenderer.sprite = sprite;
+    }
+
+    public void SetPortraitSprite(Sprite sprite)
+    {
+        portraitRenderer.sprite = sprite;
     }
 
     public void SetCharacterAlpha(float alpha)

@@ -4,25 +4,24 @@ using System;
 
 public interface IDialogue_View
 {
-    event Action<int> OnChoiceSelected;
-    event Action OnContinueClicked;
+    public event Action<int> OnChoiceSelected;
+    public event Action OnContinueClicked;
     public event Action OnRetryClicked;
 
+    public void DisplayDialogue(string text);
+    public void DisplayChoices(List<string> choiceTexts);
+    public void HideDialogue();
+    public void ShowDialogue();
+    public void HideChoices();
 
-    void DisplayDialogue(string text);
-    void DisplayChoices(List<string> choiceTexts, Action<int> buttonCallback);
-    void HideDialogue();
-    void ShowDialogue();
-    void HideChoices();
+    public void HideContinueButton();
+    public void ShowContinueButton();
 
-    void HideContinueButton();
-    void ShowContinueButton();
+    public void SetSpeakerName(string displayName);
+    public void SetPortraitSprite(Sprite sprite);
 
-    void SetSpeaker(string displayName,Sprite sprite);
+    public void SetCharacterAlpha(float alpha);
 
-    void SetCharacterAlpha(float alpha);
-
-    void ShowRetryButton();
-    void HideRetryButton();
-
+    public void ShowRetryButton();
+    public void HideRetryButton();
 }
