@@ -3,6 +3,8 @@ INCLUDE Common.ink
 EXTERNAL SetCharacterAlpha(alpha)
 EXTERNAL evnt_FadeCharacter(startAlpha, endAlpha, time)
 EXTERNAL evnt_CopArrest()
+EXTERNAL sell_plant()
+EXTERNAL refuse_service()
 
 //Fallback+Wrapper functions (See Common.ink for details)
 === function SetCharacterAlpha(alpha) ===

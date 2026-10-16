@@ -11,6 +11,7 @@ public class Dialogue_Presenter
     private readonly Character_Database _characterDatabase;
     private readonly Story _story;
 
+    public event Action OnEndCalled;
 
     // Constructor for the Presenter that takes in the Ink story and the Dialogue View
     public Dialogue_Presenter(Dialogue_Model model, IDialogue_View view, Character_Database characterDatabase)
@@ -77,6 +78,7 @@ public class Dialogue_Presenter
         // Remove Subscribers
         _view.OnContinueClicked -= HandleContinueClicked;
         _view.OnChoiceSelected -= HandleChoiceSelected;
+        OnEndCalled.Invoke();
     }
     private void HandleDialogueTags()
     {

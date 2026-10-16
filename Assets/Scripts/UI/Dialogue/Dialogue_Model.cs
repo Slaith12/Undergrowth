@@ -39,7 +39,7 @@ public class Dialogue_Model
                 return StoryState.End; 
         }
 
-        // Advance the ink state and pull the text 
+        // Advance the ink currentState and pull the text 
         string nextLine = story.Continue().Trim();
 
         if (nextLine == "!!EVENT!!")

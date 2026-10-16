@@ -8,10 +8,12 @@ using UnityEngine.UI;
 
 public class Dialogue_Controller : MonoBehaviour
 {
-    [Header("Dependencies")]
-    [SerializeField] private Dialogue_View dialogueView;
-    [SerializeField] private InkFile inkFile;
-    [SerializeField] private Character_Database character_Database;
+    // Make the dialogue controller a singleton 
+    public static Dialogue_Controller Instance { get; private set; }
+
+    private Dialogue_View dialogueView;
+    private InkFile inkFile;
+    private Character_Database character_Database;
 
     private Dialogue_Model _model;
     private Dialogue_Presenter _presenter;
@@ -22,20 +24,32 @@ public class Dialogue_Controller : MonoBehaviour
     private float fadeTimer;
     private float fadeMaxTimer;
 
-    private void Start()
-    {
-        dialogueView.OnRetryClicked += Retry;
+    public event Action DialogueEnded;
 
-        StartLevel();
+    private void Awake()
+    {
+        // Setting up the singleton 
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
-    private void StartLevel()
+    public void StartDialogue(Character_Data character, Character_Database character_Database, Dialogue_View view)
     {
+        Debug.Log("[Dialogue Controller] - StartDialogue() was called");
+        inkFile = character.InkFile;
+        dialogueView = view;
         // Create the model and give it the ink file 
         InitInkScript(inkFile.storyJson);
 
         // Create the presenter and link the model and view together 
         _presenter = new Dialogue_Presenter(_model, dialogueView, character_Database);
+        _presenter.OnEndCalled += EndDialogueInteraction;
+        dialogueView.OnRetryClicked += Retry;
     }
 
     private void InitInkScript(string scriptJson)
@@ -94,12 +108,20 @@ public class Dialogue_Controller : MonoBehaviour
 
     private void SetCharacterAlpha(float alpha)
     {
-        dialogueView.SetCharacterAlpha(alpha);
+        if (dialogueView)
+        {
+            dialogueView.SetCharacterAlpha(alpha);
+        }
     }
     
     private void Retry()
     {
         dialogueView.HideRetryButton();
-        StartLevel();
+        // StartDialogue();
+    }
+
+    private void EndDialogueInteraction()
+    {
+        DialogueEnded.Invoke();
     }
 }

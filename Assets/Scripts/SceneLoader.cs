@@ -17,6 +17,22 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadByName(string sceneName)
     {
+        string gameManagerState; 
+
+        if (sceneName == "MainMenu")
+        {
+            gameManagerState = "StartMenu"; 
+        }
+        else if (sceneName == "Undergrowth")
+        {
+            gameManagerState = "DayStart";
+        }
+        else
+        {
+            gameManagerState = sceneName;
+        }
+
         SceneManager.LoadScene(sceneName);
+        GameManager.Instance.SwitchGameState(gameManagerState);
     }
 }
