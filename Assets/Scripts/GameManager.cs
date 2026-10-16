@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Dialogue_View dialogue_View;
     [SerializeField] private GrateMover grateMover;
     [SerializeField] private LeverClick leverClick;
+    [SerializeField] private PlantManager plantManager;
 
 
     private List<Character_Data> todaysQueue = new List<Character_Data>();
@@ -66,7 +67,7 @@ public class GameManager : MonoBehaviour
         if (tryStartDay)
         {
             // If all things that needed to be loaded in are loaded in 
-            if (dialogue_View && grateMover && leverClick)
+            if (dialogue_View && grateMover && leverClick && plantManager)
             {
                 // Start the day 
                 StartDay(); 
@@ -105,6 +106,16 @@ public class GameManager : MonoBehaviour
                     {
                         leverClick = leverClickObject.GetComponent<LeverClick>();
                         leverClick.LeverClicked += HandleLeverClick;
+                    }
+                }
+
+                if (!plantManager)
+                {
+                    GameObject plantManagerObject = GameObject.Find("Plants");
+                    if (plantManagerObject != null)
+                    {
+                        plantManager = plantManagerObject.GetComponent<PlantManager>();
+                        plantManager.PlantSold += HandlePlantSold;
                     }
                 }
             }
@@ -206,7 +217,7 @@ public class GameManager : MonoBehaviour
 
     public void HandleSellPlant()
     {
-
+        plantManager.canSell = true;
     }
 
     public void HandleLeverClick()
@@ -214,6 +225,17 @@ public class GameManager : MonoBehaviour
         if (canCloseGrate)
         {
             grateMover.DetermineAction();
+            canCloseGrate = false;
         }
+    }
+
+    public void HandlePlantSold()
+    {
+        Debug.Log("[GameManager] - HandlePlantSold called");
+    }
+
+    public void QuitApplication()
+    {
+        Application.Quit();
     }
 }

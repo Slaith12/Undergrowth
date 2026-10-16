@@ -113,6 +113,7 @@ public class Dialogue_Controller : MonoBehaviour
     private void OnSellPlant()
     {
         SellPlant.Invoke();
+        dialogueView.HideDialogue();
     }
 
     private void OnRefuseService()
