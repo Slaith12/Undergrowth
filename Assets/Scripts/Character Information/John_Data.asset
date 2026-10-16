@@ -19,3 +19,4 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 3e360c1b3b4549b4e8c0249ab84dc2ac, type: 3}
   - emotion: Angry
     sprite: {fileID: 21300000, guid: 9666a2d2183209045aca50cdad47a02f, type: 3}
+  inkFile: {fileID: 6231892579173505729, guid: ecfae2934a117d94581ad1b664a6c965, type: 3}
