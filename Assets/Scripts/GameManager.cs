@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
         DayStart,
         SpawningCustomer,
         Dialogue,
+        Refusing,
         PostInteraction,
         DayEnd
     }
@@ -27,6 +28,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private int customersPerDay = 5;
     [SerializeField] private Dialogue_Controller dialogue_Controller;
     [SerializeField] private Dialogue_View dialogue_View;
+    [SerializeField] private GrateMover grateMover;
+    [SerializeField] private LeverClick leverClick;
 
 
     private List<Character_Data> todaysQueue = new List<Character_Data>();
@@ -39,6 +42,7 @@ public class GameManager : MonoBehaviour
     public PlayerMoney money;
 
     public bool tryStartDay;
+    public bool canCloseGrate;
 
     private void Awake()
     {
@@ -51,6 +55,8 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
         dialogue_Controller.DialogueEnded += OnDialogueComplete;
+        dialogue_Controller.RefusedService += HandleRefuseService;
+        dialogue_Controller.SellPlant += HandleSellPlant;
         tryStartDay = false;
     }
 
@@ -59,17 +65,47 @@ public class GameManager : MonoBehaviour
         // If gamemanager was told to start the day 
         if (tryStartDay)
         {
-            // Look for the dialogue view 
-            if (!dialogue_View)
+            // If all things that needed to be loaded in are loaded in 
+            if (dialogue_View && grateMover && leverClick)
             {
-                GameObject dialogueViewObject = GameObject.Find("Dialogue Panel");
-
-                if (dialogueViewObject != null)
+                // Start the day 
+                StartDay(); 
+                tryStartDay=false;
+            }
+            else
+            {
+                // If there's no dialogue view 
+                if (!dialogue_View)
                 {
-                    dialogue_View = dialogueViewObject.GetComponent<Dialogue_View>();
-                    Debug.Log("[GameManager] - dialogue_View was found");
-                    StartDay();
-                    tryStartDay = false;
+                    GameObject dialogueViewObject = GameObject.Find("Dialogue Panel");
+
+                    if (dialogueViewObject != null)
+                    {
+                        dialogue_View = dialogueViewObject.GetComponent<Dialogue_View>();
+                    }
+                }
+
+                // If there's no grate mover 
+                if (!grateMover)
+                {
+                    GameObject grateMoverObject = GameObject.Find("Grate");
+
+                    if (grateMoverObject != null)
+                    {
+                        grateMover = grateMoverObject.GetComponent<GrateMover>();
+                    }
+                }
+
+                // If there's no lever click 
+                if (!leverClick)
+                {
+                    GameObject leverClickObject = GameObject.Find("Lever");
+
+                    if (leverClickObject != null)
+                    {
+                        leverClick = leverClickObject.GetComponent<LeverClick>();
+                        leverClick.LeverClicked += HandleLeverClick;
+                    }
                 }
             }
         }
@@ -78,7 +114,6 @@ public class GameManager : MonoBehaviour
     // Starts the day - queues up the cast of customers 
     public void StartDay()
     {
-        Debug.Log("[GameManager] - StartDay() was called");
         // Set the current state of the day 
         currentState = GameState.DayStart;
         // Clear the queue 
@@ -129,6 +164,7 @@ public class GameManager : MonoBehaviour
     // Tells the Dialogue Controller to start the dialogue of this character 
     public void TriggerDialoge(Character_Data character)
     {
+        canCloseGrate = false;
         // Change the state 
         currentState = GameState.Dialogue;
 
@@ -159,6 +195,25 @@ public class GameManager : MonoBehaviour
         else
         {
             Debug.Log("No Gamestate was found with the name: " + state);
+        }
+    }
+
+    public void HandleRefuseService()
+    {
+        currentState = GameState.Refusing;
+        canCloseGrate = true;
+    }
+
+    public void HandleSellPlant()
+    {
+
+    }
+
+    public void HandleLeverClick()
+    {
+        if (canCloseGrate)
+        {
+            grateMover.DetermineAction();
         }
     }
 }

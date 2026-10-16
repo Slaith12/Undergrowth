@@ -3,8 +3,8 @@ INCLUDE Common.ink
 EXTERNAL SetCharacterAlpha(alpha)
 EXTERNAL evnt_FadeCharacter(startAlpha, endAlpha, time)
 EXTERNAL evnt_CopArrest()
-EXTERNAL sell_plant()
-EXTERNAL refuse_service()
+EXTERNAL evnt_sell_plant()
+EXTERNAL evnt_refuse_service()
 
 //Fallback+Wrapper functions (See Common.ink for details)
 === function SetCharacterAlpha(alpha) ===
@@ -34,3 +34,20 @@ EXTERNAL refuse_service()
 
 === function FadeOutCharacter(time) ===
 ~ FadeCharacter(1, 0, time)
+
+=== function evnt_sell_plant() === 
+#NEXT_EVENT: Player Sells plant 
+
+=== function evnt_refuse_service() ===
+#NEXT_EVENT: Player refuses service 
+
+=== function refuse_service() ===
+~evnt_refuse_service()
+~ SignalEvent()
+
+=== function sell_plant() ===
+~evnt_sell_plant()
+~ SignalEvent()
+
+
+

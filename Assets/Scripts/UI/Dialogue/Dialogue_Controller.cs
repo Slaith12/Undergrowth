@@ -25,6 +25,8 @@ public class Dialogue_Controller : MonoBehaviour
     private float fadeMaxTimer;
 
     public event Action DialogueEnded;
+    public event Action RefusedService;
+    public event Action SellPlant;
 
     private void Awake()
     {
@@ -60,6 +62,8 @@ public class Dialogue_Controller : MonoBehaviour
         _model.story.BindExternalFunction<float, float, float>("evnt_FadeCharacter", FadeCharacter);
         _model.story.BindExternalFunction("evnt_CopArrest", CopArrest);
         _model.story.BindExternalFunction<float>("SetCharacterAlpha", SetCharacterAlpha);
+        _model.story.BindExternalFunction("evnt_sell_plant", OnSellPlant);
+        _model.story.BindExternalFunction("evnt_refuse_service", OnRefuseService);
         SetCharacterAlpha(0);
         fadeActive = false;
     
@@ -104,6 +108,16 @@ public class Dialogue_Controller : MonoBehaviour
         //This still needs to eventually call ProgressDialogue() like a regular event, so it uses the Wait event.
         Debug.Log("Arrested! Oh no!");
         StartCoroutine(WaitThenAdvance(0.1f));
+    }
+
+    private void OnSellPlant()
+    {
+        SellPlant.Invoke();
+    }
+
+    private void OnRefuseService()
+    {
+        RefusedService.Invoke();
     }
 
     private void SetCharacterAlpha(float alpha)

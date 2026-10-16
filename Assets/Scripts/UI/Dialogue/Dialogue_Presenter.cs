@@ -95,12 +95,25 @@ public class Dialogue_Presenter
     private void SetSpeaker(string speakerId)
     {
         Character_Data character = _characterDatabase.GetCharacter(speakerId);
-        if(character == null)
+        string displayName; 
+        if (speakerId == "Player")
         {
-            Debug.LogError($"Unable to set speaker to missing character \"{speakerId}\"");
-            return;
+            displayName = "You";
         }
-        _view.SetSpeakerName(character.DisplayName);
+        else
+        {
+            if (character == null)
+            {
+                Debug.LogError($"Unable to set speaker to missing character \"{speakerId}\"");
+                return;
+            }
+            else
+            {
+                displayName = character.DisplayName;
+            }
+        }
+
+        _view.SetSpeakerName(displayName);
     }
 
     private void SetPortrait(string portraitKey, string speakerId)
