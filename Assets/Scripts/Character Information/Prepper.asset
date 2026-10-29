@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a5c55c559afc6c458aac6caf0835198, type: 3}
+  m_Name: Prepper
+  m_EditorClassIdentifier: Assembly-CSharp::Character_Data
+  characterId: Prepper
+  displayName: Prepper
+  sprites:
+  - emotion: Normal
+    sprite: {fileID: 21300000, guid: 424dadefb205815498cb1ec8695be3f4, type: 3}
+  - emotion: Shadow
+    sprite: {fileID: 21300000, guid: d51c597007d2edc458778fc2b9385099, type: 3}
+  inkFile: {fileID: 6231892579173505729, guid: 90908b47c8a4c524cab5d255ad787013, type: 3}
