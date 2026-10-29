@@ -5,6 +5,7 @@ public class Plant_Data : ScriptableObject
 {
     public string plantName;
     public string seedName;
+    public int growthTime = 4;
     public int plantPrice = 15;
     public Sprite plantSprite;
     [Multiline] public string plantDescription;

@@ -42,6 +42,19 @@ public class GreenhouseManager : MonoBehaviour
         seedMenu.Close();
     }
 
+    /// <summary>
+    /// Debug function to advance a day within the greenhouse.
+    /// Calls GreenhouseData.AdvanceTime() and refreshes the view.
+    /// </summary>
+    public void AdvanceDay()
+    {
+        greenhouseData.AdvanceTime();
+        for(int i = 0; i < plots.Count; i++)
+        {
+            plots[i].SetPlant(greenhouseData.GetPlant(i));
+        }
+    }
+
     private void OnPlotClicked(int index)
     {
         Debug.Log($"Plot {index} clicked");
