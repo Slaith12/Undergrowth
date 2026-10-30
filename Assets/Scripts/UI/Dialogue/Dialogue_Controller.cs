@@ -43,6 +43,9 @@ public class Dialogue_Controller : MonoBehaviour
     public void StartDialogue(Character_Data character, Character_Database character_Database, Dialogue_View view)
     {
         Debug.Log("[Dialogue Controller] - StartDialogue() was called");
+        //Dispose the previous dialogue's data (if any)
+        _presenter?.Dispose();
+
         inkFile = character.InkFile;
         dialogueView = view;
         // Create the model and give it the ink file 
