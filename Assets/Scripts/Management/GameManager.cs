@@ -21,7 +21,9 @@ public class GameManager : MonoBehaviour
         Dialogue,
         Refusing,
         PostInteraction,
-        DayEnd
+        Closed,
+        DayEnd,
+        Opened
     }
 
     [Header("Database & Config")]
@@ -54,6 +56,7 @@ public class GameManager : MonoBehaviour
 
     public bool canCloseGrate;
     private bool loading = false;
+    private bool canSpawnNewCharacter = false;
 
     private void Awake()
     {
@@ -163,6 +166,14 @@ public class GameManager : MonoBehaviour
                 StartDay();
             }
         }
+        
+        // If a new character can be spawned 
+        if (canSpawnNewCharacter)
+        {
+            // Spawn one 
+            SpawnNextCharacter(); 
+            canSpawnNewCharacter = false;
+        }
     }
 
     // Starts the day - queues up the cast of customers 
@@ -186,7 +197,7 @@ public class GameManager : MonoBehaviour
             data.RemoveAt(randomIndex);
         }
 
-        SpawnNextCharacter();
+        canSpawnNewCharacter = true;
     }
 
     // Spawn the next customer in the queue 
@@ -221,7 +232,6 @@ public class GameManager : MonoBehaviour
     public void TriggerDialoge(Character_Data character)
     {
         Debug.Log("TriggerDialogue() called for: " + character.DisplayName);
-        canCloseGrate = false;
         // Change the state 
         currentState = GameState.Dialogue;
 
@@ -233,15 +243,22 @@ public class GameManager : MonoBehaviour
     {
         // TODO: Add logic which changes the weights of each character 
 
-        // Then, spawn in the next character
-        SpawnNextCharacter();
+
+        // 
+
+
+        // If the grate is not closed 
+        if (currentState == GameState.Opened)
+        {
+            // Then, spawn in the next character
+            SpawnNextCharacter();
+        }
     }
 
     public void HandleRefuseService()
     {
         Debug.Log("[GameManager] - HandleRefuseService() Called");
         currentState = GameState.Refusing;
-        canCloseGrate = true;
     }
 
     public void HandleSellPlant()
@@ -251,10 +268,21 @@ public class GameManager : MonoBehaviour
 
     public void HandleLeverClick()
     {
-        if (canCloseGrate)
+        Debug.Log("[GameManager] - HandleLeverClick() Called");
+
+        // If the store is closed
+        if (currentState == GameState.Closed)
         {
-            grateMover.DetermineAction();
-            canCloseGrate = false;
+            // Open the door 
+            grateMover.OpenGrate();
+            currentState = GameState.Opened;
+            canSpawnNewCharacter = true;
+        }
+        else if (currentState == GameState.Refusing)
+        {
+            // Close the door 
+            grateMover.CloseGrate();
+            currentState = GameState.Closed;
         }
     }
 
