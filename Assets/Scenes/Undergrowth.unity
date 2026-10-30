@@ -4205,6 +4205,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 835396780048635033, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 835396780048635033, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -4320,6 +4324,10 @@ PrefabInstance:
       propertyPath: character
       value: 
       objectReference: {fileID: 1402963266}
+    - target: {fileID: 7877787431610498835, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
+      propertyPath: m_ChildControlHeight
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8308839579695009352, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
       propertyPath: m_Name
       value: Gameplay Canvas
