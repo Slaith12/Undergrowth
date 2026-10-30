@@ -26,15 +26,18 @@ Well you can certainly help me then! You see I'm looking for someone who is supp
     ->background
 
 * I might have something you could use (sell plant) #speaker: Player
+    ~sell_plant()
     ->proof
 
 * I might have something, but would you mind if I asked you a few questions real quick? (keep questioning) #speaker: Player
-    ->proof
+    ->ending
 
 * I don’t think I have anything like that. (refuse service) #speaker: Player
+    ~refuse_service()
     ->ending
 
 === proof === 
+Excellent! This is just the kind of thing I was looking for. I'll see you around sometime soon. I'm sure I'll need more proof at some point if I'm going to get people to believe me.
 ->ending
 
 === background === 
