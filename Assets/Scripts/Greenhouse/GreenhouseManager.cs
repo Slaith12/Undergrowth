@@ -30,6 +30,7 @@ public class GreenhouseManager : MonoBehaviour
         {
             int index = i;
             plots[i].ButtonClicked += delegate { OnPlotClicked(index); };
+            plots[i].PlantClicked += delegate { OnPlotHarvest(index); };
             plots[i].SetPlant(greenhouseData.GetPlant(i));
         }
         seedMenu.SeedButtonClicked += PlantSeed;
@@ -42,13 +43,40 @@ public class GreenhouseManager : MonoBehaviour
         seedMenu.Close();
     }
 
+    /// <summary>
+    /// Debug function to advance a day within the greenhouse.
+    /// Calls GreenhouseData.AdvanceTime() and refreshes the view.
+    /// </summary>
+    public void AdvanceDay()
+    {
+        greenhouseData.AdvanceTime();
+        for(int i = 0; i < plots.Count; i++)
+        {
+            plots[i].SetPlant(greenhouseData.GetPlant(i));
+        }
+    }
+
     private void OnPlotClicked(int index)
     {
-        Debug.Log($"Plot {index} clicked");
         //TODO: Add functionality for interacting with planted seeds
         selectedPlotIndex = index;
         seedMenu.SetSeedData(inventory);
         seedMenu.Open();
+    }
+
+    private void OnPlotHarvest(int index)
+    {
+        Plant_Data plantType = greenhouseData.GetPlant(index).plantType;
+        if(!inventory.plantCounts.ContainsKey(plantType))
+        {
+            inventory.plantCounts[plantType] = 1;
+        }
+        else
+        {
+            inventory.plantCounts[plantType]++;
+        }
+        greenhouseData.SetPlant(index, null);
+        plots[index].SetPlant(null);
     }
 
     private void PlantSeed(Plant_Data seedType)

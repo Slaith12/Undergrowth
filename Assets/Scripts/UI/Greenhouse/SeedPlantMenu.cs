@@ -9,6 +9,7 @@ public class SeedPlantMenu : MonoBehaviour
 
     [SerializeField] SeedPlantButton seedButtonPrefab;
     [SerializeField] RectTransform seedGrid;
+    [SerializeField] PlantInfoDisplay seedDisplay;
 
     private List<SeedPlantButton> buttons;
 
@@ -25,6 +26,7 @@ public class SeedPlantMenu : MonoBehaviour
 
     public void Open()
     {
+        seedDisplay.Clear("Choose a Seed");
         gameObject.SetActive(true);
     }
 
@@ -52,6 +54,7 @@ public class SeedPlantMenu : MonoBehaviour
             {
                 SeedPlantButton newButton = Instantiate(seedButtonPrefab, seedGrid);
                 newButton.Clicked += (plant) => SeedButtonClicked?.Invoke(plant);
+                newButton.Hovered += seedDisplay.DisplaySeed;
                 buttons.Add(newButton);
             }
         }
