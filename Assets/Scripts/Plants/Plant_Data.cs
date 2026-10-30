@@ -4,6 +4,7 @@ using UnityEngine;
 public class Plant_Data : ScriptableObject
 {
     public string plantName; 
-    public int plantPrice = 15;
+    public float plantPrice = 15;
+    public string plantInformation;
     public Sprite plantSprite;
 }

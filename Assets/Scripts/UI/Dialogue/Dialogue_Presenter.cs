@@ -73,8 +73,9 @@ public class Dialogue_Presenter
 
     private void EndDialogue()
     {
+        Debug.Log("[Dialogue_Presenter] - EndDialogue() was called");
         _view.HideDialogue();
-        _view.ShowRetryButton();
+        //_view.ShowRetryButton();
         // Remove Subscribers
         _view.OnContinueClicked -= HandleContinueClicked;
         _view.OnChoiceSelected -= HandleChoiceSelected;

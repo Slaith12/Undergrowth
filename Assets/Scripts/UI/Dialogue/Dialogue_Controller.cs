@@ -94,6 +94,7 @@ public class Dialogue_Controller : MonoBehaviour
 
     private void FadeCharacter(float startAlpha, float endAlpha, float time)
     {
+        Debug.Log("[Dialogue_Controller] - Fading Character");
         SetCharacterAlpha(startAlpha);
         fadeActive = true;
         fadeStartAlpha = startAlpha;
@@ -118,6 +119,7 @@ public class Dialogue_Controller : MonoBehaviour
 
     private void OnRefuseService()
     {
+        Debug.Log("[Dialogue_Controller] - OnRefuseService() Called");
         RefusedService.Invoke();
     }
 

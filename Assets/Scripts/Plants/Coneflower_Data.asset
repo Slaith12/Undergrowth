@@ -10,8 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7a6989a1832001547904705f276dbb59, type: 3}
-  m_Name: Coneplant
+  m_Name: Coneflower_Data
   m_EditorClassIdentifier: Assembly-CSharp::Plant_Data
   plantName: Coneflower
   plantPrice: 20
+  plantInformation: 
   plantSprite: {fileID: 21300000, guid: be0238205b614824291d9123bc0c3862, type: 3}
