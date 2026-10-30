@@ -15,7 +15,7 @@ public class PlantManager : MonoBehaviour
     public bool isDraggingPlant = false;
     private float initialZDistance;
     private Vector3 dragOffset;
-    private bool canDrag = true;
+    public bool canDrag = true;
 
     private Plant plantToSell;
     private GameObject currentPlant;
@@ -63,52 +63,17 @@ public class PlantManager : MonoBehaviour
                         EndDrag();
                     }
                 }
+                else
+                {
+                    isDraggingPlant = false;
+                }
             }
-
         }
-
-        // If the player is in the phase where they can sell a plant 
-        //if (canSell)
-        //{
-        //    // If a plant is not already being dragged 
-        //    if (!isDraggingPlant)
-        //    {
-        //        // Check if the mouse is over a plant  
-        //        CheckOverPlant(mouseScreenPosition);
-        //    }
-
-        //    // If you can drag the plant 
-        //    if (canDrag)
-        //    {
-        //        // If the mouse button was clicked this frame 
-        //        if (Mouse.current.leftButton.wasPressedThisFrame)
-        //        {
-        //            // Start dragging the plant 
-        //            StartDrag(mouseScreenPosition);
-        //        }
-
-        //        // If the plant is being dragged, continue the drag 
-        //        if (isDraggingPlant)
-        //        {
-        //            ContinueDrag(mouseScreenPosition);
-        //        }
-
-        //        // If the plant was being dragged, but the mouse was released 
-        //        if (Mouse.current.leftButton.wasReleasedThisFrame && isDraggingPlant)
-        //        {
-        //            EndDrag();
-        //        }
-        //    }
-        //}
+        else
+        {
+            isDraggingPlant = false;
+        }
     }
-
-    public void SellPlant(Plant plant)
-    {
-        canSell = false;
-        // Show the button 
-        ShowSellButton();
-    }
-
 
     public GameObject CheckOverPlant(Vector2 screenPosition)
     {
@@ -147,11 +112,13 @@ public class PlantManager : MonoBehaviour
 
     }
 
-    public void SellPlant()
+    public void SoldPlant()
     {
         // Hide the button 
         HideSellButton();
+        canSell = false;
         PlantSold?.Invoke(plantToSell);
+        canDrag = true;
     }
 
 

@@ -245,6 +245,7 @@ public class GameManager : MonoBehaviour
 
     public void HandleSellPlant()
     {
+        Debug.Log("[GameManager] - HandleSellPlant() Called");
         currentState = GameState.SellingPlant;
         plantManager.canSell = true;
     }
@@ -281,6 +282,7 @@ public class GameManager : MonoBehaviour
         OnDialogueComplete();
         GameObject plant = plantToSell.gameObject; 
         plant.SetActive(false);
+        plantManager.canSell = false;
     }
 
     public void HandleQuitGame()
@@ -310,4 +312,10 @@ public class GameManager : MonoBehaviour
         // Change the scene to the credits 
         SceneManager.LoadScene("Credits");
     }
+
+    public void HandleBackToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
 }

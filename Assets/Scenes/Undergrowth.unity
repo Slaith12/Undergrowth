@@ -851,7 +851,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1764456177}
         m_TargetAssemblyTypeName: PlantManager, Assembly-CSharp
-        m_MethodName: SellPlant
+        m_MethodName: SoldPlant
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2996,7 +2996,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlantManager
   canSell: 0
-  test_plant: {fileID: 0}
   sellCounter: {fileID: 159804437}
   plantLayer:
     serializedVersion: 2
