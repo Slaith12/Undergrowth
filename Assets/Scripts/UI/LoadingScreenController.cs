@@ -19,7 +19,7 @@ public class LoadingScreenController : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // Save the loading screen
+        // Save the loadingGameplay screen
         loadingScreen = gameObject.transform.GetChild(0).gameObject;    
     }
 

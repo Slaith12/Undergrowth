@@ -12,7 +12,7 @@ public class MainMenuController : MonoBehaviour
     public void StartGame()
     {
         Debug.Log("[MainMenuController] - StartGame() Called");
-        OnStartGame.Invoke();
+        OnStartGame?.Invoke();
     }
 
     // Quit the Game 
@@ -20,20 +20,20 @@ public class MainMenuController : MonoBehaviour
     {
         Debug.Log("[MainMenuController] - QuitGame() Called");
 
-        OnQuitGame.Invoke();
+        OnQuitGame?.Invoke();
     }
 
     // View the credits of the game 
     public void ViewCredits()
     {
         Debug.Log("[MainMenuController] - ViewCredits() Called");
-        OnViewCredits.Invoke();
+        OnViewCredits?.Invoke();
     }
 
     // View the greenhouse
     public void ViewGreenhouse()
     {
         Debug.Log("[MainMenuController] - ViewGreenhosue() Called");
-        OnViewGreenhouse.Invoke();
+        OnViewGreenhouse?.Invoke();
     }
 }

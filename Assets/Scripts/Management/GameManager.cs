@@ -40,11 +40,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlantManager plantManager;
     [SerializeField] private PlayerMoneyManager playerMoneyManager;
 
+    [SerializeField] private GameOverScreenManager gameOverScreenManager;
+    [SerializeField] private CreditsController creditsController;
 
     // The Main Menu Controller of the Game 
     [SerializeField] private MainMenuController mainMenuController;
-    // The loading screen of the game 
+    // The loadingGameplay screen of the game 
     [SerializeField] private LoadingScreenController loadingScreenController;
+
+    [SerializeField] private MainMenuButton gameplayMainMenuButton;
+    [SerializeField] private MainMenuButton creditsMainMenuButton;
 
     private List<Character_Data> todaysQueue = new List<Character_Data>();
     private Character_Data currentCustomer;
@@ -56,8 +61,10 @@ public class GameManager : MonoBehaviour
     public PlayerMoney money;
 
     public bool canCloseGrate;
-    private bool loading = false;
-    private bool canSpawnNewCharacter = false;
+    private bool loadingGameplay = false;
+    private bool loadingGameOver = false;
+    private bool loadingCredits = false;
+    private bool loadingMainMenu = false;
 
     private void Awake()
     {
@@ -79,12 +86,17 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        // If the game is loading, gather all of the data we need 
-        if (loading)
+        // If the game is loadingGameplay, gather all of the data we need 
+        if (loadingGameplay)
         {
-            // Show the loading screen
+            // Show the loadingGameplay screen
             loadingScreenController.ShowLoadingScreen();
             // Load in everything 
+
+            mainMenuController.OnStartGame -= HandleStartGame;
+            mainMenuController.OnQuitGame -= HandleQuitGame;
+            mainMenuController.OnViewCredits -= HandleViewCredits;
+            mainMenuController.OnViewGreenhouse -= HandleViewGreenhouse;
 
             // ----- DIALOGUE CONTROLLER ----- 
 
@@ -157,14 +169,86 @@ public class GameManager : MonoBehaviour
                 playerMoneyManager = playerMoneyManagerObject.GetComponent<PlayerMoneyManager>();
             }
 
+            // ----- Main Menu Button -----
+            GameObject gameplayMainMenuButtonObject = GameObject.Find("Main Menu Button"); 
+            if (gameplayMainMenuButtonObject != null)
+            {
+                gameplayMainMenuButton = gameplayMainMenuButtonObject.GetComponent<MainMenuButton>();
+                gameplayMainMenuButton.OnReturnToMainMenu += HandleBackToMainMenu;
+
+            }
+
             // If everything has been loaded in, start the game 
             if ((leverClick != null) && (grateMover != null) && (plantManager != null) && (dialogue_Controller != null) && (dialogue_View != null) && (playerMoneyManager != null))
             {
-                loading = false;
-                // Hide the loading screen 
+                loadingGameplay = false;
+                // Hide the loadingGameplay screen 
                 loadingScreenController.HideLoadingScreen();
                 // Start the day
                 StartDay();
+            }
+        }
+        else if (loadingGameOver)
+        {
+            // Show the loadingGameplay screen
+            loadingScreenController.ShowLoadingScreen();
+            // Load in everything 
+            GameObject gameOverObject = GameObject.Find("GameOverScreenManager"); 
+            if (gameOverObject != null)
+            {
+                gameOverScreenManager = gameOverObject.GetComponent<GameOverScreenManager>();
+                gameOverScreenManager.OnBackToStartScreen += HandleBackToMainMenu;
+                gameOverScreenManager.LoadInformation(money.runtimeValue);
+            }
+
+            if ((gameOverScreenManager != null))
+            {
+                loadingScreenController.HideLoadingScreen();
+                loadingGameOver = false;
+            }
+        }
+        else if (loadingCredits)
+        {
+            // Show the loadingGameplay screen
+            loadingScreenController.ShowLoadingScreen();
+            // Load in everything 
+            GameObject creditsMainMenuButtonObject = GameObject.Find("Back to MainMenu");
+            if (creditsMainMenuButtonObject != null)
+            {
+                creditsMainMenuButton = creditsMainMenuButtonObject.GetComponent<MainMenuButton>();
+                creditsMainMenuButton.OnReturnToMainMenu += HandleBackToMainMenu;
+            }
+
+            if (creditsMainMenuButton != null)
+            {
+                loadingScreenController.HideLoadingScreen();
+                loadingCredits = false;
+            }
+
+            mainMenuController.OnStartGame -= HandleStartGame;
+            mainMenuController.OnQuitGame -= HandleQuitGame;
+            mainMenuController.OnViewCredits -= HandleViewCredits;
+            mainMenuController.OnViewGreenhouse -= HandleViewGreenhouse;
+        }
+        else if (loadingMainMenu)
+        {
+            // Show the loadingGameplay screen
+            loadingScreenController.ShowLoadingScreen();
+            // Load in everything 
+            GameObject mainMenuControllerObject = GameObject.Find("MainMenuController");
+            if (mainMenuControllerObject != null)
+            {
+                mainMenuController = mainMenuControllerObject.GetComponent<MainMenuController>();
+                loadingScreenController.HideLoadingScreen();
+            }
+
+            if (mainMenuController != null)
+            {
+                mainMenuController.OnStartGame += HandleStartGame;
+                mainMenuController.OnQuitGame += HandleQuitGame;
+                mainMenuController.OnViewCredits += HandleViewCredits;
+                mainMenuController.OnViewGreenhouse += HandleViewGreenhouse;
+                loadingMainMenu = false;
             }
         }
     }
@@ -218,6 +302,7 @@ public class GameManager : MonoBehaviour
     private void EndDay()
     {
         currentState = GameState.DayEnd;
+        HandleGameOver();
         Debug.Log("Day is over!");
     }
 
@@ -296,9 +381,14 @@ public class GameManager : MonoBehaviour
         // Change the scene to the gameplay scene 
         SceneManager.LoadScene("Undergrowth");
 
+        // Start loadingGameplay things in 
+        loadingGameplay = true;
+    }
 
-        // Start loading things in 
-        loading = true;
+    public void HandleGameOver()
+    {
+        SceneManager.LoadScene("TEMP End Screen");
+        loadingGameOver = true;
     }
 
     public void HandleViewGreenhouse()
@@ -309,13 +399,16 @@ public class GameManager : MonoBehaviour
     
     public void HandleViewCredits()
     {
+        Debug.Log("[GameManager] - HandleViewCredits() Called");
         // Change the scene to the credits 
         SceneManager.LoadScene("Credits");
+        loadingCredits = true;
     }
 
     public void HandleBackToMainMenu()
     {
+        Debug.Log("[GameManager] - HandleBackToMainMenu() Called");
         SceneManager.LoadScene("MainMenu");
+        loadingMainMenu = true;
     }
-
 }

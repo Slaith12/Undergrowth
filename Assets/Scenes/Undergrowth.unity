@@ -3002,6 +3002,7 @@ MonoBehaviour:
     m_Bits: 8
   onMatPosition: {x: 0, y: 3.336, z: -8.412}
   isDraggingPlant: 0
+  canDrag: 1
   sellPlantButton: {fileID: 772740753}
 --- !u!1001 &1867038622
 PrefabInstance:
@@ -4300,8 +4301,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6869479490392074575, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869479490392074575, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 6499503078476670491}
+    - target: {fileID: 6869479490392074575, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ReturnToMainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 6869479490392074575, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MainMenuButton, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7361210058935589222, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
       propertyPath: character
@@ -4321,8 +4334,28 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1724804506308413509, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2016291273}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6776942655687069187, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6499503078476670491}
   m_SourcePrefab: {fileID: 100100000, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
+--- !u!1 &6499503078476670490 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6776942655687069187, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
+  m_PrefabInstance: {fileID: 6499503078476670489}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6499503078476670491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6499503078476670490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0b13fcb472aa44f988d08322e26a8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MainMenuButton
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
