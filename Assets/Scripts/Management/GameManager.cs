@@ -23,7 +23,8 @@ public class GameManager : MonoBehaviour
         PostInteraction,
         Closed,
         DayEnd,
-        Opened
+        Opened, 
+        SellingPlant
     }
 
     [Header("Database & Config")]
@@ -93,7 +94,7 @@ public class GameManager : MonoBehaviour
                 dialogue_Controller = dialogueControllerObject.GetComponent<Dialogue_Controller>();
                 // Subscribe to events 
                 dialogue_Controller = dialogueControllerObject.GetComponent<Dialogue_Controller>();
-                dialogue_Controller.DialogueEnded += OnDialogueComplete;
+                //dialogue_Controller.DialogueEnded += OnDialogueComplete;
                 dialogue_Controller.RefusedService += HandleRefuseService;
                 dialogue_Controller.SellPlant += HandleSellPlant;
             }
@@ -166,14 +167,6 @@ public class GameManager : MonoBehaviour
                 StartDay();
             }
         }
-        
-        // If a new character can be spawned 
-        if (canSpawnNewCharacter)
-        {
-            // Spawn one 
-            SpawnNextCharacter(); 
-            canSpawnNewCharacter = false;
-        }
     }
 
     // Starts the day - queues up the cast of customers 
@@ -197,7 +190,7 @@ public class GameManager : MonoBehaviour
             data.RemoveAt(randomIndex);
         }
 
-        canSpawnNewCharacter = true;
+        SpawnNextCharacter();
     }
 
     // Spawn the next customer in the queue 
@@ -241,18 +234,7 @@ public class GameManager : MonoBehaviour
 
     public void OnDialogueComplete()
     {
-        // TODO: Add logic which changes the weights of each character 
-
-
-        // 
-
-
-        // If the grate is not closed 
-        if (currentState == GameState.Opened)
-        {
-            // Then, spawn in the next character
-            SpawnNextCharacter();
-        }
+        SpawnNextCharacter();
     }
 
     public void HandleRefuseService()
@@ -263,6 +245,7 @@ public class GameManager : MonoBehaviour
 
     public void HandleSellPlant()
     {
+        currentState = GameState.SellingPlant;
         plantManager.canSell = true;
     }
 
@@ -276,7 +259,7 @@ public class GameManager : MonoBehaviour
             // Open the door 
             grateMover.OpenGrate();
             currentState = GameState.Opened;
-            canSpawnNewCharacter = true;
+            SpawnNextCharacter();
         }
         else if (currentState == GameState.Refusing)
         {
@@ -291,6 +274,9 @@ public class GameManager : MonoBehaviour
         //Debug.Log("[GameManager] - Sold: " + plantToSell.plantName);
         // Add money 
         playerMoneyManager.GainMoney(plantToSell.plantPrice);
+        // Change the state 
+
+
         // Put away the character and the plant 
         OnDialogueComplete();
         GameObject plant = plantToSell.gameObject; 
