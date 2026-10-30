@@ -43,9 +43,6 @@ public class Dialogue_Controller : MonoBehaviour
     public void StartDialogue(Character_Data character, Character_Database character_Database, Dialogue_View view)
     {
         Debug.Log("[Dialogue Controller] - StartDialogue() was called");
-        //Dispose the previous dialogue's data (if any)
-        _presenter?.Dispose();
-
         inkFile = character.InkFile;
         dialogueView = view;
         // Create the model and give it the ink file 
@@ -97,7 +94,6 @@ public class Dialogue_Controller : MonoBehaviour
 
     private void FadeCharacter(float startAlpha, float endAlpha, float time)
     {
-        Debug.Log("[Dialogue_Controller] - Fading Character");
         SetCharacterAlpha(startAlpha);
         fadeActive = true;
         fadeStartAlpha = startAlpha;
@@ -122,7 +118,6 @@ public class Dialogue_Controller : MonoBehaviour
 
     private void OnRefuseService()
     {
-        Debug.Log("[Dialogue_Controller] - OnRefuseService() Called");
         RefusedService.Invoke();
     }
 
