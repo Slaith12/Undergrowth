@@ -50,7 +50,6 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private MainMenuButton gameplayMainMenuButton;
     [SerializeField] private MainMenuButton creditsMainMenuButton;
-    [SerializeField] private MainMenuButton greenhouseMainMenuButton;
 
     private List<Character_Data> todaysQueue = new List<Character_Data>();
     private Character_Data currentCustomer;
@@ -66,7 +65,6 @@ public class GameManager : MonoBehaviour
     private bool loadingGameOver = false;
     private bool loadingCredits = false;
     private bool loadingMainMenu = false;
-    private bool loadingGreenhouse = false;
 
     private void Awake()
     {
@@ -253,28 +251,6 @@ public class GameManager : MonoBehaviour
                 loadingMainMenu = false;
             }
         }
-        else if (loadingGreenhouse)
-        {
-            // Show the loadingGameplay screen
-            loadingScreenController.ShowLoadingScreen();
-            // Load in everything 
-            GameObject mainMenuButtonObject = GameObject.Find("Main Menu Button");
-            if (mainMenuButtonObject != null)
-            {
-                greenhouseMainMenuButton = mainMenuButtonObject.GetComponent<MainMenuButton>();
-                loadingScreenController.HideLoadingScreen();
-            }
-
-            if (greenhouseMainMenuButton != null)
-            {
-                greenhouseMainMenuButton.OnReturnToMainMenu += HandleBackToMainMenu;
-                loadingGreenhouse = false;
-                mainMenuController.OnStartGame -= HandleStartGame;
-                mainMenuController.OnQuitGame -= HandleQuitGame;
-                mainMenuController.OnViewCredits -= HandleViewCredits;
-                mainMenuController.OnViewGreenhouse -= HandleViewGreenhouse;
-            }
-        }
     }
 
     // Starts the day - queues up the cast of customers 
@@ -419,7 +395,6 @@ public class GameManager : MonoBehaviour
     {
         // Change the scene to the Greenhouse 
         SceneManager.LoadScene("Greenhouse");
-        loadingGreenhouse = true;
     }
     
     public void HandleViewCredits()
