@@ -452,8 +452,13 @@ MonoBehaviour:
   leverClick: {fileID: 0}
   plantManager: {fileID: 0}
   playerMoneyManager: {fileID: 0}
+  gameOverScreenManager: {fileID: 0}
+  creditsController: {fileID: 0}
   mainMenuController: {fileID: 445668627}
   loadingScreenController: {fileID: 143385958}
+  gameplayMainMenuButton: {fileID: 0}
+  creditsMainMenuButton: {fileID: 0}
+  greenhouseMainMenuButton: {fileID: 0}
   currentState: 0
   money: {fileID: 11400000, guid: b39f85b22f6ef6f4db31483e53e88e31, type: 2}
   canCloseGrate: 0
