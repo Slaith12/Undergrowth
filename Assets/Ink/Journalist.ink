@@ -1,0 +1,1 @@
+INCLUDE DialogueTestFuncks.ink
