@@ -28,12 +28,6 @@ public class Dialogue_Presenter
         ProgressDialogue();
     }
 
-    public void Dispose()
-    {
-        _view.OnContinueClicked -= HandleContinueClicked;
-        _view.OnChoiceSelected -= HandleChoiceSelected;
-    }
-
     private void HandleContinueClicked()
     {
         ProgressDialogue();
@@ -58,7 +52,6 @@ public class Dialogue_Presenter
             case StoryState.Event:
                 //The presenter does nothing during an event.
                 //An event indicates that an external function was called, and that external function handles the event.
-                HandleDialogueTags();
                 _view.HideDialogue();
                 break;
             case StoryState.End:
@@ -80,9 +73,8 @@ public class Dialogue_Presenter
 
     private void EndDialogue()
     {
-        Debug.Log("[Dialogue_Presenter] - EndDialogue() was called");
         _view.HideDialogue();
-        //_view.ShowRetryButton();
+        _view.ShowRetryButton();
         // Remove Subscribers
         _view.OnContinueClicked -= HandleContinueClicked;
         _view.OnChoiceSelected -= HandleChoiceSelected;

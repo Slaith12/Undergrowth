@@ -14,5 +14,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Character_Database
   characters:
   - {fileID: 11400000, guid: a83c17f6d3dc3f34d860b8d2418dc559, type: 2}
-  - {fileID: 11400000, guid: f3a0d0b80a576704fb643a1c4b666a58, type: 2}
-  - {fileID: 11400000, guid: 40703b557a798b148bfe597e0d393a23, type: 2}
