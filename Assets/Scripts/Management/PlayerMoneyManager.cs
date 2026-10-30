@@ -21,6 +21,10 @@ public class PlayerMoneyManager : MonoBehaviour
         moneyTrackerText.text = trackerText;
     }
 
+    public float GetMoney()
+    {
+        return playerMoney.runtimeValue; 
+    }
     public void GainMoney(float amount)
     {
         playerMoney.GainMoney(amount);

@@ -198,7 +198,7 @@ public class GameManager : MonoBehaviour
             {
                 gameOverScreenManager = gameOverObject.GetComponent<GameOverScreenManager>();
                 gameOverScreenManager.OnBackToStartScreen += HandleBackToMainMenu;
-                gameOverScreenManager.LoadInformation(money.runtimeValue);
+                gameOverScreenManager.LoadInformation(playerMoneyManager.GetMoney());
             }
 
             if ((gameOverScreenManager != null))

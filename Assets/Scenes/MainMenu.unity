@@ -441,7 +441,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 470084227}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb91c4544ca1d5145a3dd5207a90a7b5, type: 3}
+  m_Script: {fileID: 11500000, guid: b2c614e7724f9224eb0592aa8b236208, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   character_Database: {fileID: 11400000, guid: c0a428f32da7e264b89fe4124de4f03e, type: 2}
@@ -452,10 +452,14 @@ MonoBehaviour:
   leverClick: {fileID: 0}
   plantManager: {fileID: 0}
   playerMoneyManager: {fileID: 0}
+  gameOverScreenManager: {fileID: 0}
+  creditsController: {fileID: 0}
   mainMenuController: {fileID: 445668627}
   loadingScreenController: {fileID: 143385958}
+  gameplayMainMenuButton: {fileID: 0}
+  creditsMainMenuButton: {fileID: 0}
   currentState: 0
-  money: {fileID: 11400000, guid: b39f85b22f6ef6f4db31483e53e88e31, type: 2}
+  money: {fileID: 0}
   canCloseGrate: 0
 --- !u!4 &470084229
 Transform:
