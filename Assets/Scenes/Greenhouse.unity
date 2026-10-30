@@ -1133,9 +1133,9 @@ MonoBehaviour:
   greenhouseData:
     plants: []
   testPlants:
-  - {fileID: 11400000, guid: 430dd5404a5974c45a2174edc3fcd795, type: 2}
-  - {fileID: 11400000, guid: d796bbe68e52bde4ea09ed06a53d0445, type: 2}
-  - {fileID: 11400000, guid: a0f8fefc85766974c931cfd13ea62652, type: 2}
+  - {fileID: 11400000, guid: b80c48c445bc83c4c999f676428c60eb, type: 2}
+  - {fileID: 11400000, guid: f2a72bdf463e69540875f268fed0b5bc, type: 2}
+  - {fileID: 11400000, guid: b02e580e6c5a4b6439d2d45020a143e0, type: 2}
 --- !u!1001 &516622795
 PrefabInstance:
   m_ObjectHideFlags: 0

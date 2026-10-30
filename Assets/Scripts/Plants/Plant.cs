@@ -27,7 +27,7 @@ public class Plant : MonoBehaviour
     {
         // Assign all of the information 
         plantName = plant_data.plantName;
-        plantInfo = plant_data.plantInformation; 
+        plantInfo = plant_data.plantDescription; 
         plantSprite = plant_data.plantSprite;
         plantPrice = plant_data.plantPrice;
 
