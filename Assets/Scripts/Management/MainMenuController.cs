@@ -33,7 +33,7 @@ public class MainMenuController : MonoBehaviour
     // View the greenhouse
     public void ViewGreenhouse()
     {
-        Debug.Log("[MainMenuController] - ViewGreenhosue() Called");
+        Debug.Log("[MainMenuController] - ViewGreenhouse() Called");
         OnViewGreenhouse?.Invoke();
     }
 }
