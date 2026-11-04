@@ -11,8 +11,8 @@ public class Plant : MonoBehaviour
     private Sprite plantSprite; 
     private SpriteRenderer plantRenderer;
 
-    private GameObject plantInfoUI; 
-
+    private GameObject plantInfoUI;
+    
 
     private Camera mainCamera;
 
@@ -35,10 +35,11 @@ public class Plant : MonoBehaviour
         plantRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
         plantRenderer.sprite = plantSprite;
 
+
         // Get the UI Canvas
-        // plantInfoUI = gameObject.GetComponentInChildren<Canvas>().gameObject; 
+        plantInfoUI = gameObject.transform.GetChild(1).gameObject;
         // Hide the UI canvas 
-        // plantInfoUI.SetActive(false);
+        plantInfoUI.SetActive(false);
     }
 
     // Update is called once per frame
