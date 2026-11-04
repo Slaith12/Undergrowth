@@ -12,13 +12,17 @@ public class PlantManager : MonoBehaviour
 
     [SerializeField] private LayerMask plantLayer;
     [SerializeField] private Vector3 onMatPosition = new Vector3(0, 3.336f, -8.412f);
+    [SerializeField] private List<Plant> plantList; 
+
+
     public bool isDraggingPlant = false;
     private float initialZDistance;
     private Vector3 dragOffset;
     public bool canDrag = true;
 
     private Plant plantToSell;
-    private GameObject currentPlant;
+    //private GameObject currentPlant;
+    private Plant currentPlant;
 
     [SerializeField] private GameObject sellPlantButton;
 
@@ -33,14 +37,13 @@ public class PlantManager : MonoBehaviour
     {
         // Getting the position of the mouse
         Vector2 mouseScreenPosition = Mouse.current.position.ReadValue();
+        currentPlant = CheckOverPlant(mouseScreenPosition);
 
-        // If the player can sell plants 
-        if (canSell)
+        // If the mouse is over a plant 
+        if (currentPlant != null)
         {
-            currentPlant = CheckOverPlant(mouseScreenPosition);
-
-            // If the mouse is over a plant 
-            if (currentPlant != null)
+            // If the player can sell plants 
+            if (canSell)
             {
                 // If the plant can be dragged 
                 if (canDrag)
@@ -71,11 +74,12 @@ public class PlantManager : MonoBehaviour
         }
         else
         {
+            HidePlantInformation();
             isDraggingPlant = false;
         }
     }
 
-    public GameObject CheckOverPlant(Vector2 screenPosition)
+    public Plant CheckOverPlant(Vector2 screenPosition)
     {
         Ray ray = mainCamera.ScreenPointToRay(screenPosition);
         Vector3 mouseWorldPosition = mainCamera.ScreenToWorldPoint(screenPosition);
@@ -83,7 +87,9 @@ public class PlantManager : MonoBehaviour
         // If the ray is over a plant 
         if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, plantLayer))
         {
-            return hitInfo.collider.gameObject;
+            Plant plant = hitInfo.collider.gameObject.GetComponent<Plant>();
+            ShowPlantInformation(plant);
+            return plant;   
         }
         else
         {
@@ -93,12 +99,15 @@ public class PlantManager : MonoBehaviour
 
     public void ShowPlantInformation(Plant plant)
     {
-        // plant.ShowInformation();
+        plant.ShowInformation();
     }
 
-    public void HidePlantInformation(Plant plant)
+    public void HidePlantInformation()
     {
-        // plant.HideInformation();
+        for (int i = 0; i < plantList.Count; i++)
+        {
+            plantList[i].HideInformation();
+        }
     }
 
     public void ShowSellButton()
