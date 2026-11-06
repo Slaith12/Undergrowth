@@ -1,6 +1,7 @@
 using NUnit.Framework.Constraints;
 using System;
 using System.Collections.Generic;
+using UnityEditor.Overlays;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.SceneManagement;
@@ -30,7 +31,7 @@ public class GameManager : MonoBehaviour
     [Header("Database & Config")]
     [SerializeField] private Character_Database character_Database;
     [SerializeField] private int customersPerDay = 5;
-
+    private PlayerData currenPlayerData;
 
 
     [SerializeField] private Dialogue_Controller dialogue_Controller;
@@ -39,7 +40,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private LeverClick leverClick;
     [SerializeField] private PlantManager plantManager;
     [SerializeField] private PlayerMoneyManager playerMoneyManager;
-
+    [SerializeField] private GreenhouseManager greenhouseManager;
     [SerializeField] private GameOverScreenManager gameOverScreenManager;
     [SerializeField] private CreditsController creditsController;
 
@@ -54,6 +55,8 @@ public class GameManager : MonoBehaviour
 
     private List<Character_Data> todaysQueue = new List<Character_Data>();
     private Character_Data currentCustomer;
+    private int currentDay;
+
 
     // Active State of the game 
     public GameState currentState;
@@ -94,11 +97,6 @@ public class GameManager : MonoBehaviour
             // Show the loadingGameplay screen
             loadingScreenController.ShowLoadingScreen();
             // Load in everything 
-
-            mainMenuController.OnStartGame -= HandleStartGame;
-            mainMenuController.OnQuitGame -= HandleQuitGame;
-            mainMenuController.OnViewCredits -= HandleViewCredits;
-            mainMenuController.OnViewGreenhouse -= HandleViewGreenhouse;
 
             // ----- DIALOGUE CONTROLLER ----- 
 
@@ -254,10 +252,6 @@ public class GameManager : MonoBehaviour
             }
         }else if (loadingGreenhouse)
         {
-            mainMenuController.OnStartGame -= HandleStartGame;
-            mainMenuController.OnQuitGame -= HandleQuitGame;
-            mainMenuController.OnViewCredits -= HandleViewCredits;
-            mainMenuController.OnViewGreenhouse -= HandleViewGreenhouse;
             // Show the loadingGameplay screen
             loadingScreenController.ShowLoadingScreen();
             // Load in everything 
@@ -266,10 +260,20 @@ public class GameManager : MonoBehaviour
             {
                 greenhouseMainMenuButton = greenhouseMainMenuButtonObject.GetComponent<MainMenuButton>();
                 greenhouseMainMenuButton.OnReturnToMainMenu += HandleBackToMainMenu;
+            }
+
+            GameObject greenhouseManagerObject = GameObject.Find("Greenhouse"); 
+            if (greenhouseManagerObject != null)
+            {
+                greenhouseManager = greenhouseManagerObject.GetComponent<GreenhouseManager>();
+                greenhouseManager.OnGoToCounter += HandleGoToCounter;
+            }
+
+            if ((greenhouseManager != null) && (greenhouseMainMenuButton != null))
+            {
                 loadingGreenhouse = false;
                 loadingScreenController.HideLoadingScreen();
             }
-
         }
     }
 
@@ -322,6 +326,7 @@ public class GameManager : MonoBehaviour
     private void EndDay()
     {
         currentState = GameState.DayEnd;
+        currentDay++;
         HandleGameOver();
         Debug.Log("Day is over!");
     }
@@ -395,18 +400,55 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
-    public void HandleStartGame()
+
+    public void HandleGoToCounter()
     {
-        Debug.Log("[GameManager] - HandleStartGame() Called");
+        Debug.Log("[GameManager] - HandleGoToCounter() Called");
         // Change the scene to the gameplay scene 
         SceneManager.LoadScene("Undergrowth");
 
         // Start loadingGameplay things in 
         loadingGameplay = true;
     }
+    public void HandleStartGame()
+    {
+        Debug.Log("[GameManager] - HandleStartGame() Called");
+
+        // If there is a save file, load from it 
+        if (SaveSystem.HasSaveFile())
+        {
+            currenPlayerData = SaveSystem.LoadPlayerData();
+        }
+        else
+        {
+            currenPlayerData = CreateDefaultSaveData();
+            SaveSystem.SavePlayerData(currenPlayerData);
+        }
+
+        HandleGoToCounter();
+    }
+
+    private PlayerData CreateDefaultSaveData()
+    {
+        PlayerData newSaveData = new PlayerData
+        {
+            currentMoney = 0.0f,
+            currentDay = 1
+        };
+
+        // Populate database 
+        foreach (Character_Data character in character_Database.GetAllCharacters())
+        {
+            newSaveData.SetCharacterWeight(character.CharacterId, character.defaultWeight);
+        }
+
+        return newSaveData;
+    }
 
     public void HandleGameOver()
     {
+        // Save the game 
+        SaveGameState(playerMoneyManager.GetMoney(), currentDay);
         SceneManager.LoadScene("TEMP End Screen");
         loadingGameOver = true;
     }
@@ -431,5 +473,13 @@ public class GameManager : MonoBehaviour
         Debug.Log("[GameManager] - HandleBackToMainMenu() Called");
         SceneManager.LoadScene("MainMenu");
         loadingMainMenu = true;
+    }
+
+    public void SaveGameState(float money, int day)
+    {
+        currenPlayerData.currentMoney = money;
+        currenPlayerData.currentDay = day;
+
+        SaveSystem.SavePlayerData(currenPlayerData);
     }
 }

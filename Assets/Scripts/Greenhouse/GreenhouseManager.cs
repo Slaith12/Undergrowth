@@ -17,6 +17,7 @@ public class GreenhouseManager : MonoBehaviour
     private List<SeedPlot> plots;
     private int selectedPlotIndex;
 
+    public event Action OnGoToCounter;
     void Start()
     {
         plots = new();
@@ -87,4 +88,10 @@ public class GreenhouseManager : MonoBehaviour
         plots[selectedPlotIndex].SetPlant(plantInstance);
         seedMenu.Close();
     }
+
+    public void GoToCounter()
+    {
+        OnGoToCounter?.Invoke();
+    }
 }
+
