@@ -24,7 +24,7 @@ public class GrateMover : MonoBehaviour
     {
         openedPosition = new Vector3(-0.19f, 1.29f, -10.91f);
         closedPosition = new Vector3(-0.19f, -0.61f, -10.91f);
-        state = GrateState.Closed;
+        state = GrateState.Opened;
     }
 
     public void SnapGrateClosed()
@@ -41,18 +41,21 @@ public class GrateMover : MonoBehaviour
 
     public void CloseGrate()
     {
+        Debug.Log("[GrateMover] - CloseGrate() Called");
         state = GrateState.Closed;
         StartCoroutine(LerpPosition(closedPosition, duration));
     }
 
     public void OpenGrate()
     {
+        Debug.Log("[GrateMover] - OpenGrate() Called");
         state = GrateState.Opened;
         StartCoroutine(LerpPosition(openedPosition, duration));
     }
 
     public void DetermineAction()
     {
+        Debug.Log("[GrateMover] - DetermineAction() Called - Current State: " + state.ToString());
         if (state == GrateState.Closed)
         {
             OpenGrate();

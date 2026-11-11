@@ -3,8 +3,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerMoney", menuName = "Scriptable Objects/PlayerMoney")]
 public class PlayerMoney : ScriptableObject
 {
-    public int initialValue = 0;
-    public int runtimeValue;
+    public float initialValue = 0;
+    public float runtimeValue;
 
     private void OnEnable()
     {
@@ -12,12 +12,12 @@ public class PlayerMoney : ScriptableObject
         runtimeValue = initialValue;
     }
 
-    public void GainMoney(int value)
+    public void GainMoney(float value)
     {
         runtimeValue += value;
     }
 
-    public void LoseMoney(int value)
+    public void LoseMoney(float value)
     {
         runtimeValue -= value;
     }

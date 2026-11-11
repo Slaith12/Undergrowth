@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: PlayerMoney
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMoney
   initialValue: 0
-  runtimeValue: 0
+  runtimeValue: 7
