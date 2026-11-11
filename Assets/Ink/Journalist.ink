@@ -16,7 +16,7 @@ Hello there! I’m looking for a very prestigious establishment that sells quite
     ->intro_question
 
 === intro_response === 
-Just a little something to spruce up my news room #speaker: Journalist
+Just a little something to spruce up my news room. #speaker: Journalist
 ->intro
 
 === intro_question === 

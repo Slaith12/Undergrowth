@@ -1,0 +1,5 @@
+Long before you were born, a nuclear disaster combined with global warming to make Earth unihabitable. Humanity retreated into bunkers underground to wait out the worst in the hopes that the Earth would eventually begin to heal. 
+
+Several generations have passed since then and humanity has now begun to rebuild on the remnants of their ancestors. The city you live in is controlled by one family who's bunker contains an unfathomable amount of resources and weapons. They have outlawed the sale of many different things to monopolize their collection and extort the local people. Using their overwhelming influence to arm obedient citizens into a secret police force that works under them for scraps. 
+
+You are continuing your family's shop, specializing in selling plants. The secret bunker your family has lived in for decades has been home to a line of incredibly passionate botanists who hoped to help regrow the world into what it once was. 
