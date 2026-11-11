@@ -20,6 +20,12 @@ public class Dialogue_Presenter
         _view = view;
         _characterDatabase = characterDatabase;
 
+        if (view == null)
+        {
+            Debug.Log("There is no View");
+        }
+
+
         // Listen to the User Inputs from the view 
         _view.OnContinueClicked += HandleContinueClicked;
         _view.OnChoiceSelected += HandleChoiceSelected;

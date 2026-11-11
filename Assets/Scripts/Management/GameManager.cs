@@ -11,7 +11,26 @@ using static GameManager;
 public class GameManager : MonoBehaviour
 {
     // An instance of this 
-    public static GameManager Instance { get; private set; }
+    private static GameManager _instance;
+    public static GameManager Instance
+    {
+        get
+        {
+            // If the instance is null, find it in the scene 
+            if (_instance == null)
+            {
+                _instance = FindAnyObjectByType<GameManager>();
+
+                // If it still doesn't exist, make one 
+                if (_instance == null)
+                {
+                    GameObject gameObject = new GameObject("GameManager (Automated");
+                    _instance = gameObject.AddComponent<GameManager>();
+                }
+            }
+            return _instance;
+        }
+    }
 
     public enum GameState
     {
@@ -30,15 +49,23 @@ public class GameManager : MonoBehaviour
 
     [Header("Database & Config")]
     [SerializeField] private Character_Database character_Database;
+    public Character_Database Character_Database
+    {
+        get { return character_Database; } 
+    }
+
     [SerializeField] private int customersPerDay = 5;
-    private PlayerData currenPlayerData;
+    private PlayerData currentPlayerData;
 
 
     [SerializeField] private Dialogue_Controller dialogue_Controller;
     [SerializeField] private Dialogue_View dialogue_View;
-    [SerializeField] private GrateMover grateMover;
-    [SerializeField] private LeverClick leverClick;
-    [SerializeField] private PlantManager plantManager;
+    public Dialogue_View Dialogue_View
+    {
+        get { return dialogue_View; }
+    }
+
+
     [SerializeField] private PlayerMoneyManager playerMoneyManager;
     [SerializeField] private GreenhouseManager greenhouseManager;
     [SerializeField] private GameOverScreenManager gameOverScreenManager;
@@ -69,7 +96,7 @@ public class GameManager : MonoBehaviour
     private bool loadingGameOver = false;
     private bool loadingCredits = false;
     private bool loadingMainMenu = false;
-    private bool loadingGreenhouse = false; 
+    private bool loadingGreenhouse = false;
 
     private void Awake()
     {
@@ -79,7 +106,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        Instance = this;
+        _instance = this;
         DontDestroyOnLoad(gameObject);
 
         // Subscribe to the main menu controller
@@ -87,329 +114,148 @@ public class GameManager : MonoBehaviour
         mainMenuController.OnQuitGame += HandleQuitGame;
         mainMenuController.OnViewCredits += HandleViewCredits;
         mainMenuController.OnViewGreenhouse += HandleViewGreenhouse;
+
+        ShopManager.Instance.OnBackToMainMenu += HandleBackToMainMenu;
+        ShopManager.Instance.OnShopDayOver += HandleGoToGreenhouse;
     }
 
     private void Update()
     {
-        // If the game is loadingGameplay, gather all of the data we need 
-        if (loadingGameplay)
-        {
-            // Show the loadingGameplay screen
-            loadingScreenController.ShowLoadingScreen();
-            // Load in everything 
 
-            // ----- DIALOGUE CONTROLLER ----- 
+        //else if (loadingGameOver)
+        //{
+        //    // Show the loadingGameplay screen
+        //    loadingScreenController.ShowLoadingScreen();
+        //    // Load in everything 
+        //    GameObject gameOverObject = GameObject.Find("GameOverScreenManager"); 
+        //    if (gameOverObject != null)
+        //    {
+        //        gameOverScreenManager = gameOverObject.GetComponent<GameOverScreenManager>();
+        //        gameOverScreenManager.OnBackToStartScreen += HandleBackToMainMenu;
+        //        gameOverScreenManager.LoadInformation(playerMoneyManager.GetMoney());
+        //    }
 
-            GameObject dialogueControllerObject = GameObject.Find("Dialogue_Controller");
-            if (dialogueControllerObject != null)
-            {
-                dialogue_Controller = dialogueControllerObject.GetComponent<Dialogue_Controller>();
-                // Subscribe to events 
-                dialogue_Controller = dialogueControllerObject.GetComponent<Dialogue_Controller>();
-                //dialogue_Controller.DialogueEnded += OnDialogueComplete;
-                dialogue_Controller.RefusedService += HandleRefuseService;
-                dialogue_Controller.SellPlant += HandleSellPlant;
-            }
-            else
-            {
-                //Debug.Log("[GameManager] - No dialogueControllerObject has been found yet");
-            }
+        //    if ((gameOverScreenManager != null))
+        //    {
+        //        loadingScreenController.HideLoadingScreen();
+        //        loadingGameOver = false;
+        //    }
+        //}
+        //else if (loadingCredits)
+        //{
+        //    // Show the loadingGameplay screen
+        //    loadingScreenController.ShowLoadingScreen();
+        //    // Load in everything 
+        //    GameObject creditsMainMenuButtonObject = GameObject.Find("Back to MainMenu");
+        //    if (creditsMainMenuButtonObject != null)
+        //    {
+        //        creditsMainMenuButton = creditsMainMenuButtonObject.GetComponent<MainMenuButton>();
+        //        creditsMainMenuButton.OnReturnToMainMenu += HandleBackToMainMenu;
+        //    }
 
-            // ----- PLANT MANAGER ----- 
-            GameObject plantManagerObject = GameObject.Find("Plants");
-            if (plantManagerObject != null)
-            {
-                plantManager = plantManagerObject.GetComponent<PlantManager>();
-                // Subscribe to event 
-                plantManager.PlantSold += HandlePlantSold;
-            }
-            else
-            {
-                //Debug.Log("[GameManager] - No plantManagerObject has been found yet");
-            }
+        //    if (creditsMainMenuButton != null)
+        //    {
+        //        loadingScreenController.HideLoadingScreen();
+        //        loadingCredits = false;
+        //    }
 
-            // ----- DIALOGUE VIEW ----- 
-            GameObject dialogueViewObject = GameObject.Find("Dialogue Panel");
-            if (dialogueViewObject != null)
-            {
-                dialogue_View = dialogueViewObject.GetComponent<Dialogue_View>();
-            }
-            else
-            {
-                //Debug.Log("[GameManager] - No dialogueViewObject has been found yet");
-            }
+        //    mainMenuController.OnStartGame -= HandleStartGame;
+        //    mainMenuController.OnQuitGame -= HandleQuitGame;
+        //    mainMenuController.OnViewCredits -= HandleViewCredits;
+        //    mainMenuController.OnViewGreenhouse -= HandleViewGreenhouse;
+        //}
+        //else if (loadingMainMenu)
+        //{
+        //    // Show the loadingGameplay screen
+        //    loadingScreenController.ShowLoadingScreen();
+        //    // Load in everything 
+        //    GameObject mainMenuControllerObject = GameObject.Find("MainMenuController");
+        //    if (mainMenuControllerObject != null)
+        //    {
+        //        mainMenuController = mainMenuControllerObject.GetComponent<MainMenuController>();
+        //        loadingScreenController.HideLoadingScreen();
+        //    }
 
-            // ----- GRATE MOVER -----
-            GameObject grateMoverObject = GameObject.Find("Grate");
-            if (grateMoverObject != null)
-            {
-                grateMover = grateMoverObject.GetComponent<GrateMover>();
-            }
-            else
-            {
-                //Debug.Log("[GameManager] - No grateMoverObject has been found yet");
-            }
+        //    if (mainMenuController != null)
+        //    {
+        //        mainMenuController.OnStartGame += HandleStartGame;
+        //        mainMenuController.OnQuitGame += HandleQuitGame;
+        //        mainMenuController.OnViewCredits += HandleViewCredits;
+        //        mainMenuController.OnViewGreenhouse += HandleViewGreenhouse;
+        //        loadingMainMenu = false;
+        //    }
+        //}else if (loadingGreenhouse)
+        //{
+        //    // Show the loadingGameplay screen
+        //    loadingScreenController.ShowLoadingScreen();
+        //    // Load in everything 
+        //    GameObject greenhouseMainMenuButtonObject = GameObject.Find("Main Menu Button");
+        //    if (greenhouseMainMenuButtonObject != null)
+        //    {
+        //        greenhouseMainMenuButton = greenhouseMainMenuButtonObject.GetComponent<MainMenuButton>();
+        //        greenhouseMainMenuButton.OnReturnToMainMenu += HandleBackToMainMenu;
+        //    }
 
-            // ----- LEVER CLICK -----
-            GameObject leverClickObject = GameObject.Find("Lever");
-            if (leverClickObject != null)
-            {
-                leverClick = leverClickObject.GetComponent<LeverClick>();
-                leverClick.LeverClicked += HandleLeverClick;
-            }
-            else
-            {
-                //Debug.Log("[GameManager] - No leverClickObject has been found yet");
-            }
+        //    GameObject greenhouseManagerObject = GameObject.Find("Greenhouse"); 
+        //    if (greenhouseManagerObject != null)
+        //    {
+        //        greenhouseManager = greenhouseManagerObject.GetComponent<GreenhouseManager>();
+        //        greenhouseManager.OnGoToCounter += HandleGoToShop;
+        //    }
 
-            // ----- PLAYER MONEY -----
-            GameObject playerMoneyManagerObject = GameObject.Find("Money Tracker");
-            if ( plantManagerObject != null)
-            {
-                playerMoneyManager = playerMoneyManagerObject.GetComponent<PlayerMoneyManager>();
-            }
-
-            // ----- Main Menu Button -----
-            GameObject gameplayMainMenuButtonObject = GameObject.Find("Main Menu Button"); 
-            if (gameplayMainMenuButtonObject != null)
-            {
-                gameplayMainMenuButton = gameplayMainMenuButtonObject.GetComponent<MainMenuButton>();
-                gameplayMainMenuButton.OnReturnToMainMenu += HandleBackToMainMenu;
-
-            }
-
-            // If everything has been loaded in, start the game 
-            if ((leverClick != null) && (grateMover != null) && (plantManager != null) && (dialogue_Controller != null) && (dialogue_View != null) && (playerMoneyManager != null))
-            {
-                loadingGameplay = false;
-                // Hide the loadingGameplay screen 
-                loadingScreenController.HideLoadingScreen();
-                // Start the day
-                StartDay();
-            }
-        }
-        else if (loadingGameOver)
-        {
-            // Show the loadingGameplay screen
-            loadingScreenController.ShowLoadingScreen();
-            // Load in everything 
-            GameObject gameOverObject = GameObject.Find("GameOverScreenManager"); 
-            if (gameOverObject != null)
-            {
-                gameOverScreenManager = gameOverObject.GetComponent<GameOverScreenManager>();
-                gameOverScreenManager.OnBackToStartScreen += HandleBackToMainMenu;
-                gameOverScreenManager.LoadInformation(playerMoneyManager.GetMoney());
-            }
-
-            if ((gameOverScreenManager != null))
-            {
-                loadingScreenController.HideLoadingScreen();
-                loadingGameOver = false;
-            }
-        }
-        else if (loadingCredits)
-        {
-            // Show the loadingGameplay screen
-            loadingScreenController.ShowLoadingScreen();
-            // Load in everything 
-            GameObject creditsMainMenuButtonObject = GameObject.Find("Back to MainMenu");
-            if (creditsMainMenuButtonObject != null)
-            {
-                creditsMainMenuButton = creditsMainMenuButtonObject.GetComponent<MainMenuButton>();
-                creditsMainMenuButton.OnReturnToMainMenu += HandleBackToMainMenu;
-            }
-
-            if (creditsMainMenuButton != null)
-            {
-                loadingScreenController.HideLoadingScreen();
-                loadingCredits = false;
-            }
-
-            mainMenuController.OnStartGame -= HandleStartGame;
-            mainMenuController.OnQuitGame -= HandleQuitGame;
-            mainMenuController.OnViewCredits -= HandleViewCredits;
-            mainMenuController.OnViewGreenhouse -= HandleViewGreenhouse;
-        }
-        else if (loadingMainMenu)
-        {
-            // Show the loadingGameplay screen
-            loadingScreenController.ShowLoadingScreen();
-            // Load in everything 
-            GameObject mainMenuControllerObject = GameObject.Find("MainMenuController");
-            if (mainMenuControllerObject != null)
-            {
-                mainMenuController = mainMenuControllerObject.GetComponent<MainMenuController>();
-                loadingScreenController.HideLoadingScreen();
-            }
-
-            if (mainMenuController != null)
-            {
-                mainMenuController.OnStartGame += HandleStartGame;
-                mainMenuController.OnQuitGame += HandleQuitGame;
-                mainMenuController.OnViewCredits += HandleViewCredits;
-                mainMenuController.OnViewGreenhouse += HandleViewGreenhouse;
-                loadingMainMenu = false;
-            }
-        }else if (loadingGreenhouse)
-        {
-            // Show the loadingGameplay screen
-            loadingScreenController.ShowLoadingScreen();
-            // Load in everything 
-            GameObject greenhouseMainMenuButtonObject = GameObject.Find("Main Menu Button");
-            if (greenhouseMainMenuButtonObject != null)
-            {
-                greenhouseMainMenuButton = greenhouseMainMenuButtonObject.GetComponent<MainMenuButton>();
-                greenhouseMainMenuButton.OnReturnToMainMenu += HandleBackToMainMenu;
-            }
-
-            GameObject greenhouseManagerObject = GameObject.Find("Greenhouse"); 
-            if (greenhouseManagerObject != null)
-            {
-                greenhouseManager = greenhouseManagerObject.GetComponent<GreenhouseManager>();
-                greenhouseManager.OnGoToCounter += HandleGoToCounter;
-            }
-
-            if ((greenhouseManager != null) && (greenhouseMainMenuButton != null))
-            {
-                loadingGreenhouse = false;
-                loadingScreenController.HideLoadingScreen();
-            }
-        }
+        //    if ((greenhouseManager != null) && (greenhouseMainMenuButton != null))
+        //    {
+        //        loadingGreenhouse = false;
+        //        loadingScreenController.HideLoadingScreen();
+        //    }
+        //}
     }
 
     // Starts the day - queues up the cast of customers 
     public void StartDay()
     {
-        // Set the current state of the day 
-        currentState = GameState.DayStart;
-
-        // Clear the queue 
-        todaysQueue.Clear();
-
-        // Get the list of valid customers 
-        List<Character_Data> data = character_Database.GetAllCharacters();
-
-        // Loop through, and pick random characters to spawn 
-        for (int i = 0; i < customersPerDay; i++)
+        if (ShopManager.Instance == null)
         {
-            int randomIndex = UnityEngine.Random.Range(0, data.Count);
-            todaysQueue.Add(data[randomIndex]);
-            // Remove duplicates 
-            data.RemoveAt(randomIndex);
-        }
-
-        SpawnNextCharacter();
-    }
-
-    // Spawn the next customer in the queue 
-    private void SpawnNextCharacter()
-    {
-        // If there are customers left to interact with 
-        if (todaysQueue.Count > 0)
-        {
-            // Change the state 
-            currentState = GameState.SpawningCustomer;
-
-            // Set the customer 
-            currentCustomer = todaysQueue[0];
-            todaysQueue.RemoveAt(0);
-            TriggerDialoge(currentCustomer);
-            Debug.Log("[GameManager] - SpawnNewCharacter() Character: " + currentCustomer.DisplayName);
+            Debug.Log("ShopManager instance is null");
         }
         else
         {
-            // TODO: End the day 
-            EndDay();
+            Debug.Log("ShopManager instance is NOT null");
+            ShopManager.Instance.LoadShop();
         }
     }
 
     private void EndDay()
     {
         currentState = GameState.DayEnd;
-        currentDay++;
-        HandleGameOver();
+        //HandleGameOver();
         Debug.Log("Day is over!");
-    }
-
-    // Tells the Dialogue Controller to start the dialogue of this character 
-    public void TriggerDialoge(Character_Data character)
-    {
-        Debug.Log("TriggerDialogue() called for: " + character.DisplayName);
-        // Change the state 
-        currentState = GameState.Dialogue;
-
-        // Pass the character's information to the controller 
-        dialogue_Controller.StartDialogue(character, character_Database, dialogue_View);
-    }
-
-    public void OnDialogueComplete()
-    {
-        SpawnNextCharacter();
-    }
-
-    public void HandleRefuseService()
-    {
-        Debug.Log("[GameManager] - HandleRefuseService() Called");
-        currentState = GameState.Refusing;
-    }
-
-    public void HandleSellPlant()
-    {
-        Debug.Log("[GameManager] - HandleSellPlant() Called");
-        currentState = GameState.SellingPlant;
-        plantManager.canSell = true;
-    }
-
-    public void HandleLeverClick()
-    {
-        Debug.Log("[GameManager] - HandleLeverClick() Called");
-
-        // If the store is closed
-        if (currentState == GameState.Closed)
-        {
-            // Open the door 
-            grateMover.OpenGrate();
-            currentState = GameState.Opened;
-            SpawnNextCharacter();
-        }
-        else if (currentState == GameState.Refusing)
-        {
-            // Close the door 
-            grateMover.CloseGrate();
-            currentState = GameState.Closed;
-        }
-    }
-
-    public void HandlePlantSold(Plant plantToSell)
-    {
-        //Debug.Log("[GameManager] - Sold: " + plantToSell.plantName);
-        // Add money 
-        playerMoneyManager.GainMoney(plantToSell.plantPrice);
-        // Change the state 
-
-
-        // Put away the character and the plant 
-        OnDialogueComplete();
-        GameObject plant = plantToSell.gameObject; 
-        plant.SetActive(false);
-        plantManager.canSell = false;
     }
 
     public void HandleQuitGame()
     {
+        // Save the state of the game 
+        SaveGameState(playerMoneyManager.GetMoney(), currentDay);
         Application.Quit();
     }
 
 
-    public void HandleGoToCounter()
+    public void HandleGoToShop()
     {
         Debug.Log("[GameManager] - HandleGoToCounter() Called");
-        // Change the scene to the gameplay scene 
+        // Change the scene to the shop scene 
         SceneManager.LoadScene("Undergrowth");
-
-        // Start loadingGameplay things in 
-        loadingGameplay = true;
+        StartDay();
     }
+
+    public void HandleGoToGreenhouse()
+    {
+        Debug.Log("[GameManager] - HandleGoToGreenhouse() Called");
+        // Change the scene to the greenhouse scene 
+        SceneManager.LoadScene("Greenhouse");
+    }
+
+
     public void HandleStartGame()
     {
         Debug.Log("[GameManager] - HandleStartGame() Called");
@@ -417,15 +263,15 @@ public class GameManager : MonoBehaviour
         // If there is a save file, load from it 
         if (SaveSystem.HasSaveFile())
         {
-            currenPlayerData = SaveSystem.LoadPlayerData();
+            currentPlayerData = SaveSystem.LoadPlayerData();
         }
         else
         {
-            currenPlayerData = CreateDefaultSaveData();
-            SaveSystem.SavePlayerData(currenPlayerData);
+            currentPlayerData = CreateDefaultSaveData();
+            SaveSystem.SavePlayerData(currentPlayerData);
         }
 
-        HandleGoToCounter();
+        HandleGoToShop();
     }
 
     private PlayerData CreateDefaultSaveData()
@@ -477,9 +323,18 @@ public class GameManager : MonoBehaviour
 
     public void SaveGameState(float money, int day)
     {
-        currenPlayerData.currentMoney = money;
-        currenPlayerData.currentDay = day;
+        currentPlayerData.currentMoney = money;
+        currentPlayerData.currentDay = day;
 
-        SaveSystem.SavePlayerData(currenPlayerData);
+        SaveSystem.SavePlayerData(currentPlayerData);
+    }
+
+    public void AdvanceDay()
+    {
+        // Increase the day number 
+        currentDay++;
+        // TODO: Remove any money from player 
+        // Advance day for greenhouse
+        greenhouseManager.AdvanceDay();
     }
 }

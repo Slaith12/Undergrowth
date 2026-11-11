@@ -3,9 +3,24 @@ using UnityEngine;
 
 public class PlayerMoneyManager : MonoBehaviour
 {
+    // An instance of this 
+    public static PlayerMoneyManager Instance { get; private set; }
+
     [SerializeField] private PlayerMoney playerMoney;
     public GameObject moneyTrackerUI;
-    public TextMeshProUGUI moneyTrackerText; 
+    public TextMeshProUGUI moneyTrackerText;
+
+    private void Awake()
+    {
+        // Setting up the singleton 
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

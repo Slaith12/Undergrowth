@@ -511,6 +511,58 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!1 &490657073
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 490657075}
+  - component: {fileID: 490657074}
+  m_Layer: 0
+  m_Name: ShopManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &490657074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490657073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5b3d795af69c034486d21212378f033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShopManager
+  shopState: 0
+  customersPerDay: 3
+  plantManager: {fileID: 1764456177}
+  grateMover: {fileID: 2129668472}
+  leverClick: {fileID: 1969792459}
+  dialogueController: {fileID: 0}
+  dialogue_view: {fileID: 0}
+  loadingShop: 0
+--- !u!4 &490657075
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 490657073}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &507642402
 GameObject:
   m_ObjectHideFlags: 0
@@ -717,6 +769,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fd71657fbb031a43a759feded2be8d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Dialogue_Controller
+  dialogueView: {fileID: 0}
 --- !u!4 &715137452
 Transform:
   m_ObjectHideFlags: 0
@@ -4311,14 +4364,14 @@ PrefabInstance:
     - target: {fileID: 6869479490392074575, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 6499503078476670491}
+      objectReference: {fileID: 490657074}
     - target: {fileID: 6869479490392074575, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ReturnToMainMenu
+      value: BackToMainMenu
       objectReference: {fileID: 0}
     - target: {fileID: 6869479490392074575, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: MainMenuButton, Assembly-CSharp
+      value: ShopManager, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7361210058935589222, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
       propertyPath: character
@@ -4342,28 +4395,8 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1724804506308413509, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2016291273}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6776942655687069187, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6499503078476670491}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
---- !u!1 &6499503078476670490 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6776942655687069187, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
-  m_PrefabInstance: {fileID: 6499503078476670489}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6499503078476670491
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6499503078476670490}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a0b13fcb472aa44f988d08322e26a8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MainMenuButton
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -4382,3 +4415,4 @@ SceneRoots:
   - {fileID: 2130467922}
   - {fileID: 1764456176}
   - {fileID: 715137452}
+  - {fileID: 490657075}
