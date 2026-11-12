@@ -75,6 +75,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MainMenuButton gameplayMainMenuButton;
     [SerializeField] private MainMenuButton creditsMainMenuButton;
     [SerializeField] private MainMenuButton greenhouseMainMenuButton;
+    [SerializeField] private GreenhouseData currentGreenhouseData;
+
 
     // Active State of the game 
     public GameState currentState;
@@ -148,10 +150,18 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                GreenhouseManager.Instance.SetUpGreenhouse();
+
+                // If it is not the first day 
                 if (DayManager.Instance.GetCurrentDay() > 0)
                 {
+                    // Set the data 
+                    GreenhouseManager.Instance.greenhouseData = currentGreenhouseData;
+
+                    // Advance 
                     GreenhouseManager.Instance.AdvanceDay();
                 }
+
                 GreenhouseManager.OnEndGreenhouseDay += EndDay;
                 loadingGreenhouse = false;
                 loadingScreenController.HideLoadingScreen();
@@ -263,8 +273,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void EndDay()
+    private void EndDay(GreenhouseData greenhouseData)
     {
+        currentGreenhouseData = greenhouseData;
         currentState = GameState.DayEnd;
         SceneManager.LoadScene("Day Over");
         loadingDayOver = true;

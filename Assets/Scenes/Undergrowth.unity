@@ -644,7 +644,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopManager
   shopState: 0
-  customersPerDay: 3
+  customersPerDay: 1
   plantManager: {fileID: 1764456177}
   grateMover: {fileID: 2129668472}
   leverClick: {fileID: 1969792459}

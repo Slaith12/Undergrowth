@@ -32,7 +32,7 @@ public class GreenhouseManager : MonoBehaviour
     [SerializeField] SeedPlantMenu seedMenu;
     [SerializeField] List<PlanterBox> planters;
 
-    [SerializeField] GreenhouseData greenhouseData;
+    [SerializeField] public GreenhouseData greenhouseData;
     [SerializeField] InventoryData inventory;
     [SerializeField] List<Plant_Data> testPlants;
 
@@ -40,7 +40,7 @@ public class GreenhouseManager : MonoBehaviour
     private int selectedPlotIndex;
 
     public static event Action OnGoToCounter;
-    public static event Action OnEndGreenhouseDay;
+    public static event Action<GreenhouseData> OnEndGreenhouseDay;
 
     private void Awake()
     {
@@ -53,10 +53,36 @@ public class GreenhouseManager : MonoBehaviour
         _instance = this;
     }
 
-    void Start()
+    //void Start()
+    //{
+    //    plots = new();
+    //    foreach(PlanterBox planter in planters)
+    //    {
+    //        plots.AddRange(planter.seedPlots);
+    //    }
+
+    //    greenhouseData.SetPlantCapacity(plots.Count);
+    //    for (int i = 0; i < plots.Count; i++)
+    //    {
+    //        int index = i;
+    //        plots[i].ButtonClicked += delegate { OnPlotClicked(index); };
+    //        plots[i].PlantClicked += delegate { OnPlotHarvest(index); };
+    //        plots[i].SetPlant(greenhouseData.GetPlant(i));
+    //    }
+    //    seedMenu.SeedButtonClicked += PlantSeed;
+    //    inventory = new InventoryData();
+    //    foreach(Plant_Data plant in testPlants)
+    //    {
+    //        inventory.seedCounts.Add(plant, 10);
+    //    }
+    //    seedMenu.SetSeedData(inventory);
+    //    seedMenu.Close();
+    //}
+
+    public void SetUpGreenhouse()
     {
         plots = new();
-        foreach(PlanterBox planter in planters)
+        foreach (PlanterBox planter in planters)
         {
             plots.AddRange(planter.seedPlots);
         }
@@ -71,7 +97,7 @@ public class GreenhouseManager : MonoBehaviour
         }
         seedMenu.SeedButtonClicked += PlantSeed;
         inventory = new InventoryData();
-        foreach(Plant_Data plant in testPlants)
+        foreach (Plant_Data plant in testPlants)
         {
             inventory.seedCounts.Add(plant, 10);
         }
@@ -131,7 +157,7 @@ public class GreenhouseManager : MonoBehaviour
 
     public void EndGreenhouseDay()
     {
-        OnEndGreenhouseDay?.Invoke();
+        OnEndGreenhouseDay?.Invoke(greenhouseData);
     }
 }
 
