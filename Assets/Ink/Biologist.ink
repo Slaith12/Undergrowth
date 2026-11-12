@@ -23,7 +23,7 @@ I’m researching common flowers from before the collapse to see how we can rein
 *   I think I know what you're talking about. # speaker: Player
         ->sell
 *   I might have one of those, but can I ask a few questions to make sure it's the right one? # speaker: Player 
-        ->keep_questioning
+        ->questions
 *   I don't have anything like that. 
         -> refuse
 
@@ -32,7 +32,7 @@ Well it’s just, there are rumors floating around, and you know how people talk
 *   I can help you, just don't go around making a scene, alright? # speaker: Player
         -> sell
 *   Would you mind if I ask you a few questions real quick? # speaker: Player
-        -> keep_questioning
+        -> questions
 *   No offense, but even if I did have anything like that you seem like the last person that I would want to sell it to... # speaker: Player 
         ->refuse
 
@@ -42,18 +42,56 @@ Oh. Well, are you sure? I could go back there and make sure all of them are fake
 *   I might have some real ones mixed in there. You just can’t tell anyone else about it, deal? # speaker: Player
         -> sell
 *   Well. I don’t just let anyone back here. You could be trying to rob me for all I know! Let me ask you a few things and we’ll see. # speaker: Player
-        -> keep_questioning
+        -> questions
 *   Nope! All fake plants here! If you aren’t interested in buying them at all then I’m gonna ask you to leave. # speaker: Player
         -> refuse
 
+==request==
+* sell plant
+->sell
+* keep questioning
+->questions
+* refuse service
+->refuse    
+    
 === refuse === 
     ~refuse_service()
     -> ending
 === sell === 
     ~sell_plant()
     -> ending
-=== keep_questioning ===
-    -> introduction
+    
+    ==questions==
+* What do you do for a living?
+->job
+
+* How old are you?
+->age
+
+* What do you think of the family that runs the city?
+->politics
+
+* What kind of plants are you looking for?
+->plants
+
++ I'm done asking questions
+->request
+
+==job==
+The bunker I grew up in was filled with all kinds of books on life before things went the way they did. I've started using them to do some research on how plants and animals are now. I'm hoping that I can bring things back to how they used to be. My Grandma has always loved some of the pictures in our books.
+->questions
+
+==age==
+I'm 28, guess I'm starting to get kinda old huh?
+->questions
+
+==politics==
+I don't like some of their rules, it makes my research more difficult. 
+->questions
+
+==plants==
+Honestly, I will take anything. Finding living plants outside is next to impossible, so I'll need whatever I can get to jumpstart my research.
+->questions
     
 === ending == 
 - ~FadeOutCharacter(1)

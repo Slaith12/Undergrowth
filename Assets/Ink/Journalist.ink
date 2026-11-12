@@ -30,7 +30,7 @@ Well you can certainly help me then! You see I'm looking for someone who is supp
     ->proof
 
 * I might have something, but would you mind if I asked you a few questions real quick? (keep questioning) #speaker: Player
-    ->ending
+    ->questions
 
 * I don’t think I have anything like that. (refuse service) #speaker: Player
     ~refuse_service()
@@ -45,6 +45,46 @@ I'm a journalist! Well, as much of a journalist as you can be in this city. Ther
 
 * I see #speaker: Player
     -> intro_question
+    
+==request==
+* sell plant
+->sell
+* keep questioning
+->questions
+* refuse service
+->refuse    
+    
+=== refuse === 
+    ~refuse_service()
+    -> ending
+=== sell === 
+    ~sell_plant()
+    -> ending
+    
+    ==questions==
+* What do you do for a living?
+->job
+
+* How old are you?
+->age
+
+* What do you think of the family that runs the city?
+->politics
+
++ I'm done asking questions
+->request
+
+==job==
+...Seriously? You might not be a detective or anything, but you can't take a wild guess? 
+->questions
+
+==age==
+I'm 36, now less talky more selly please and thank you.
+->questions
+
+==politics==
+They are the absolute worst, but it'll make for a good story when someone finally pushes them out so I'm not gonna complain too much I suppose.
+->questions
 
 === ending == 
 - ~FadeOutCharacter(1)
