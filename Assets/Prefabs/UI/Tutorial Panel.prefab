@@ -339,10 +339,14 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: According to all known laws of aviation, there is no way that a bee should
-    be able to fly. Its wings are too small to get its fat little body off the ground.
-    The bee, of course, flies anyway because bees don't care what humans think is
-    impossible.
+  m_text: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sit amet
+    mattis metus, quis finibus elit. Pellentesque ac lorem commodo, tempor nisl vel,
+    efficitur nisl. Cras mattis faucibus tortor a tempus. Aenean pharetra pellentesque
+    nisl, faucibus molestie est venenatis vitae. Curabitur a venenatis enim. Sed
+    bibendum vitae orci tincidunt eleifend. Morbi non tincidunt dui. Mauris dapibus
+    pulvinar nisi, in egestas urna tempor vitae. Mauris ac convallis ligula. Aliquam
+    sit amet fringilla nulla, vitae pretium nunc. Fusce ut convallis diam. Nullam
+    molestie gravida consequat.
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

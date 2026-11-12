@@ -3827,28 +3827,24 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 511925021748102544, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
       propertyPath: textPages.Array.size
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 511925021748102544, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
       propertyPath: 'textPages.Array.data[0]'
-      value: "Each day, some customers will come up to your shop asking for a plant.
-        It\u2019s your job to talk to these customers, figure out what they want,
-        and determine if you can trust them."
+      value: Welcome to the greenhouse! You have a limited stock of plants to sell
+        to customers, and this is where you replenish that stock.
       objectReference: {fileID: 0}
     - target: {fileID: 511925021748102544, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
       propertyPath: 'textPages.Array.data[1]'
-      value: "While some of these customers will genuinely be looking to buy your
-        plants, some of them may be undercover cops trying to get you to incriminate
-        yourself. You\u2019ll need to pay attention to their dialogue and ask them
-        questions to determine what the best course of action is."
+      value: "You can plant seeds in any of the seed plots by clicking on them, after
+        which they\u2019ll passively grow over time until they\u2019re ready to harvest.
+        Plants take multiple days to grow, so make sure to grow any in-demand plants
+        well in advance!"
       objectReference: {fileID: 0}
     - target: {fileID: 511925021748102544, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
       propertyPath: 'textPages.Array.data[2]'
-      value: "Selling real plants will get you the best profits, but it could endanger
-        your business if you sell them to the wrong person. Selling fake plants or
-        refusing service is always safe, but it won\u2019t net you much money, and
-        doing this to your genuine customers could upset them and make them less
-        likely to come back."
+      value: Try to make enough money to pay your rent each day, and avoid drawing
+        too much attention from the police to succeed.
       objectReference: {fileID: 0}
     - target: {fileID: 511925021748102544, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
       propertyPath: 'textPages.Array.data[3]'
