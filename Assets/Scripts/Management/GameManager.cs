@@ -162,6 +162,8 @@ public class GameManager : MonoBehaviour
                     GreenhouseManager.Instance.AdvanceDay();
                 }
 
+
+
                 GreenhouseManager.OnEndGreenhouseDay += EndDay;
                 loadingGreenhouse = false;
                 loadingScreenController.HideLoadingScreen();
@@ -301,6 +303,7 @@ public class GameManager : MonoBehaviour
     public void HandleGoToGreenhouse()
     {
         Debug.Log("[GameManager] - HandleGoToGreenhouse() Called");
+        DayManager.Instance.HideDayTracker();
         // Change the scene to the greenhouse scene 
         SceneManager.LoadScene("Greenhouse");
         currentState = GameState.Greenhouse;
@@ -311,18 +314,22 @@ public class GameManager : MonoBehaviour
     public void HandleStartGame()
     {
         Debug.Log("[GameManager] - HandleStartGame() Called");
+        DayManager.Instance.SetDay(0);
+        currentPlayerData = CreateDefaultSaveData();
+        SaveSystem.SavePlayerData(currentPlayerData);
 
-        // If there is a save file, load from it 
-        if (SaveSystem.HasSaveFile())
-        {
-            currentPlayerData = SaveSystem.LoadPlayerData();
-        }
-        else
-        {
-            DayManager.Instance.SetDay(0);
-            currentPlayerData = CreateDefaultSaveData();
-            SaveSystem.SavePlayerData(currentPlayerData);
-        }
+
+        //// If there is a save file, load from it 
+        //if (SaveSystem.HasSaveFile())
+        //{
+        //    currentPlayerData = SaveSystem.LoadPlayerData();
+        //}
+        //else
+        //{
+        //    DayManager.Instance.SetDay(0);
+        //    currentPlayerData = CreateDefaultSaveData();
+        //    SaveSystem.SavePlayerData(currentPlayerData);
+        //}
 
         HandleGoToShop();
     }
@@ -377,8 +384,11 @@ public class GameManager : MonoBehaviour
 
     public void AdvanceDay()
     {
+        Debug.Log("[GameManager] - AdvanceDay() Called");
         // Increase the day number 
-        DayManager.Instance.AdvanceDay();
+
+
+        DayManager.Instance.SetDay(DayManager.Instance.GetCurrentDay());
         // TODO: Remove any money from player 
 
         HandleGoToShop();

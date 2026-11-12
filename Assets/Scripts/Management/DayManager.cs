@@ -5,11 +5,31 @@ using UnityEngine;
 public class DayManager : MonoBehaviour
 {
     // An instance of this 
-    public static DayManager Instance { get; private set; }
+    private static DayManager _instance; 
+    public static DayManager Instance
+    {
+        get
+        {
+            // If the instance is null, find it in the scene 
+            if (_instance == null)
+            {
+                _instance = FindAnyObjectByType<DayManager>();
 
-    [SerializeField] private Day day;
+                // If it still doesn't exist, make one
+                if (_instance == null)
+                {
+                    GameObject gameObject = new GameObject("DayManager (Automatically-Generated");
+                    _instance = gameObject.AddComponent<DayManager>();
+                }
+            }
+            return _instance;
+        }
+    }
+
+    public Day day;
     public GameObject dayTrackerUI;
     public TextMeshProUGUI dayTrackerText;
+    public string trackerText;
 
     private void Awake()
     {
@@ -19,22 +39,15 @@ public class DayManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        Instance = this;
+        _instance = this;
+        day = ScriptableObject.CreateInstance<Day>();
     }
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        dayTrackerUI = gameObject;
-        dayTrackerText = gameObject.GetComponentInChildren<TextMeshProUGUI>();
-    }
 
     // Update is called once per frame
     void Update()
     {
-        string trackerText = day.runtimeValue.ToString();
-        dayTrackerText.text = trackerText;
+
     }
 
     public void SetDay(int _day)
@@ -42,9 +55,25 @@ public class DayManager : MonoBehaviour
         day.runtimeValue = _day;
     }
 
+    public void ShowDayTracker()
+    {
+        dayTrackerUI = gameObject;
+        dayTrackerText = gameObject.GetComponentInChildren<TextMeshProUGUI>();
+        dayTrackerText.text = trackerText;
+
+        dayTrackerUI.SetActive(true);
+    }
+
+    public void HideDayTracker()
+    {
+        dayTrackerUI.SetActive(false);
+    }
+
     public void AdvanceDay()
     {
-        day.AdvanceDay();
+        //day.AdvanceDay();
+        Debug.Log("[DayManager] - AdvanceDay() Called. Day is now: " + GetCurrentDay());
+        trackerText = GetCurrentDay().ToString();
     }
 
     public int GetCurrentDay()

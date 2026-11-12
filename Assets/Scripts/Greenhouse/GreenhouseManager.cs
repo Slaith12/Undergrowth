@@ -114,7 +114,13 @@ public class GreenhouseManager : MonoBehaviour
         greenhouseData.AdvanceTime();
         for(int i = 0; i < plots.Count; i++)
         {
-            plots[i].SetPlant(greenhouseData.GetPlant(i));
+            if (greenhouseData.GetPlant(i) != null) {
+                plots[i].SetPlant(greenhouseData.GetPlant(i));
+            }
+            else
+            {
+                Debug.Log("There is no plant in the greenhouse at index: " + i);    
+            }
         }
     }
 

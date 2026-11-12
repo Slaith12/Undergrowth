@@ -87,6 +87,8 @@ public class ShopManager : MonoBehaviour
                 plantManager.PlantSold += HandlePlantSold;
             }
 
+            DayManager.Instance.ShowDayTracker();
+
             // Find the dialogue view 
             if (dialogue_view == null)
             {
