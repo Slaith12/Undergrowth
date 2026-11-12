@@ -34,17 +34,12 @@ public class GameManager : MonoBehaviour
 
     public enum GameState
     {
-        StartMenu,
+        MainMenu,
         Credits,
-        DayStart,
-        SpawningCustomer,
-        Dialogue,
-        Refusing,
-        PostInteraction,
-        Closed,
-        DayEnd,
-        Opened, 
-        SellingPlant
+        Greenhouse,
+        Shop,
+        DayStart, 
+        DayEnd
     }
 
     [Header("Database & Config")]
@@ -54,7 +49,6 @@ public class GameManager : MonoBehaviour
         get { return character_Database; } 
     }
 
-    [SerializeField] private int customersPerDay = 5;
     private PlayerData currentPlayerData;
 
 
@@ -70,6 +64,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GreenhouseManager greenhouseManager;
     [SerializeField] private GameOverScreenManager gameOverScreenManager;
     [SerializeField] private CreditsController creditsController;
+    [SerializeField] private DayOverManager dayOverManager;
 
     // The Main Menu Controller of the Game 
     [SerializeField] private MainMenuController mainMenuController;
@@ -80,9 +75,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MainMenuButton creditsMainMenuButton;
     [SerializeField] private MainMenuButton greenhouseMainMenuButton;
 
-    private List<Character_Data> todaysQueue = new List<Character_Data>();
-    private Character_Data currentCustomer;
-    private int currentDay;
+    public int currentDay;
 
 
     // Active State of the game 
@@ -92,11 +85,11 @@ public class GameManager : MonoBehaviour
     public PlayerMoney money;
 
     public bool canCloseGrate;
-    private bool loadingGameplay = false;
-    private bool loadingGameOver = false;
-    private bool loadingCredits = false;
     private bool loadingMainMenu = false;
+    private bool loadingShop = false;
+    private bool loadingDayOver = false;
     private bool loadingGreenhouse = false;
+    private bool loadingCredits = false;
 
     private void Awake()
     {
@@ -113,34 +106,76 @@ public class GameManager : MonoBehaviour
         mainMenuController.OnStartGame += HandleStartGame; 
         mainMenuController.OnQuitGame += HandleQuitGame;
         mainMenuController.OnViewCredits += HandleViewCredits;
-        mainMenuController.OnViewGreenhouse += HandleViewGreenhouse;
-
-        ShopManager.Instance.OnBackToMainMenu += HandleBackToMainMenu;
-        ShopManager.Instance.OnShopDayOver += HandleGoToGreenhouse;
     }
 
     private void Update()
     {
+        if (loadingMainMenu)
+        {
+            // Show loading screen 
+            loadingScreenController.ShowLoadingScreen();
+            // Load in everything 
+            GameObject mainMenuControllerObject = GameObject.Find("MainMenuController");
+            if (mainMenuControllerObject != null)
+            {
+                mainMenuController = mainMenuControllerObject.GetComponent<MainMenuController>();
+                loadingScreenController.HideLoadingScreen();
+                loadingMainMenu = false;
+            }
+        }
+        else if (loadingShop)
+        {
+            // Show loading screen 
+            loadingScreenController.ShowLoadingScreen();
+            if (ShopManager.Instance == null)
+            {
+                Debug.Log("[GameManager] - There is no shop manager!");
+            }
+            else
+            {
+                ShopManager.Instance.LoadShop();
+                ShopManager.OnBackToMainMenu += HandleBackToMainMenu;
+                ShopManager.OnShopDayOver += HandleGoToGreenhouse;
+                loadingShop = false;
+                loadingScreenController.HideLoadingScreen();
+            }
+        }
+        else if (loadingGreenhouse)
+        {
+            // Show loading screen
+            loadingScreenController.ShowLoadingScreen();
+            if (GreenhouseManager.Instance == null)
+            {
+                Debug.Log("[GameManager] - There is no greenhouse manager!");
+            }
+            else
+            {
+                GreenhouseManager.OnEndGreenhouseDay += EndDay;
+                loadingGreenhouse = false;
+                loadingScreenController.HideLoadingScreen();
+            }
+        }else if (loadingDayOver)
+        {
+            // Show loading screen
+            loadingScreenController.ShowLoadingScreen();
+            if (dayOverManager == null)
+            {
+                GameObject dayOverManagerObject = GameObject.Find("DayOverManager");
+                if (dayOverManagerObject != null)
+                {
+                    dayOverManager = dayOverManagerObject.GetComponent<DayOverManager>();
+                    if (dayOverManager != null)
+                    {
+                        dayOverManager.OnQuit += HandleQuitGame;
+                        dayOverManager.OnNextDay += AdvanceDay;
+                        dayOverManager.LoadInformation(currentDay, PlayerMoneyManager.Instance.GetMoney());
+                        loadingDayOver = false;
+                        loadingScreenController.HideLoadingScreen();
+                    }
+                }
+            }
+        }
 
-        //else if (loadingGameOver)
-        //{
-        //    // Show the loadingGameplay screen
-        //    loadingScreenController.ShowLoadingScreen();
-        //    // Load in everything 
-        //    GameObject gameOverObject = GameObject.Find("GameOverScreenManager"); 
-        //    if (gameOverObject != null)
-        //    {
-        //        gameOverScreenManager = gameOverObject.GetComponent<GameOverScreenManager>();
-        //        gameOverScreenManager.OnBackToStartScreen += HandleBackToMainMenu;
-        //        gameOverScreenManager.LoadInformation(playerMoneyManager.GetMoney());
-        //    }
-
-        //    if ((gameOverScreenManager != null))
-        //    {
-        //        loadingScreenController.HideLoadingScreen();
-        //        loadingGameOver = false;
-        //    }
-        //}
         //else if (loadingCredits)
         //{
         //    // Show the loadingGameplay screen
@@ -220,16 +255,19 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            ShopManager.Instance.dayNumber = currentDay;
+            loadingShop = true;
+
             Debug.Log("ShopManager instance is NOT null");
-            ShopManager.Instance.LoadShop();
+
         }
     }
 
     private void EndDay()
     {
         currentState = GameState.DayEnd;
-        //HandleGameOver();
-        Debug.Log("Day is over!");
+        SceneManager.LoadScene("Day Over");
+        loadingDayOver = true;
     }
 
     public void HandleQuitGame()
@@ -240,12 +278,15 @@ public class GameManager : MonoBehaviour
     }
 
 
+
+
     public void HandleGoToShop()
     {
         Debug.Log("[GameManager] - HandleGoToCounter() Called");
         // Change the scene to the shop scene 
         SceneManager.LoadScene("Undergrowth");
         StartDay();
+        currentState = GameState.Shop;
     }
 
     public void HandleGoToGreenhouse()
@@ -253,6 +294,8 @@ public class GameManager : MonoBehaviour
         Debug.Log("[GameManager] - HandleGoToGreenhouse() Called");
         // Change the scene to the greenhouse scene 
         SceneManager.LoadScene("Greenhouse");
+        currentState = GameState.Greenhouse;
+        loadingGreenhouse = true;
     }
 
 
@@ -291,20 +334,13 @@ public class GameManager : MonoBehaviour
         return newSaveData;
     }
 
-    public void HandleGameOver()
-    {
-        // Save the game 
-        SaveGameState(playerMoneyManager.GetMoney(), currentDay);
-        SceneManager.LoadScene("TEMP End Screen");
-        loadingGameOver = true;
-    }
-
-    public void HandleViewGreenhouse()
-    {
-        // Change the scene to the Greenhouse 
-        SceneManager.LoadScene("Greenhouse");
-        loadingGreenhouse = true;
-    }
+    //public void HandleGameOver()
+    //{
+    //    // Save the game 
+    //    SaveGameState(playerMoneyManager.GetMoney(), currentDay);
+    //    SceneManager.LoadScene("TEMP End Screen");
+    //    loadingGameOver = true;
+    //}
     
     public void HandleViewCredits()
     {
@@ -334,7 +370,8 @@ public class GameManager : MonoBehaviour
         // Increase the day number 
         currentDay++;
         // TODO: Remove any money from player 
-        // Advance day for greenhouse
-        greenhouseManager.AdvanceDay();
+
+        // Set the shop day 
+        HandleGoToShop();
     }
 }

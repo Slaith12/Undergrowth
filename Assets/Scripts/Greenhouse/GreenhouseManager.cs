@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -7,6 +8,27 @@ using UnityEngine;
 /// </summary>
 public class GreenhouseManager : MonoBehaviour
 {
+    private static GreenhouseManager _instance; 
+    public static GreenhouseManager Instance
+    {
+        get
+        {
+            // If the instance is null, find it in the scene 
+            if (_instance == null)
+            {
+                _instance = FindAnyObjectByType<GreenhouseManager>();
+
+                // If it still doesn't exist, make one
+                if (_instance == null)
+                {
+                    GameObject gameObject = new GameObject("Greenhouse (Automatically-Generated");
+                    _instance = gameObject.AddComponent<GreenhouseManager>();
+                }
+            }
+            return _instance;
+        }
+    }
+
     [SerializeField] SeedPlantMenu seedMenu;
     [SerializeField] List<PlanterBox> planters;
 
@@ -17,7 +39,20 @@ public class GreenhouseManager : MonoBehaviour
     private List<SeedPlot> plots;
     private int selectedPlotIndex;
 
-    public event Action OnGoToCounter;
+    public static event Action OnGoToCounter;
+    public static event Action OnEndGreenhouseDay;
+
+    private void Awake()
+    {
+        // Setting up the singleton 
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        _instance = this;
+    }
+
     void Start()
     {
         plots = new();
@@ -92,6 +127,11 @@ public class GreenhouseManager : MonoBehaviour
     public void GoToCounter()
     {
         OnGoToCounter?.Invoke();
+    }
+
+    public void EndGreenhouseDay()
+    {
+        OnEndGreenhouseDay?.Invoke();
     }
 }
 

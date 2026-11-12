@@ -53,10 +53,12 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private Dialogue_View dialogue_view;
 
     // Events that get sent to the GameManager 
-    public event Action OnBackToMainMenu;
-    public event Action OnShopDayOver; 
+    public static event Action OnBackToMainMenu;
+    public static event Action OnShopDayOver;
 
     public bool loadingShop;
+
+    public int dayNumber; 
 
     private void Awake()
     {
@@ -119,15 +121,18 @@ public class ShopManager : MonoBehaviour
                     Debug.Log("[ShopManager] - No dialogueControllerObject was found");
                 }
             }
+
+            leverClick.LeverClicked += HandleLeverClick;
             
             // If everything has loaded in
-            if ((dialogueController != null) && (dialogue_view != null) && (plantManager  != null))
+            if ((dialogueController != null) && (dialogue_view != null) && (plantManager  != null) && (leverClick != null))
             {
                 dialogueController.dialogueView = dialogue_view;
                 loadingShop = false;
-                StartShopDay();
+                StartShopDay(dayNumber);
             }
         }
+
     }
     /// <summary>
     /// Load and create the queue of customers that will be attending the shop 
@@ -156,7 +161,7 @@ public class ShopManager : MonoBehaviour
     /// <summary>
     /// Spawn the next Customer in the queue
     /// </summary>
-    private void SpawnNextCustomer()
+    private void SpawnNextCustomer(int dayNumber)
     {
         // If there are customers left to interact with 
         if (todaysQueue.Count > 0)
@@ -165,7 +170,7 @@ public class ShopManager : MonoBehaviour
             currentCustomer = todaysQueue[0]; 
             todaysQueue.RemoveAt(0);
             // Start the dialogue of this customer
-            Dialogue_Controller.Instance.StartDialogue(currentCustomer);
+            Dialogue_Controller.Instance.StartDialogue(currentCustomer,dayNumber);
             // Set the current state to be dialogue 
             shopState = ShopState.Dialogue;
         }
@@ -179,7 +184,7 @@ public class ShopManager : MonoBehaviour
     /// <summary>
     /// Start the day at the shop
     /// </summary>
-    public void StartShopDay()
+    public void StartShopDay(int dayNumber)
     {
         Debug.Log("[ShopManager] - StartShopDay()");
         shopState = ShopState.ShopStart;
@@ -187,7 +192,7 @@ public class ShopManager : MonoBehaviour
         // Create the customer queue 
         CreateCustomerQueue();
         // Spawn the first customer 
-        SpawnNextCustomer();
+        SpawnNextCustomer(dayNumber);
     }
 
     public void LoadShop()
@@ -201,9 +206,10 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     private void EndShopDay()
     {
-        shopState = ShopState.ShopEnd;
+        Debug.Log("[ShopManager] - EndShopDay() Called");
 
-        OnShopDayOver?.Invoke();
+        shopState = ShopState.ShopEnd;
+        leverClick.canClickLever = true;
     }
 
     /// <summary>
@@ -211,7 +217,7 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     private void OnDialogueComplete()
     {
-        SpawnNextCustomer();
+        SpawnNextCustomer(dayNumber);
     }
 
     /// <summary>
@@ -219,6 +225,7 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     private void HandleRefuseService()
     {
+        Debug.Log("[ShopManager] - HandleRefuseService() Called");
         shopState = ShopState.Refusing;
         OnDialogueComplete();
     }
@@ -234,6 +241,8 @@ public class ShopManager : MonoBehaviour
 
     private void HandlePlantSold(Plant plantToSell)
     {
+        Debug.Log("[ShopManager] - HandlePlantSold() Called");
+
         // Increase the player's money 
         PlayerMoneyManager.Instance.GainMoney(plantToSell.plantPrice);
 
@@ -251,10 +260,14 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     private void HandleLeverClick()
     {
+        leverClick.canClickLever = false;
+        // Close the grate 
+        grateMover.CloseGrate();
         // TODO: Animate the lever closing 
-        
+
         // TODO: End the day 
-        
+
+        OnShopDayOver?.Invoke();
     }
 
     /// <summary>
@@ -262,6 +275,7 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     public void BackToMainMenu()
     {
+        Debug.Log("[ShopManager] - BackToMainMenu() Called");
         // Fire event to the GameManager 
         OnBackToMainMenu?.Invoke();
     }

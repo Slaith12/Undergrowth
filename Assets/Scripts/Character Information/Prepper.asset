@@ -19,4 +19,6 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 424dadefb205815498cb1ec8695be3f4, type: 3}
   - emotion: Shadow
     sprite: {fileID: 21300000, guid: d51c597007d2edc458778fc2b9385099, type: 3}
-  inkFile: {fileID: 6231892579173505729, guid: 90908b47c8a4c524cab5d255ad787013, type: 3}
+  InkFiles:
+  - {fileID: 6231892579173505729, guid: 90908b47c8a4c524cab5d255ad787013, type: 3}
+  defaultWeight: 1

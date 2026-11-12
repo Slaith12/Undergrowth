@@ -59,25 +59,37 @@ public class Dialogue_Controller : MonoBehaviour
         _instance = this;
     }
 
-    public void StartDialogue(Character_Data character)
+    public void StartDialogue(Character_Data character, int dayNumber)
     {
         Debug.Log("[Dialogue Controller] - StartDialogue() was called");
         //Dispose the previous dialogue's data (if any)
         _presenter?.Dispose();
 
-        inkFile = character.InkFile;
-        // Create the model and give it the ink file 
-        InitInkScript(inkFile.storyJson);
-        // Create the presenter and link the model and view together 
+        Debug.Log("[Dialogue Controller] - Character: " + character.name + "Number of files: " + character.InkFiles.Count);
 
-        if (dialogueView == null)
+
+        // If the day is less than the number of inkfiles - 1
+        if (dayNumber <= character.InkFiles.Count)
         {
-            Debug.Log("[Dialogue_Controller] - There is no dialogueView");
-        }
+            inkFile = character.InkFiles[dayNumber];
+            // Create the model and give it the ink file 
+            InitInkScript(inkFile.storyJson);
+            // Create the presenter and link the model and view together 
 
-        _presenter = new Dialogue_Presenter(_model, dialogueView, GameManager.Instance.Character_Database);
-        _presenter.OnEndCalled += EndDialogueInteraction;
-        dialogueView.OnRetryClicked += Retry;
+            if (dialogueView == null)
+            {
+                Debug.Log("[Dialogue_Controller] - There is no dialogueView");
+            }
+
+            _presenter = new Dialogue_Presenter(_model, dialogueView, GameManager.Instance.Character_Database);
+            _presenter.OnEndCalled += EndDialogueInteraction;
+            dialogueView.OnRetryClicked += Retry;
+        }
+        else
+        {
+            Debug.LogWarning("[Dialogue_Controller] - The day is greater than the amount of inkfiles! Day: " + dayNumber + "Inkfiles: " + character.InkFiles.Count);
+            return;
+        }
     }
 
     private void InitInkScript(string scriptJson)

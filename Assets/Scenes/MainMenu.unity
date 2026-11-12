@@ -445,23 +445,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   character_Database: {fileID: 11400000, guid: c0a428f32da7e264b89fe4124de4f03e, type: 2}
-  customersPerDay: 3
   dialogue_Controller: {fileID: 0}
   dialogue_View: {fileID: 0}
-  grateMover: {fileID: 0}
-  leverClick: {fileID: 0}
-  plantManager: {fileID: 0}
   playerMoneyManager: {fileID: 0}
   greenhouseManager: {fileID: 0}
   gameOverScreenManager: {fileID: 0}
   creditsController: {fileID: 0}
+  dayOverManager: {fileID: 0}
   mainMenuController: {fileID: 445668627}
   loadingScreenController: {fileID: 143385958}
   gameplayMainMenuButton: {fileID: 0}
   creditsMainMenuButton: {fileID: 0}
   greenhouseMainMenuButton: {fileID: 0}
+  currentDay: 0
   currentState: 0
-  money: {fileID: 0}
+  money: {fileID: 11400000, guid: b39f85b22f6ef6f4db31483e53e88e31, type: 2}
   canCloseGrate: 0
 --- !u!4 &470084229
 Transform:
@@ -1377,7 +1375,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1107544260
 RectTransform:
   m_ObjectHideFlags: 0
