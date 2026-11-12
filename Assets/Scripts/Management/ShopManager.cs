@@ -58,7 +58,6 @@ public class ShopManager : MonoBehaviour
 
     public bool loadingShop;
 
-    public int dayNumber; 
 
     private void Awake()
     {
@@ -129,7 +128,7 @@ public class ShopManager : MonoBehaviour
             {
                 dialogueController.dialogueView = dialogue_view;
                 loadingShop = false;
-                StartShopDay(dayNumber);
+                StartShopDay(DayManager.Instance.GetCurrentDay());
             }
         }
 
@@ -217,7 +216,7 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     private void OnDialogueComplete()
     {
-        SpawnNextCustomer(dayNumber);
+        SpawnNextCustomer(DayManager.Instance.GetCurrentDay());
     }
 
     /// <summary>

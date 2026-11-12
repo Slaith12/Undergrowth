@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameOverScreenManager gameOverScreenManager;
     [SerializeField] private CreditsController creditsController;
     [SerializeField] private DayOverManager dayOverManager;
+   
 
     // The Main Menu Controller of the Game 
     [SerializeField] private MainMenuController mainMenuController;
@@ -74,9 +75,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MainMenuButton gameplayMainMenuButton;
     [SerializeField] private MainMenuButton creditsMainMenuButton;
     [SerializeField] private MainMenuButton greenhouseMainMenuButton;
-
-    public int currentDay;
-
 
     // Active State of the game 
     public GameState currentState;
@@ -150,6 +148,10 @@ public class GameManager : MonoBehaviour
             }
             else
             {
+                if (DayManager.Instance.GetCurrentDay() > 0)
+                {
+                    GreenhouseManager.Instance.AdvanceDay();
+                }
                 GreenhouseManager.OnEndGreenhouseDay += EndDay;
                 loadingGreenhouse = false;
                 loadingScreenController.HideLoadingScreen();
@@ -168,7 +170,7 @@ public class GameManager : MonoBehaviour
                     {
                         dayOverManager.OnQuit += HandleQuitGame;
                         dayOverManager.OnNextDay += AdvanceDay;
-                        dayOverManager.LoadInformation(currentDay, PlayerMoneyManager.Instance.GetMoney());
+                        dayOverManager.LoadInformation(DayManager.Instance.GetCurrentDay(), PlayerMoneyManager.Instance.GetMoney());
                         loadingDayOver = false;
                         loadingScreenController.HideLoadingScreen();
                     }
@@ -255,11 +257,9 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            ShopManager.Instance.dayNumber = currentDay;
             loadingShop = true;
 
             Debug.Log("ShopManager instance is NOT null");
-
         }
     }
 
@@ -273,11 +273,9 @@ public class GameManager : MonoBehaviour
     public void HandleQuitGame()
     {
         // Save the state of the game 
-        SaveGameState(playerMoneyManager.GetMoney(), currentDay);
+        SaveGameState(playerMoneyManager.GetMoney(), DayManager.Instance.GetCurrentDay());
         Application.Quit();
     }
-
-
 
 
     public void HandleGoToShop()
@@ -310,6 +308,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
+            DayManager.Instance.SetDay(0);
             currentPlayerData = CreateDefaultSaveData();
             SaveSystem.SavePlayerData(currentPlayerData);
         }
@@ -368,10 +367,9 @@ public class GameManager : MonoBehaviour
     public void AdvanceDay()
     {
         // Increase the day number 
-        currentDay++;
+        DayManager.Instance.AdvanceDay();
         // TODO: Remove any money from player 
 
-        // Set the shop day 
         HandleGoToShop();
     }
 }

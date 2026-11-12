@@ -69,7 +69,7 @@ public class Dialogue_Controller : MonoBehaviour
 
 
         // If the day is less than the number of inkfiles - 1
-        if (dayNumber <= character.InkFiles.Count)
+        if (dayNumber < character.InkFiles.Count)
         {
             inkFile = character.InkFiles[dayNumber];
             // Create the model and give it the ink file 

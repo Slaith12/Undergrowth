@@ -21,4 +21,5 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 2ea2e3a153796c04bbb49284bb009c8c, type: 3}
   InkFiles:
   - {fileID: 6231892579173505729, guid: eb004dbd5007cc349b106ec62f5c18fc, type: 3}
+  - {fileID: 6231892579173505729, guid: eb004dbd5007cc349b106ec62f5c18fc, type: 3}
   defaultWeight: 1
