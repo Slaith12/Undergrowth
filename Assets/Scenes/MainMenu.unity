@@ -445,20 +445,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   character_Database: {fileID: 11400000, guid: c0a428f32da7e264b89fe4124de4f03e, type: 2}
-  customersPerDay: 3
   dialogue_Controller: {fileID: 0}
   dialogue_View: {fileID: 0}
-  grateMover: {fileID: 0}
-  leverClick: {fileID: 0}
-  plantManager: {fileID: 0}
   playerMoneyManager: {fileID: 0}
+  greenhouseManager: {fileID: 0}
   gameOverScreenManager: {fileID: 0}
   creditsController: {fileID: 0}
+  dayOverManager: {fileID: 0}
   mainMenuController: {fileID: 445668627}
   loadingScreenController: {fileID: 143385958}
   gameplayMainMenuButton: {fileID: 0}
   creditsMainMenuButton: {fileID: 0}
   greenhouseMainMenuButton: {fileID: 0}
+  currentGreenhouseData:
+    plants: []
+  tutorialPanel: {fileID: 0}
   currentState: 0
   money: {fileID: 0}
   canCloseGrate: 0
@@ -1749,7 +1750,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2977468227999177065, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 300
+      value: 350
       objectReference: {fileID: 0}
     - target: {fileID: 2977468227999177065, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1785,7 +1786,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2977468227999177065, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -9
       objectReference: {fileID: 0}
     - target: {fileID: 2977468227999177065, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1798,6 +1799,14 @@ PrefabInstance:
     - target: {fileID: 2977468227999177065, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6921486812966038894, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
+      propertyPath: m_margin.w
+      value: -20.347595
+      objectReference: {fileID: 0}
+    - target: {fileID: 6921486812966038894, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
+      propertyPath: m_margin.y
+      value: -28.864868
       objectReference: {fileID: 0}
     - target: {fileID: 7427874300361341413, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
       propertyPath: m_Name
