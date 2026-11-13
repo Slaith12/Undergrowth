@@ -193,6 +193,46 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+        else if (loadingCredits)
+        {
+            // Show loading screen
+            loadingScreenController.ShowLoadingScreen();
+            if (creditsMainMenuButton == null)
+            {
+                GameObject creditsButtonObject = GameObject.Find("Back to MainMenu");
+                if (creditsButtonObject != null)
+                {
+                    creditsMainMenuButton = creditsButtonObject.GetComponent<MainMenuButton>();
+                    if (creditsMainMenuButton != null)
+                    {
+                        creditsMainMenuButton.OnReturnToMainMenu += HandleBackToMainMenu;
+                        loadingScreenController.HideLoadingScreen();
+                        loadingCredits = false;
+                    }
+                }
+            }
+        }
+        else if (loadingMainMenu)
+        {
+            // Show loading screen 
+            loadingScreenController.ShowLoadingScreen();
+            if (mainMenuController == null)
+            {
+                GameObject mainMenuControllerObject = GameObject.Find("MainMenuController");
+                if (mainMenuControllerObject != null)
+                {
+                    mainMenuController = mainMenuControllerObject.GetComponent<MainMenuController>();
+                    if (mainMenuController != null)
+                    {
+                        mainMenuController.OnQuitGame += HandleQuitGame;
+                        mainMenuController.OnStartGame += HandleStartGame;
+                        mainMenuController.OnViewCredits += HandleViewCredits;
+                        loadingScreenController.ShowLoadingScreen();
+                        loadingMainMenu = false;
+                    }
+                }
+            }
+        }
     }
 
     // Starts the day - queues up the cast of customers 
