@@ -158,7 +158,7 @@ public class Dialogue_Controller : MonoBehaviour
     private void OnRefuseService()
     {
         Debug.Log("[Dialogue_Controller] - OnRefuseService() Called");
-        RefusedService.Invoke();
+        RefusedService?.Invoke();
     }
 
     private void SetCharacterAlpha(float alpha)

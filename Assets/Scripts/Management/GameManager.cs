@@ -76,6 +76,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private MainMenuButton creditsMainMenuButton;
     [SerializeField] private MainMenuButton greenhouseMainMenuButton;
     [SerializeField] private GreenhouseData currentGreenhouseData;
+    [SerializeField] private TutorialPanel tutorialPanel;
 
 
     // Active State of the game 
@@ -189,75 +190,6 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-
-        //else if (loadingCredits)
-        //{
-        //    // Show the loadingGameplay screen
-        //    loadingScreenController.ShowLoadingScreen();
-        //    // Load in everything 
-        //    GameObject creditsMainMenuButtonObject = GameObject.Find("Back to MainMenu");
-        //    if (creditsMainMenuButtonObject != null)
-        //    {
-        //        creditsMainMenuButton = creditsMainMenuButtonObject.GetComponent<MainMenuButton>();
-        //        creditsMainMenuButton.OnReturnToMainMenu += HandleBackToMainMenu;
-        //    }
-
-        //    if (creditsMainMenuButton != null)
-        //    {
-        //        loadingScreenController.HideLoadingScreen();
-        //        loadingCredits = false;
-        //    }
-
-        //    mainMenuController.OnStartGame -= HandleStartGame;
-        //    mainMenuController.OnQuitGame -= HandleQuitGame;
-        //    mainMenuController.OnViewCredits -= HandleViewCredits;
-        //    mainMenuController.OnViewGreenhouse -= HandleViewGreenhouse;
-        //}
-        //else if (loadingMainMenu)
-        //{
-        //    // Show the loadingGameplay screen
-        //    loadingScreenController.ShowLoadingScreen();
-        //    // Load in everything 
-        //    GameObject mainMenuControllerObject = GameObject.Find("MainMenuController");
-        //    if (mainMenuControllerObject != null)
-        //    {
-        //        mainMenuController = mainMenuControllerObject.GetComponent<MainMenuController>();
-        //        loadingScreenController.HideLoadingScreen();
-        //    }
-
-        //    if (mainMenuController != null)
-        //    {
-        //        mainMenuController.OnStartGame += HandleStartGame;
-        //        mainMenuController.OnQuitGame += HandleQuitGame;
-        //        mainMenuController.OnViewCredits += HandleViewCredits;
-        //        mainMenuController.OnViewGreenhouse += HandleViewGreenhouse;
-        //        loadingMainMenu = false;
-        //    }
-        //}else if (loadingGreenhouse)
-        //{
-        //    // Show the loadingGameplay screen
-        //    loadingScreenController.ShowLoadingScreen();
-        //    // Load in everything 
-        //    GameObject greenhouseMainMenuButtonObject = GameObject.Find("Main Menu Button");
-        //    if (greenhouseMainMenuButtonObject != null)
-        //    {
-        //        greenhouseMainMenuButton = greenhouseMainMenuButtonObject.GetComponent<MainMenuButton>();
-        //        greenhouseMainMenuButton.OnReturnToMainMenu += HandleBackToMainMenu;
-        //    }
-
-        //    GameObject greenhouseManagerObject = GameObject.Find("Greenhouse"); 
-        //    if (greenhouseManagerObject != null)
-        //    {
-        //        greenhouseManager = greenhouseManagerObject.GetComponent<GreenhouseManager>();
-        //        greenhouseManager.OnGoToCounter += HandleGoToShop;
-        //    }
-
-        //    if ((greenhouseManager != null) && (greenhouseMainMenuButton != null))
-        //    {
-        //        loadingGreenhouse = false;
-        //        loadingScreenController.HideLoadingScreen();
-        //    }
-        //}
     }
 
     // Starts the day - queues up the cast of customers 

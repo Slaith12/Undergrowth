@@ -47,7 +47,11 @@ public class DayManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (dayTrackerUI == null)
+        {
+            dayTrackerUI = GameObject.Find("DayTracker");
 
+        }
     }
 
     public void SetDay(int _day)

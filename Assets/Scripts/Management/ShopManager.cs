@@ -51,6 +51,8 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private LeverClick leverClick;
     [SerializeField] private Dialogue_Controller dialogueController;
     [SerializeField] private Dialogue_View dialogue_view;
+    [SerializeField] private TutorialPanel tutorialPanel;
+    [SerializeField] private GameObject gameCanvas;
 
     // Events that get sent to the GameManager 
     public static event Action OnBackToMainMenu;
@@ -72,6 +74,7 @@ public class ShopManager : MonoBehaviour
     private void Start()
     {
         loadingShop = true;
+        gameCanvas.SetActive(false);
     }
 
 
@@ -80,6 +83,10 @@ public class ShopManager : MonoBehaviour
         // If the shop is loading 
         if (loadingShop)
         {
+            if (tutorialPanel != null)
+            {
+                tutorialPanel.Closed += HandleCloseTutorial;
+            }
             // If there is a plant manager 
             if (plantManager != null)
             {
@@ -92,35 +99,22 @@ public class ShopManager : MonoBehaviour
             // Find the dialogue view 
             if (dialogue_view == null)
             {
-                GameObject dialogue_view_object = GameObject.Find("Dialogue Panel"); 
-                if (dialogue_view_object != null)
-                {
-                    dialogue_view = dialogue_view_object.GetComponent<Dialogue_View>();
-                }
-                else
+                dialogue_view = GameObject.FindFirstObjectByType<Dialogue_View>();
+                if (dialogue_view == null)
                 {
                     Debug.Log("[ShopManager] - No dialogue_view_object was found");
                 }
             }
 
-            // Find the dialogue controller 
-            if (dialogueController == null)
+            if (Dialogue_Controller.Instance != null)
             {
-                GameObject dialogueControllerObject = GameObject.Find("Dialogue_Controller");
-                if (dialogueControllerObject != null)
-                {
-                    dialogueController = dialogueControllerObject.GetComponent<Dialogue_Controller>();
-                    if (dialogueController != null)
-                    {
-                        dialogueController.RefusedService += HandleRefuseService;
-                        dialogueController.SellPlant += HandleSellPlant;
-                        dialogueController.DialogueEnded += OnDialogueComplete;
-                    }
-                }
-                else
-                {
-                    Debug.Log("[ShopManager] - No dialogueControllerObject was found");
-                }
+                Dialogue_Controller.Instance.RefusedService += HandleRefuseService;
+                Dialogue_Controller.Instance.SellPlant += HandleSellPlant;
+                Dialogue_Controller.Instance.DialogueEnded += OnDialogueComplete;
+            }
+            else
+            {
+                Debug.LogWarning("No Dialogue_Controller.Instance found!");
             }
 
             leverClick.LeverClicked += HandleLeverClick;
@@ -129,8 +123,8 @@ public class ShopManager : MonoBehaviour
             if ((dialogueController != null) && (dialogue_view != null) && (plantManager  != null) && (leverClick != null))
             {
                 dialogueController.dialogueView = dialogue_view;
+                
                 loadingShop = false;
-                StartShopDay(DayManager.Instance.GetCurrentDay());
             }
         }
 
@@ -279,5 +273,11 @@ public class ShopManager : MonoBehaviour
         Debug.Log("[ShopManager] - BackToMainMenu() Called");
         // Fire event to the GameManager 
         OnBackToMainMenu?.Invoke();
+    }
+
+    private void HandleCloseTutorial()
+    {
+        gameCanvas.SetActive(true);
+        StartShopDay(DayManager.Instance.GetCurrentDay());
     }
 }
