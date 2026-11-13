@@ -33,7 +33,7 @@ Oh, I'm sorry.  #speaker: Kid #portrait: normal
 * [What's your deal anyways? (Ask questions)]
 ->questions
 
-* [(Turn Away)] I'm not comfortable having someone like you here, can you please leave? #speaker: Player
+* [(Turn Them Away)] I'm not comfortable having someone like you here, can you please leave? #speaker: Player
 ->ending
 
 ==request==

@@ -41,7 +41,7 @@ Just a little something to spruce up my news room. Know any place like that? #sp
 * [(Ask Questions)] I might have something, but would you mind if I asked you a few questions real quick? #speaker: Player
     ->questions
 
-* [(Turn Away)]
+* [(Turn Them Away)]
     ->refuse
 
 === proof === 
@@ -65,7 +65,7 @@ So, ya got anything for me?
 ->sell
 + [(Keep Questioning)]
 ->questions
-+ [(Turn Away)]
++ [(Turn Them Away)]
 ->refuse    
     
 === refuse === 

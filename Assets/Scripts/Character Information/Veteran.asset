@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Veteran
   m_EditorClassIdentifier: Assembly-CSharp::Character_Data
   characterId: Veteran
-  displayName: Veteran
+  displayName: Customer
   sprites:
   - emotion: normal
     sprite: {fileID: 21300000, guid: f55149b5c32a803459bbb11b8ca8904c, type: 3}
