@@ -13,6 +13,7 @@ public class Day : ScriptableObject
 
     public void AdvanceDay()
     {
+        Debug.Log("[Day] - AdvanceDay() called");
         runtimeValue++;
     }
 }

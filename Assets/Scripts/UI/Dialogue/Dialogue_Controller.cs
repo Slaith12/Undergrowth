@@ -67,29 +67,42 @@ public class Dialogue_Controller : MonoBehaviour
 
         Debug.Log("[Dialogue Controller] - Character: " + character.name + "Number of files: " + character.InkFiles.Count);
 
+        // Just play the first dialogue no matter what 
+        inkFile = character.InkFiles[0];
+        InitInkScript(inkFile.storyJson);
 
-        // If the day is less than the number of inkfiles - 1
-        if (dayNumber < character.InkFiles.Count)
+        if (dialogueView == null)
         {
-            inkFile = character.InkFiles[dayNumber];
-            // Create the model and give it the ink file 
-            InitInkScript(inkFile.storyJson);
-            // Create the presenter and link the model and view together 
-
-            if (dialogueView == null)
-            {
-                Debug.Log("[Dialogue_Controller] - There is no dialogueView");
-            }
-
-            _presenter = new Dialogue_Presenter(_model, dialogueView, GameManager.Instance.Character_Database);
-            _presenter.OnEndCalled += EndDialogueInteraction;
-            dialogueView.OnRetryClicked += Retry;
+            Debug.Log("[Dialogue_Controller] - There is no dialogueView");
         }
-        else
-        {
-            Debug.LogWarning("[Dialogue_Controller] - The day is greater than the amount of inkfiles! Day: " + dayNumber + "Inkfiles: " + character.InkFiles.Count);
-            return;
-        }
+
+        _presenter = new Dialogue_Presenter(_model, dialogueView, GameManager.Instance.Character_Database);
+        _presenter.OnEndCalled += EndDialogueInteraction;
+        dialogueView.OnRetryClicked += Retry;
+
+
+        //// If the day is less than the number of inkfiles - 1
+        //if (dayNumber < character.InkFiles.Count)
+        //{
+        //    inkFile = character.InkFiles[dayNumber];
+        //    // Create the model and give it the ink file 
+        //    InitInkScript(inkFile.storyJson);
+        //    // Create the presenter and link the model and view together 
+
+        //    if (dialogueView == null)
+        //    {
+        //        Debug.Log("[Dialogue_Controller] - There is no dialogueView");
+        //    }
+
+        //    _presenter = new Dialogue_Presenter(_model, dialogueView, GameManager.Instance.Character_Database);
+        //    _presenter.OnEndCalled += EndDialogueInteraction;
+        //    dialogueView.OnRetryClicked += Retry;
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("[Dialogue_Controller] - The day is greater than the amount of inkfiles! Day: " + dayNumber + "Inkfiles: " + character.InkFiles.Count);
+        //    return;
+        //}
     }
 
     private void InitInkScript(string scriptJson)

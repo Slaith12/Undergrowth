@@ -26,7 +26,9 @@ public class DayManager : MonoBehaviour
         }
     }
 
-    public Day day;
+    //public Day day;
+
+    public int currentDay;
     public GameObject dayTrackerUI;
     public TextMeshProUGUI dayTrackerText;
     public string trackerText;
@@ -40,23 +42,23 @@ public class DayManager : MonoBehaviour
             return;
         }
         _instance = this;
-        day = ScriptableObject.CreateInstance<Day>();
+    }
+    private void Start()
+    {
+        trackerText = "Day " + currentDay;
     }
 
-
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (dayTrackerUI == null)
+        if ( dayTrackerText != null)
         {
-            dayTrackerUI = GameObject.Find("DayTracker");
-
+            dayTrackerText.text = trackerText;
         }
     }
 
     public void SetDay(int _day)
     {
-        day.runtimeValue = _day;
+        currentDay = _day;
     }
 
     public void ShowDayTracker()
@@ -64,7 +66,6 @@ public class DayManager : MonoBehaviour
         dayTrackerUI = gameObject;
         dayTrackerText = gameObject.GetComponentInChildren<TextMeshProUGUI>();
         dayTrackerText.text = trackerText;
-
         dayTrackerUI.SetActive(true);
     }
 
@@ -75,13 +76,13 @@ public class DayManager : MonoBehaviour
 
     public void AdvanceDay()
     {
-        //day.AdvanceDay();
-        Debug.Log("[DayManager] - AdvanceDay() Called. Day is now: " + GetCurrentDay());
-        trackerText = GetCurrentDay().ToString();
+        currentDay++;
+        Debug.Log("[DayManager] - AdvanceDay() Called. Day is now: " + currentDay);
+        trackerText = "Day " + currentDay;
     }
 
     public int GetCurrentDay()
     {
-        return day.runtimeValue;
+        return currentDay;
     }
 }

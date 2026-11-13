@@ -460,6 +460,7 @@ MonoBehaviour:
   currentGreenhouseData:
     plants: []
   tutorialPanel: {fileID: 0}
+  currentDay: 0
   currentState: 0
   money: {fileID: 0}
   canCloseGrate: 0

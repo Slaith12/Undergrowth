@@ -688,7 +688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShopManager
   shopState: 0
-  customersPerDay: 3
+  customersPerDay: 1
   plantManager: {fileID: 1764456177}
   grateMover: {fileID: 2129668472}
   leverClick: {fileID: 1969792459}
@@ -696,6 +696,9 @@ MonoBehaviour:
   dialogue_view: {fileID: 6499503078476670492}
   tutorialPanel: {fileID: 145561054}
   gameCanvas: {fileID: 6499503078476670493}
+  dayTracker: {fileID: 1697269833}
+  dayTrackerText: {fileID: 1354140634}
+  currentDay: 0
   loadingShop: 0
 --- !u!4 &321037688
 Transform:
@@ -3185,7 +3188,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1697269834}
-  - component: {fileID: 1697269835}
   m_Layer: 5
   m_Name: Day Tracker
   m_TagString: Untagged
@@ -3213,22 +3215,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -86}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1697269835
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1697269833}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2150a72cce403cd49bfbdb529a76cf1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DayManager
-  day: {fileID: 11400000, guid: cddd7095eb4dfee4a8a3aa45cd605ad8, type: 2}
-  dayTrackerUI: {fileID: 1697269833}
-  dayTrackerText: {fileID: 1354140634}
-  trackerText: Day 0
 --- !u!1 &1727860826
 GameObject:
   m_ObjectHideFlags: 0

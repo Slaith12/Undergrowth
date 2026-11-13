@@ -78,6 +78,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GreenhouseData currentGreenhouseData;
     [SerializeField] private TutorialPanel tutorialPanel;
 
+    [SerializeField] public int currentDay; 
+
 
     // Active State of the game 
     public GameState currentState;
@@ -183,7 +185,7 @@ public class GameManager : MonoBehaviour
                     {
                         dayOverManager.OnQuit += HandleQuitGame;
                         dayOverManager.OnNextDay += AdvanceDay;
-                        dayOverManager.LoadInformation(DayManager.Instance.GetCurrentDay(), PlayerMoneyManager.Instance.GetMoney());
+                        dayOverManager.LoadInformation(currentDay, PlayerMoneyManager.Instance.GetMoney());
                         loadingDayOver = false;
                         loadingScreenController.HideLoadingScreen();
                     }
@@ -193,7 +195,7 @@ public class GameManager : MonoBehaviour
     }
 
     // Starts the day - queues up the cast of customers 
-    public void StartDay()
+    public void StartLoadingShop()
     {
         if (ShopManager.Instance == null)
         {
@@ -202,7 +204,6 @@ public class GameManager : MonoBehaviour
         else
         {
             loadingShop = true;
-
             Debug.Log("ShopManager instance is NOT null");
         }
     }
@@ -228,14 +229,13 @@ public class GameManager : MonoBehaviour
         Debug.Log("[GameManager] - HandleGoToCounter() Called");
         // Change the scene to the shop scene 
         SceneManager.LoadScene("Undergrowth");
-        StartDay();
+        StartLoadingShop();
         currentState = GameState.Shop;
     }
 
     public void HandleGoToGreenhouse()
     {
         Debug.Log("[GameManager] - HandleGoToGreenhouse() Called");
-        DayManager.Instance.HideDayTracker();
         // Change the scene to the greenhouse scene 
         SceneManager.LoadScene("Greenhouse");
         currentState = GameState.Greenhouse;
@@ -246,23 +246,9 @@ public class GameManager : MonoBehaviour
     public void HandleStartGame()
     {
         Debug.Log("[GameManager] - HandleStartGame() Called");
-        DayManager.Instance.SetDay(0);
+        currentDay = 1;
         currentPlayerData = CreateDefaultSaveData();
         SaveSystem.SavePlayerData(currentPlayerData);
-
-
-        //// If there is a save file, load from it 
-        //if (SaveSystem.HasSaveFile())
-        //{
-        //    currentPlayerData = SaveSystem.LoadPlayerData();
-        //}
-        //else
-        //{
-        //    DayManager.Instance.SetDay(0);
-        //    currentPlayerData = CreateDefaultSaveData();
-        //    SaveSystem.SavePlayerData(currentPlayerData);
-        //}
-
         HandleGoToShop();
     }
 
@@ -282,14 +268,6 @@ public class GameManager : MonoBehaviour
 
         return newSaveData;
     }
-
-    //public void HandleGameOver()
-    //{
-    //    // Save the game 
-    //    SaveGameState(playerMoneyManager.GetMoney(), currentDay);
-    //    SceneManager.LoadScene("TEMP End Screen");
-    //    loadingGameOver = true;
-    //}
     
     public void HandleViewCredits()
     {
@@ -316,13 +294,10 @@ public class GameManager : MonoBehaviour
 
     public void AdvanceDay()
     {
-        Debug.Log("[GameManager] - AdvanceDay() Called");
         // Increase the day number 
+        currentDay++;
 
-
-        DayManager.Instance.SetDay(DayManager.Instance.GetCurrentDay());
         // TODO: Remove any money from player 
-
         HandleGoToShop();
     }
 }

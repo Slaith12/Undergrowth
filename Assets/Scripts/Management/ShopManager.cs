@@ -3,6 +3,7 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 using System;
+using TMPro;
 
 public class ShopManager : MonoBehaviour
 {
@@ -53,6 +54,10 @@ public class ShopManager : MonoBehaviour
     [SerializeField] private Dialogue_View dialogue_view;
     [SerializeField] private TutorialPanel tutorialPanel;
     [SerializeField] private GameObject gameCanvas;
+    [SerializeField] private GameObject dayTracker;
+    [SerializeField] private TextMeshProUGUI dayTrackerText;
+    public int currentDay;
+
 
     // Events that get sent to the GameManager 
     public static event Action OnBackToMainMenu;
@@ -80,9 +85,37 @@ public class ShopManager : MonoBehaviour
 
     private void Update()
     {
+        currentDay = GameManager.Instance.currentDay;
+
         // If the shop is loading 
         if (loadingShop)
         {
+            // If there is no dayTrackerText 
+            if (dayTrackerText == null)
+            {
+                // If there is no dayTracker 
+                if (dayTracker == null)
+                {
+                    dayTracker = GameObject.Find("DayTracker");
+                    if (dayTracker != null)
+                    {
+                        dayTrackerText = dayTracker.GetComponentInChildren<TextMeshProUGUI>();
+                        if (dayTrackerText != null)
+                        {
+                            dayTrackerText.text = "Day " + currentDay;
+                        }
+                    }
+                }
+                else
+                {
+                    dayTrackerText.text = "Day " + currentDay;
+                }
+            }
+            else
+            {
+                dayTrackerText.text = "Day " + currentDay;
+            }
+
             if (tutorialPanel != null)
             {
                 tutorialPanel.Closed += HandleCloseTutorial;
@@ -94,8 +127,6 @@ public class ShopManager : MonoBehaviour
                 plantManager.PlantSold += HandlePlantSold;
             }
 
-            DayManager.Instance.ShowDayTracker();
-
             // Find the dialogue view 
             if (dialogue_view == null)
             {
@@ -105,7 +136,7 @@ public class ShopManager : MonoBehaviour
                     Debug.Log("[ShopManager] - No dialogue_view_object was found");
                 }
             }
-
+            
             if (Dialogue_Controller.Instance != null)
             {
                 Dialogue_Controller.Instance.RefusedService += HandleRefuseService;
@@ -156,7 +187,7 @@ public class ShopManager : MonoBehaviour
     /// <summary>
     /// Spawn the next Customer in the queue
     /// </summary>
-    private void SpawnNextCustomer(int dayNumber)
+    private void SpawnNextCustomer()
     {
         // If there are customers left to interact with 
         if (todaysQueue.Count > 0)
@@ -165,7 +196,7 @@ public class ShopManager : MonoBehaviour
             currentCustomer = todaysQueue[0]; 
             todaysQueue.RemoveAt(0);
             // Start the dialogue of this customer
-            Dialogue_Controller.Instance.StartDialogue(currentCustomer,dayNumber);
+            Dialogue_Controller.Instance.StartDialogue(currentCustomer,currentDay);
             // Set the current state to be dialogue 
             shopState = ShopState.Dialogue;
         }
@@ -179,20 +210,20 @@ public class ShopManager : MonoBehaviour
     /// <summary>
     /// Start the day at the shop
     /// </summary>
-    public void StartShopDay(int dayNumber)
+    public void StartShopDay()
     {
-        Debug.Log("[ShopManager] - StartShopDay()");
+        Debug.Log("[ShopManager] - StartShopDay() - Day Number: " + currentDay);
+        //currentDay = dayNumber;
         shopState = ShopState.ShopStart;
 
         // Create the customer queue 
         CreateCustomerQueue();
         // Spawn the first customer 
-        SpawnNextCustomer(dayNumber);
+        SpawnNextCustomer();
     }
 
     public void LoadShop()
     {
-        Debug.Log("[ShopManager] - LoadShop() was called");
         loadingShop = true;
     }
 
@@ -212,7 +243,7 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     private void OnDialogueComplete()
     {
-        SpawnNextCustomer(DayManager.Instance.GetCurrentDay());
+        SpawnNextCustomer();
     }
 
     /// <summary>
@@ -255,6 +286,7 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     private void HandleLeverClick()
     {
+        Debug.Log("[ShopManager] - HandleLeverClick() Called");
         leverClick.canClickLever = false;
         // Close the grate 
         grateMover.CloseGrate();
@@ -278,6 +310,6 @@ public class ShopManager : MonoBehaviour
     private void HandleCloseTutorial()
     {
         gameCanvas.SetActive(true);
-        StartShopDay(DayManager.Instance.GetCurrentDay());
+        StartShopDay();
     }
 }
