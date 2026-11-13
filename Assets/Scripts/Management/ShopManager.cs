@@ -202,6 +202,8 @@ public class ShopManager : MonoBehaviour
             // Set the customer
             currentCustomer = todaysQueue[0]; 
             todaysQueue.RemoveAt(0);
+            GameManager.Instance.AudioSource.PlayOneShot(GameManager.Instance.walkUp, 1.0f);
+
             // Start the dialogue of this customer
             Dialogue_Controller.Instance.StartDialogue(currentCustomer,currentDay);
             // Set the current state to be dialogue 
@@ -250,6 +252,7 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     private void OnDialogueComplete()
     {
+        GameManager.Instance.AudioSource.PlayOneShot(GameManager.Instance.walkAway, 1.0f);
         SpawnNextCustomer();
     }
 
@@ -286,6 +289,7 @@ public class ShopManager : MonoBehaviour
         GameObject plant = plantToSell.gameObject;
         plant.SetActive(false);
         plantManager.canSell = false;
+        GameManager.Instance.AudioSource.PlayOneShot(GameManager.Instance.sale, 1.0f);
     }
 
     /// <summary>
