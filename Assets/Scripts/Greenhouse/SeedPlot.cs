@@ -31,17 +31,54 @@ public class SeedPlot : MonoBehaviour
             plotButton.gameObject.SetActive(true);
             return;
         }
-        plantSprite.sprite = plant.plantType.plantSprite;
-        plantSprite.gameObject.SetActive(true);
+        else
+        {
+            Debug.Log("[SeedPlot] - SetPlant() plant is not null");
 
-        bool harvestable = plant.age >= plant.plantType.growthTime;
-        growthSlider.value = plant.age;
-        growthSlider.maxValue = plant.plantType.growthTime;
-        growthLabel.text = harvestable ? "Harvest Ready!" : $"Ready in {plant.plantType.growthTime - plant.age} days.";  
-        growthIndicator.interactable = harvestable;
-        growthIndicator.gameObject.SetActive(true);
-        plotButton.gameObject.SetActive(false);
+            if (plantSprite != null)
+            {
+                if (plant.plantType != null)
+                {
+                    if (plant.plantType.plantSprite != null)
+                    {
+                        plantSprite.sprite = plant.plantType.plantSprite;
 
+                        bool harvestable = plant.age >= plant.plantType.growthTime;
+                        growthSlider.value = plant.age;
+                        growthSlider.maxValue = plant.plantType.growthTime;
+                        growthLabel.text = harvestable ? "Harvest Ready!" : $"Ready in {plant.plantType.growthTime - plant.age} days.";
+                        growthIndicator.interactable = harvestable;
+                        growthIndicator.gameObject.SetActive(true);
+                        plotButton.gameObject.SetActive(false);
+                        plantSprite.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        plantSprite.gameObject.SetActive(false);
+                        growthIndicator.gameObject.SetActive(false);
+                        plotButton.gameObject.SetActive(true);
+                        Debug.LogWarning("[SeedPlot] - SetPlant plant.plantType.plantSprite is null!");
+                        return;
+                    }
+                }
+                else
+                {
+                    plantSprite.gameObject.SetActive(false);
+                    growthIndicator.gameObject.SetActive(false);
+                    plotButton.gameObject.SetActive(true);
+                    Debug.LogWarning("[SeedPlot] - SetPlant() plant.plantType is null!");
+                    return;
+                }
+            }
+            else
+            {
+                plantSprite.gameObject.SetActive(false);
+                growthIndicator.gameObject.SetActive(false);
+                plotButton.gameObject.SetActive(true);
+                Debug.LogWarning("[SeedPlot] - SetPlant() plantSprite is null!");
+                return;
+            }
+        }
     }
 
     /// <summary>

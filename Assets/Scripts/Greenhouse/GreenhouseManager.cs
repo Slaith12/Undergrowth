@@ -79,8 +79,22 @@ public class GreenhouseManager : MonoBehaviour
     //    seedMenu.Close();
     //}
 
+    public void LoadGreenhouseData(GreenhouseData _greenhouseData)
+    {
+        Debug.Log("[GreenhouseManager] - LoadGreenhouseData() Called");
+        greenhouseData.SetPlantCapacity(_greenhouseData.plants.Count);
+
+
+        // Loop through and copy the plant information over
+        for (int i = 0; i < _greenhouseData.plants.Count; i++)
+        {
+            greenhouseData.plants[i] = _greenhouseData.plants[i];
+        }
+    }
+
     public void SetUpGreenhouse()
     {
+        Debug.Log("[GreenhouseManager] - SetUpGreenhouse() Called");
         plots = new();
         foreach (PlanterBox planter in planters)
         {
@@ -93,7 +107,7 @@ public class GreenhouseManager : MonoBehaviour
             int index = i;
             plots[i].ButtonClicked += delegate { OnPlotClicked(index); };
             plots[i].PlantClicked += delegate { OnPlotHarvest(index); };
-            plots[i].SetPlant(greenhouseData.GetPlant(i));
+            plots[i].SetPlant(greenhouseData.plants[i]);
         }
         seedMenu.SeedButtonClicked += PlantSeed;
         inventory = new InventoryData();

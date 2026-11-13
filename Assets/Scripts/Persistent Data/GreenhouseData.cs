@@ -9,7 +9,7 @@ using UnityEngine;
 [Serializable]
 public class GreenhouseData
 {
-    [SerializeField] List<GreenhousePlant> plants;
+    [SerializeField] public List<GreenhousePlant> plants;
 
     public GreenhouseData()
     {

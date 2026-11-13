@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
-using System;
-using TMPro;
+using UnityEngine.InputSystem;
 
 public class ShopManager : MonoBehaviour
 {
@@ -79,7 +80,6 @@ public class ShopManager : MonoBehaviour
     private void Start()
     {
         loadingShop = true;
-        gameCanvas.SetActive(false);
     }
 
 
@@ -87,9 +87,15 @@ public class ShopManager : MonoBehaviour
     {
         currentDay = GameManager.Instance.currentDay;
 
+        if (gameCanvas == null)
+        {
+            gameCanvas = GameObject.Find("Gameplay Canvas");
+        }
+
         // If the shop is loading 
         if (loadingShop)
         {
+            gameCanvas.SetActive(false);
             // If there is no dayTrackerText 
             if (dayTrackerText == null)
             {
@@ -120,6 +126,7 @@ public class ShopManager : MonoBehaviour
             {
                 tutorialPanel.Closed += HandleCloseTutorial;
             }
+
             // If there is a plant manager 
             if (plantManager != null)
             {

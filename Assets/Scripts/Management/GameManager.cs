@@ -153,19 +153,20 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                GreenhouseManager.Instance.SetUpGreenhouse();
-
+                
                 // If it is not the first day 
-                if (DayManager.Instance.GetCurrentDay() > 0)
+                if (currentDay > 1)
                 {
-                    // Set the data 
-                    GreenhouseManager.Instance.greenhouseData = currentGreenhouseData;
+                    GreenhouseManager.Instance.LoadGreenhouseData(currentGreenhouseData);
 
+                    GreenhouseManager.Instance.SetUpGreenhouse();
                     // Advance 
                     GreenhouseManager.Instance.AdvanceDay();
                 }
-
-
+                else
+                {
+                    GreenhouseManager.Instance.SetUpGreenhouse();
+                }
 
                 GreenhouseManager.OnEndGreenhouseDay += EndDay;
                 loadingGreenhouse = false;
@@ -219,7 +220,7 @@ public class GameManager : MonoBehaviour
     public void HandleQuitGame()
     {
         // Save the state of the game 
-        SaveGameState(playerMoneyManager.GetMoney(), DayManager.Instance.GetCurrentDay());
+        SaveGameState(playerMoneyManager.GetMoney(), currentDay);
         Application.Quit();
     }
 
