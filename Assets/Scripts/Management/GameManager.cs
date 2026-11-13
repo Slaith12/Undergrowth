@@ -122,8 +122,14 @@ public class GameManager : MonoBehaviour
             if (mainMenuControllerObject != null)
             {
                 mainMenuController = mainMenuControllerObject.GetComponent<MainMenuController>();
-                loadingScreenController.HideLoadingScreen();
-                loadingMainMenu = false;
+                if (mainMenuController != null)
+                {
+                    mainMenuController.OnStartGame += HandleStartGame;
+                    mainMenuController.OnQuitGame += HandleQuitGame;
+                    mainMenuController.OnViewCredits += HandleViewCredits;
+                    loadingScreenController.HideLoadingScreen();
+                    loadingMainMenu = false;
+                }
             }
         }
         else if (loadingShop)
@@ -153,7 +159,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                
+
                 // If it is not the first day 
                 if (currentDay > 1)
                 {
@@ -172,7 +178,8 @@ public class GameManager : MonoBehaviour
                 loadingGreenhouse = false;
                 loadingScreenController.HideLoadingScreen();
             }
-        }else if (loadingDayOver)
+        }
+        else if (loadingDayOver)
         {
             // Show loading screen
             loadingScreenController.ShowLoadingScreen();
@@ -227,7 +234,7 @@ public class GameManager : MonoBehaviour
                         mainMenuController.OnQuitGame += HandleQuitGame;
                         mainMenuController.OnStartGame += HandleStartGame;
                         mainMenuController.OnViewCredits += HandleViewCredits;
-                        loadingScreenController.ShowLoadingScreen();
+                        loadingScreenController.HideLoadingScreen();
                         loadingMainMenu = false;
                     }
                 }
@@ -260,7 +267,7 @@ public class GameManager : MonoBehaviour
     public void HandleQuitGame()
     {
         // Save the state of the game 
-        SaveGameState(playerMoneyManager.GetMoney(), currentDay);
+        //SaveGameState(playerMoneyManager.GetMoney(), currentDay);
         Application.Quit();
     }
 
