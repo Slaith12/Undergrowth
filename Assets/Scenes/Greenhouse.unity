@@ -3851,6 +3851,10 @@ PrefabInstance:
       value: Try to make enough money to pay your rent each day, and avoid drawing
         too much attention from the police to succeed.
       objectReference: {fileID: 0}
+    - target: {fileID: 2255286068999947614, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
+      propertyPath: m_text
+      value: Greenhouse Basics
+      objectReference: {fileID: 0}
     - target: {fileID: 2977468227999177065, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -3934,6 +3938,10 @@ PrefabInstance:
     - target: {fileID: 7427874300361341413, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
       propertyPath: m_Name
       value: Tutorial Panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7713160148316839819, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 300
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

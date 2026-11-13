@@ -241,29 +241,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 511925021748102544, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
       propertyPath: textPages.Array.size
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 511925021748102544, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
       propertyPath: 'textPages.Array.data[0]'
-      value: You're a botanist selling plants in a society that bans plants. Your
-        shop is marketed as a place to buy fake decorational plants, but you have
-        a secret greenhouse where you grow plants to sell to trusted customers.
-      objectReference: {fileID: 0}
-    - target: {fileID: 511925021748102544, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
-      propertyPath: 'textPages.Array.data[1]'
       value: "Each day, some customers will come up to your shop asking for a plant.
         It\u2019s your job to talk to these customers, figure out what they want,
         and determine if you can trust them."
       objectReference: {fileID: 0}
     - target: {fileID: 511925021748102544, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
-      propertyPath: 'textPages.Array.data[2]'
+      propertyPath: 'textPages.Array.data[1]'
       value: "While some of these customers will genuinely be looking to buy your
         plants, some of them may be undercover cops trying to get you to incriminate
         yourself. You\u2019ll need to pay attention to their dialogue and ask them
         questions to determine what the best course of action is."
       objectReference: {fileID: 0}
     - target: {fileID: 511925021748102544, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
-      propertyPath: 'textPages.Array.data[3]'
+      propertyPath: 'textPages.Array.data[2]'
       value: "Selling real plants will get you the best profits, but it could endanger
         your business if you sell them to the wrong person. Selling fake plants or
         refusing service is always safe, but it won\u2019t net you much money, and
@@ -271,9 +265,18 @@ PrefabInstance:
         likely to come back."
       objectReference: {fileID: 0}
     - target: {fileID: 511925021748102544, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
+      propertyPath: 'textPages.Array.data[3]'
+      value: Try to make enough money to pay your rent each day, and avoid drawing
+        too much attention from the police to succeed.
+      objectReference: {fileID: 0}
+    - target: {fileID: 511925021748102544, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
       propertyPath: 'textPages.Array.data[4]'
       value: Try to make enough money to pay your rent each day, and avoid drawing
         too much attention from the police to succeed.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2255286068999947614, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
+      propertyPath: m_text
+      value: Shop Basics
       objectReference: {fileID: 0}
     - target: {fileID: 2977468227999177065, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
       propertyPath: m_Pivot.x
@@ -3764,9 +3767,9 @@ RectTransform:
   - {fileID: 1197438838}
   m_Father: {fileID: 2080930018}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 329, y: 170}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 71, y: -69}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &2080930018 stripped
@@ -4537,8 +4540,28 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4861743208137083168, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4861743208137083168, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4861743208137083168, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4861743208137083168, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4861743208137083168, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 101
+      objectReference: {fileID: 0}
+    - target: {fileID: 4861743208137083168, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 198
+      value: -27
       objectReference: {fileID: 0}
     - target: {fileID: 5792941985585411151, guid: a2b125a9e36f3ac4ba3ead477db0ec65, type: 3}
       propertyPath: m_IsActive

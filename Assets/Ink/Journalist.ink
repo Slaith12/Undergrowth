@@ -4,74 +4,90 @@ INCLUDE DialogueTestFuncs.ink
 ~FadeInCharacter(1)
 ->intro
 === intro=== 
-Hello there! I’m looking for a very prestigious establishment that sells quite uncommon wares. Any clue where I might be able to find such a place? #speaker: Journalist #portrait: shadow
+Hello there! #speaker: Journalist #portrait: shadow
 
-* Well, this place here definitely fits that description. #speaker: Player
+I’m looking for a very prestigious establishment that sells quite uncommon wares. Any clue where I might be able to find such a place?
+->intro_choice
+
+=== intro_choice ===
+* [Well, this place here definitely fits that description.]
+    Well you can certainly help me then! #speaker: Journalist #portrait: normal
     ->intro_question
     
-* What kind of wares? #speaker: Player
+* [What kind of wares?]
     ->intro_response
     
-* I can’t help you. #speaker: Player
+* [Sorry, I can’t help you.]
+    Really? Can't even poke your brain a little? #speaker: Journalist #portrait: normal
     ->intro_question
 
 === intro_response === 
-Just a little something to spruce up my news room. #speaker: Journalist
-->intro
+Just a little something to spruce up my news room. Know any place like that? #speaker: Journalist
+->intro_choice
 
 === intro_question === 
-Well you can certainly help me then! You see I'm looking for someone who is supposedly selling real, LIVE, ACTUAL...plants. Not these cheap fake ones you've got here. Can you imagine the kind of buzz a story like that would get? I just need some proof. #speaker: Journalist #portrait: normal
+ You see I'm looking for someone who is supposedly selling real, LIVE, ACTUAL... PLANTS!!! Not these cheap fake ones you've got here. #speaker: Journalist
+ 
+ Can you imagine the kind of buzz a story like that would get? I just need some proof.
+-> intro_question_choice
 
-* Who are you exactly? #speaker: Player
+=== intro_question_choice ===
+* [Who are you exactly?] #speaker: Player
     ->background
 
-* I might have something you could use (sell plant) #speaker: Player
-    ~sell_plant()
-    ->proof
+* [(Sell Plant)]
+    ->sell
 
-* I might have something, but would you mind if I asked you a few questions real quick? (keep questioning) #speaker: Player
+* [(Ask Questions)] I might have something, but would you mind if I asked you a few questions real quick? #speaker: Player
     ->questions
 
-* I don’t think I have anything like that. (refuse service) #speaker: Player
-    ~refuse_service()
-    ->ending
+* [(Turn Away)]
+    ->refuse
 
 === proof === 
-Excellent! This is just the kind of thing I was looking for. I'll see you around sometime soon. I'm sure I'll need more proof at some point if I'm going to get people to believe me.
+Excellent! This is just the kind of thing I was looking for.
+
+I'll see you around sometime soon. I'm sure I'll need more proof at some point if I'm going to get people to believe me.
 ->ending
 
 === background === 
-I'm a journalist! Well, as much of a journalist as you can be in this city. There isn't exactly any sort of news stations or anything I work for. Most of the things I report on I can't even really share without getting censored or worse. Still, I enjoy it enough to keep doing it. #speaker: Journalist #portrait: normal
+I'm a journalist! #speaker: Journalist
 
-* I see #speaker: Player
-    -> intro_question
+Well, as much of a journalist as you can be in this city. There isn't exactly any sort of news stations or anything I work for.
+
+Most of the things I report on I can't even really share without getting censored or worse. Still, I enjoy it enough to keep doing it.
+
+So, ya got anything for me?
+-> intro_question_choice
     
 ==request==
-* sell plant
++ [(Sell Plant)]
 ->sell
-* keep questioning
++ [(Keep Questioning)]
 ->questions
-* refuse service
++ [(Turn Away)]
 ->refuse    
     
 === refuse === 
+    Hmm, I don’t think I can help you. Maybe go somewhere else? #speaker: Player
     ~refuse_service()
     -> ending
 === sell === 
+     I might have something you could use. #speaker: Player
     ~sell_plant()
-    -> ending
+    -> proof
     
     ==questions==
-* What do you do for a living?
+* [What do you do for a living?]
 ->job
 
-* How old are you?
+* [How old are you?]
 ->age
 
-* What do you think of the family that runs the city?
+* [What do you think of the family that runs the city?]
 ->politics
 
-+ I'm done asking questions
++ [I'm done asking questions.]
 ->request
 
 ==job==
@@ -79,7 +95,7 @@ I'm a journalist! Well, as much of a journalist as you can be in this city. Ther
 ->questions
 
 ==age==
-I'm 36, now less talky more selly please and thank you.
+I'm 36, now less talky more showy please and thank you.
 ->questions
 
 ==politics==
