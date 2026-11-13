@@ -78,8 +78,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GreenhouseData currentGreenhouseData;
     [SerializeField] private TutorialPanel tutorialPanel;
 
-    [SerializeField] public int currentDay; 
-
+    [SerializeField] public int currentDay;
+    [SerializeField] public AudioSource AudioSource;
+    [SerializeField] public AudioClip newStartStinger;
+    [SerializeField] public AudioClip sale;
+    [SerializeField] public AudioClip plantSeed;
+    [SerializeField] public AudioClip harvestPlant;
+    [SerializeField] public AudioClip walkUp;
+    [SerializeField] public AudioClip walkAway;
+    [SerializeField] public AudioClip titleScreen;
 
     // Active State of the game 
     public GameState currentState;
@@ -109,6 +116,8 @@ public class GameManager : MonoBehaviour
         mainMenuController.OnStartGame += HandleStartGame; 
         mainMenuController.OnQuitGame += HandleQuitGame;
         mainMenuController.OnViewCredits += HandleViewCredits;
+        AudioSource = gameObject.GetComponentInChildren<AudioSource>();
+        AudioSource.PlayOneShot(titleScreen, 1.0f);
     }
 
     private void Update()
@@ -298,6 +307,9 @@ public class GameManager : MonoBehaviour
         currentPlayerData = CreateDefaultSaveData();
         SaveSystem.SavePlayerData(currentPlayerData);
         HandleGoToShop();
+        AudioSource.Stop();
+        AudioSource.PlayOneShot(newStartStinger, 1.0f);
+       
     }
 
     private PlayerData CreateDefaultSaveData()

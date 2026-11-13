@@ -159,6 +159,7 @@ public class GreenhouseManager : MonoBehaviour
         }
         greenhouseData.SetPlant(index, null);
         plots[index].SetPlant(null);
+        GameManager.Instance.AudioSource.PlayOneShot(GameManager.Instance.harvestPlant, 1.0f);
     }
 
     private void PlantSeed(Plant_Data seedType)
@@ -168,6 +169,7 @@ public class GreenhouseManager : MonoBehaviour
         greenhouseData.SetPlant(selectedPlotIndex, plantInstance);
         plots[selectedPlotIndex].SetPlant(plantInstance);
         seedMenu.Close();
+        GameManager.Instance.AudioSource.PlayOneShot(GameManager.Instance.plantSeed, 1.0f);
     }
 
     public void GoToCounter()
