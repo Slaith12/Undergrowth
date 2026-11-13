@@ -10,12 +10,12 @@ public class Character_Data : ScriptableObject
     [SerializeField] private string characterId;
     [SerializeField] private string displayName;
     [SerializeField] private List<SpriteEntry> sprites;
-    [SerializeField] private InkFile inkFile;
+    [SerializeField] public List<InkFile> InkFiles;
+    [SerializeField] public float defaultWeight = 1f;
 
     public string CharacterId => characterId; 
     public string DisplayName => displayName;
 
-    public InkFile InkFile => inkFile;
 
     public Sprite GetSprite(string emotionKey)
     {

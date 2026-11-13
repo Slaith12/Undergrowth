@@ -9,9 +9,29 @@ using UnityEngine.UI;
 public class Dialogue_Controller : MonoBehaviour
 {
     // Make the dialogue controller a singleton 
-    public static Dialogue_Controller Instance { get; private set; }
+    private static Dialogue_Controller _instance;
+    public static Dialogue_Controller Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                // Try to find Dialogue Controller 
+                _instance = FindAnyObjectByType<Dialogue_Controller>();
 
-    private Dialogue_View dialogueView;
+                // If not found, create a new one 
+                if (_instance == null)
+                {
+                    GameObject gameObject = new GameObject("Dialogue_Controller (Auto-Generated)");
+                    _instance = gameObject.AddComponent<Dialogue_Controller>();
+                }
+            }
+            return _instance;
+        }
+    }
+
+
+    public Dialogue_View dialogueView;
     private InkFile inkFile;
     private Character_Database character_Database;
 
@@ -36,25 +56,53 @@ public class Dialogue_Controller : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+        _instance = this;
     }
 
-    public void StartDialogue(Character_Data character, Character_Database character_Database, Dialogue_View view)
+    public void StartDialogue(Character_Data character, int dayNumber)
     {
         Debug.Log("[Dialogue Controller] - StartDialogue() was called");
         //Dispose the previous dialogue's data (if any)
         _presenter?.Dispose();
 
-        inkFile = character.InkFile;
-        dialogueView = view;
-        // Create the model and give it the ink file 
+        Debug.Log("[Dialogue Controller] - Character: " + character.name + "Number of files: " + character.InkFiles.Count);
+
+        // Just play the first dialogue no matter what 
+        inkFile = character.InkFiles[0];
         InitInkScript(inkFile.storyJson);
 
-        // Create the presenter and link the model and view together 
-        _presenter = new Dialogue_Presenter(_model, dialogueView, character_Database);
+        if (dialogueView == null)
+        {
+            Debug.Log("[Dialogue_Controller] - There is no dialogueView");
+        }
+
+        _presenter = new Dialogue_Presenter(_model, dialogueView, GameManager.Instance.Character_Database);
         _presenter.OnEndCalled += EndDialogueInteraction;
         dialogueView.OnRetryClicked += Retry;
+
+
+        //// If the day is less than the number of inkfiles - 1
+        //if (dayNumber < character.InkFiles.Count)
+        //{
+        //    inkFile = character.InkFiles[dayNumber];
+        //    // Create the model and give it the ink file 
+        //    InitInkScript(inkFile.storyJson);
+        //    // Create the presenter and link the model and view together 
+
+        //    if (dialogueView == null)
+        //    {
+        //        Debug.Log("[Dialogue_Controller] - There is no dialogueView");
+        //    }
+
+        //    _presenter = new Dialogue_Presenter(_model, dialogueView, GameManager.Instance.Character_Database);
+        //    _presenter.OnEndCalled += EndDialogueInteraction;
+        //    dialogueView.OnRetryClicked += Retry;
+        //}
+        //else
+        //{
+        //    Debug.LogWarning("[Dialogue_Controller] - The day is greater than the amount of inkfiles! Day: " + dayNumber + "Inkfiles: " + character.InkFiles.Count);
+        //    return;
+        //}
     }
 
     private void InitInkScript(string scriptJson)
@@ -123,7 +171,7 @@ public class Dialogue_Controller : MonoBehaviour
     private void OnRefuseService()
     {
         Debug.Log("[Dialogue_Controller] - OnRefuseService() Called");
-        RefusedService.Invoke();
+        RefusedService?.Invoke();
     }
 
     private void SetCharacterAlpha(float alpha)

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
@@ -7,20 +8,95 @@ using UnityEngine;
 /// </summary>
 public class GreenhouseManager : MonoBehaviour
 {
+    private static GreenhouseManager _instance; 
+    public static GreenhouseManager Instance
+    {
+        get
+        {
+            // If the instance is null, find it in the scene 
+            if (_instance == null)
+            {
+                _instance = FindAnyObjectByType<GreenhouseManager>();
+
+                // If it still doesn't exist, make one
+                if (_instance == null)
+                {
+                    GameObject gameObject = new GameObject("Greenhouse (Automatically-Generated");
+                    _instance = gameObject.AddComponent<GreenhouseManager>();
+                }
+            }
+            return _instance;
+        }
+    }
+
     [SerializeField] SeedPlantMenu seedMenu;
     [SerializeField] List<PlanterBox> planters;
 
-    [SerializeField] GreenhouseData greenhouseData;
+    [SerializeField] public GreenhouseData greenhouseData;
     [SerializeField] InventoryData inventory;
     [SerializeField] List<Plant_Data> testPlants;
 
     private List<SeedPlot> plots;
     private int selectedPlotIndex;
 
-    void Start()
+    public static event Action OnGoToCounter;
+    public static event Action<GreenhouseData> OnEndGreenhouseDay;
+
+    private void Awake()
     {
+        // Setting up the singleton 
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        _instance = this;
+    }
+
+    //void Start()
+    //{
+    //    plots = new();
+    //    foreach(PlanterBox planter in planters)
+    //    {
+    //        plots.AddRange(planter.seedPlots);
+    //    }
+
+    //    greenhouseData.SetPlantCapacity(plots.Count);
+    //    for (int i = 0; i < plots.Count; i++)
+    //    {
+    //        int index = i;
+    //        plots[i].ButtonClicked += delegate { OnPlotClicked(index); };
+    //        plots[i].PlantClicked += delegate { OnPlotHarvest(index); };
+    //        plots[i].SetPlant(greenhouseData.GetPlant(i));
+    //    }
+    //    seedMenu.SeedButtonClicked += PlantSeed;
+    //    inventory = new InventoryData();
+    //    foreach(Plant_Data plant in testPlants)
+    //    {
+    //        inventory.seedCounts.Add(plant, 10);
+    //    }
+    //    seedMenu.SetSeedData(inventory);
+    //    seedMenu.Close();
+    //}
+
+    public void LoadGreenhouseData(GreenhouseData _greenhouseData)
+    {
+        Debug.Log("[GreenhouseManager] - LoadGreenhouseData() Called");
+        greenhouseData.SetPlantCapacity(_greenhouseData.plants.Count);
+
+
+        // Loop through and copy the plant information over
+        for (int i = 0; i < _greenhouseData.plants.Count; i++)
+        {
+            greenhouseData.plants[i] = _greenhouseData.plants[i];
+        }
+    }
+
+    public void SetUpGreenhouse()
+    {
+        Debug.Log("[GreenhouseManager] - SetUpGreenhouse() Called");
         plots = new();
-        foreach(PlanterBox planter in planters)
+        foreach (PlanterBox planter in planters)
         {
             plots.AddRange(planter.seedPlots);
         }
@@ -31,11 +107,11 @@ public class GreenhouseManager : MonoBehaviour
             int index = i;
             plots[i].ButtonClicked += delegate { OnPlotClicked(index); };
             plots[i].PlantClicked += delegate { OnPlotHarvest(index); };
-            plots[i].SetPlant(greenhouseData.GetPlant(i));
+            plots[i].SetPlant(greenhouseData.plants[i]);
         }
         seedMenu.SeedButtonClicked += PlantSeed;
         inventory = new InventoryData();
-        foreach(Plant_Data plant in testPlants)
+        foreach (Plant_Data plant in testPlants)
         {
             inventory.seedCounts.Add(plant, 10);
         }
@@ -52,7 +128,13 @@ public class GreenhouseManager : MonoBehaviour
         greenhouseData.AdvanceTime();
         for(int i = 0; i < plots.Count; i++)
         {
-            plots[i].SetPlant(greenhouseData.GetPlant(i));
+            if (greenhouseData.GetPlant(i) != null) {
+                plots[i].SetPlant(greenhouseData.GetPlant(i));
+            }
+            else
+            {
+                Debug.Log("There is no plant in the greenhouse at index: " + i);    
+            }
         }
     }
 
@@ -87,4 +169,15 @@ public class GreenhouseManager : MonoBehaviour
         plots[selectedPlotIndex].SetPlant(plantInstance);
         seedMenu.Close();
     }
+
+    public void GoToCounter()
+    {
+        OnGoToCounter?.Invoke();
+    }
+
+    public void EndGreenhouseDay()
+    {
+        OnEndGreenhouseDay?.Invoke(greenhouseData);
+    }
 }
+
