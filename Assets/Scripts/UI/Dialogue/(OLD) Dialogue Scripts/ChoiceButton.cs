@@ -22,6 +22,7 @@ public class ChoiceButton : MonoBehaviour
 
     public void SetCallback(UnityAction callback)
     {
+        Debug.Log("[ChoiceButton] - SetCallback() Called: " + callback + " text: " + textComponent.text);
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(callback);
     }

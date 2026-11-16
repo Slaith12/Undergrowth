@@ -78,8 +78,6 @@ public class Dialogue_Controller : MonoBehaviour
 
         _presenter = new Dialogue_Presenter(_model, dialogueView, GameManager.Instance.Character_Database);
         _presenter.OnEndCalled += EndDialogueInteraction;
-        dialogueView.OnRetryClicked += Retry;
-
 
         //// If the day is less than the number of inkfiles - 1
         //if (dayNumber < character.InkFiles.Count)
@@ -164,6 +162,7 @@ public class Dialogue_Controller : MonoBehaviour
 
     private void OnSellPlant()
     {
+        Debug.Log("[Dialogue_Controller] - OnSellPlant() called");
         SellPlant.Invoke();
         dialogueView.HideDialogue();
     }
@@ -181,13 +180,7 @@ public class Dialogue_Controller : MonoBehaviour
             dialogueView.SetCharacterAlpha(alpha);
         }
     }
-    
-    private void Retry()
-    {
-        dialogueView.HideRetryButton();
-        // StartDialogue();
-    }
-
+   
     private void EndDialogueInteraction()
     {
         DialogueEnded.Invoke();

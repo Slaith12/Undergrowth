@@ -40,8 +40,7 @@ Oh, I'm sorry.  #speaker: Kid #portrait: normal
 I just wanted some flowers for my girlfriend if you have anything like that. #speaker: Kid
 
 * [(Sell Plant)] I've got something nice and special for you then. #speaker: Player
-~sell_plant()
-->ending
+    -> sell
 
 * [(Sell Fake Plant)] I've got this. #speaker: Player
 
@@ -49,8 +48,7 @@ I just wanted some flowers for my girlfriend if you have anything like that. #sp
 ->ending
 
 * [(Refuse Service)] I don't have anything for you. #speaker: Player
-~refuse_service()
-->ending
+    -> refusing
 
 ==questions==
 * [What do you do for a living?]
@@ -77,6 +75,13 @@ I'm 20. I was born in my parents bunker around the time this city started really
 I don't know? I don't really have an opinions on that kinda stuff I guess. They seem alright. #speaker: Kid
 ->questions
 
+== refusing == 
+    ~refuse_service()
+    -> ending
+
+=== sell === 
+    ~sell_plant()
+    -> ending
 
 ==ending==
 - ~FadeOutCharacter(1)

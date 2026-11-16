@@ -54,11 +54,11 @@ I don't typically leave my bunker, so I would like to get what I came for and ge
 
 ==request==
 + [(Sell Plant)]
-->sell
+    ->sell
 + [(Keep Questioning)]
-->questions
+    ->questions
 + [(Refuse Service)]
-->refuse    
+    ->refuse    
     
 === refuse === 
     ~refuse_service()
@@ -67,7 +67,7 @@ I don't typically leave my bunker, so I would like to get what I came for and ge
     ~sell_plant()
     -> ending
     
-    ==questions==
+ ==questions==
 * [What do you do for a living?]
 ->job
 

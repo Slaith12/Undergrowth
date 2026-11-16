@@ -77,6 +77,7 @@ public class Dialogue_Presenter
 
     private void HandleChoiceSelected(int choiceIndex)
     {
+        Debug.Log("[Dialogue_Presenter] - HandleChoiceSelected() Choice index: " + choiceIndex);
         // Choose the choice
         _model.ChooseIndex(choiceIndex);
         _view.HideChoices();

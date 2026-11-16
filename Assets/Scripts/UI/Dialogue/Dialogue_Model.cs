@@ -34,9 +34,15 @@ public class Dialogue_Model
         if (!CanContinue)
         {
             if(story.currentChoices.Count > 0)
+            {
+                Debug.Log("[Dialogue_Model] - AdvanceStory() State: Choice");
                 return StoryState.Choice;
+            }
             else
-                return StoryState.End; 
+            {
+                Debug.Log("[Dialogue_Model] - AdvanceStory() State: End");
+                return StoryState.End;
+            }
         }
 
         // Advance the ink currentState and pull the text 
@@ -44,10 +50,12 @@ public class Dialogue_Model
 
         if (nextLine == "!!EVENT!!")
         {
+            Debug.Log("[Dialogue_Model] - AdvanceStory() State: EVENT");
             return StoryState.Event;
         }
         else
         {
+            Debug.Log("[Dialogue_Model] - AdvanceStory() State: Dialogue");
             CurrentText = nextLine;
             return StoryState.Dialogue;
         }
@@ -57,6 +65,7 @@ public class Dialogue_Model
     {
         if (index >= 0 && index < CurrentChoices.Count)
         {
+            Debug.Log("[Dialogue_Model] - ChooseIndex() - Choice: " + index);
             story.ChooseChoiceIndex(index);
         }
     }
