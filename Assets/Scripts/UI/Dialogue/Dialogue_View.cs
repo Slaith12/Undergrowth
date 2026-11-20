@@ -61,7 +61,6 @@ public class Dialogue_View : MonoBehaviour, IDialogue_View
             // Add new buttons
             ChoiceButton newButton = Instantiate(choiceButtonPrefab, choiceButtonPanel.transform);
             int buttonIndex = i; //temp variable needed for delegate, using i directly won't work
-            Debug.Log("[Dialogue_View] - DisplayChoices: Button index: " + buttonIndex);
 
             newButton.SetCallback(delegate { OnChoiceSelected?.Invoke(buttonIndex); });
             choiceButtons.Add(newButton);
@@ -73,7 +72,6 @@ public class Dialogue_View : MonoBehaviour, IDialogue_View
             //We don't have to worry about the buttons' positions, the VerticalLayoutGroup component will handle it
             choiceButtons[i].gameObject.SetActive(true);
             choiceButtons[i].SetText(choiceTexts[i]);
-            Debug.Log("Choice Button " + i + " Text is now: " + choiceTexts[i]);    
         }
 
         // Hide all of the unused buttons 
