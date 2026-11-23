@@ -1,10 +1,7 @@
 using System;
 using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class ShopManager : MonoBehaviour
 {
@@ -30,18 +27,6 @@ public class ShopManager : MonoBehaviour
         }
     }
 
-    public enum ShopState
-    {
-        ShopStart, 
-        Dialogue, 
-        Refusing, 
-        SellingPlant,
-        PostInteraction, 
-        ShopEnd
-    }
-
-    // The current state of the shop
-    [SerializeField] private ShopState shopState;
     // The amount of characters that can show up each day
     [SerializeField] private int customersPerDay = 3;
     // The list of characters that will be attending the shop 
@@ -65,7 +50,6 @@ public class ShopManager : MonoBehaviour
     public static event Action OnShopDayOver;
 
     public bool loadingShop;
-
 
     private void Awake()
     {
@@ -202,12 +186,9 @@ public class ShopManager : MonoBehaviour
             // Set the customer
             currentCustomer = todaysQueue[0]; 
             todaysQueue.RemoveAt(0);
-            GameManager.Instance.AudioSource.PlayOneShot(GameManager.Instance.walkUp, 1.0f);
 
             // Start the dialogue of this customer
             Dialogue_Controller.Instance.StartDialogue(currentCustomer,currentDay);
-            // Set the current state to be dialogue 
-            shopState = ShopState.Dialogue;
         }
         // If there are no more customers left to interact with
         else
@@ -223,7 +204,6 @@ public class ShopManager : MonoBehaviour
     {
         Debug.Log("[ShopManager] - StartShopDay() - Day Number: " + currentDay);
         //currentDay = dayNumber;
-        shopState = ShopState.ShopStart;
 
         // Create the customer queue 
         CreateCustomerQueue();
@@ -243,7 +223,6 @@ public class ShopManager : MonoBehaviour
     {
         Debug.Log("[ShopManager] - EndShopDay() Called");
 
-        shopState = ShopState.ShopEnd;
         leverClick.canClickLever = true;
     }
 
@@ -252,7 +231,6 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     private void OnDialogueComplete()
     {
-        GameManager.Instance.AudioSource.PlayOneShot(GameManager.Instance.walkAway, 1.0f);
         SpawnNextCustomer();
     }
 
@@ -261,9 +239,7 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     private void HandleRefuseService()
     {
-        Debug.Log("[ShopManager] - HandleRefuseService() Called");
-        shopState = ShopState.Refusing;
-        OnDialogueComplete();
+        //TODO: Record the fact that the player refused service and adjust the character accordingly
     }
 
     /// <summary>
@@ -271,7 +247,6 @@ public class ShopManager : MonoBehaviour
     /// </summary>
     private void HandleSellPlant()
     {
-        shopState = ShopState.SellingPlant;
         plantManager.canSell = true;
     }
 
@@ -281,15 +256,15 @@ public class ShopManager : MonoBehaviour
 
         // Increase the player's money 
         PlayerMoneyManager.Instance.GainMoney(plantToSell.plantPrice);
+        //TODO: Record the fact that the player sold a plant and adjust the character accordingly
 
-        // TODO: Hide the character and the plant 
-
-        // Dialogue is complete 
-        OnDialogueComplete();
         GameObject plant = plantToSell.gameObject;
         plant.SetActive(false);
         plantManager.canSell = false;
         GameManager.Instance.AudioSource.PlayOneShot(GameManager.Instance.sale, 1.0f);
+
+        // Event is complete 
+        dialogueController.AdvanceDialogue();
     }
 
     /// <summary>
@@ -301,9 +276,6 @@ public class ShopManager : MonoBehaviour
         leverClick.canClickLever = false;
         // Close the grate 
         grateMover.CloseGrate();
-        // TODO: Animate the lever closing 
-
-        // TODO: End the day 
 
         OnShopDayOver?.Invoke();
     }

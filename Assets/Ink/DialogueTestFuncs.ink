@@ -1,10 +1,11 @@
 INCLUDE Common.ink
 
 EXTERNAL SetCharacterAlpha(alpha)
+EXTERNAL PlaySFX(sfxID)
 EXTERNAL evnt_FadeCharacter(startAlpha, endAlpha, time)
 EXTERNAL evnt_CopArrest()
 EXTERNAL evnt_sell_plant()
-EXTERNAL evnt_refuse_service()
+EXTERNAL refuse_service()
 
 //Fallback+Wrapper functions (See Common.ink for details)
 === function SetCharacterAlpha(alpha) ===
@@ -28,26 +29,26 @@ EXTERNAL evnt_refuse_service()
 ~ evnt_CopArrest()
 ~ SignalEvent()
 
-//Helper functions
-=== function FadeInCharacter(time) ===
-~ FadeCharacter(0, 1, time)
-
-=== function FadeOutCharacter(time) ===
-~ FadeCharacter(1, 0, time)
-
 === function evnt_sell_plant() === 
 #NEXT_EVENT: Player Sells plant 
-
-=== function evnt_refuse_service() ===
-#NEXT_EVENT: Player refuses service 
-
-=== function refuse_service() ===
-~evnt_refuse_service()
-~ SignalEvent()
 
 === function sell_plant() ===
 ~evnt_sell_plant()
 ~ SignalEvent()
 
+=== function refuse_service() ===
+#(Refuse Service)
+//this function just records the action to the game manager and
+//doesn't affect the conversation directly
 
+=== function PlaySFX(sfxID) ===
+#Play SFX: {sfxID}
 
+//Helper functions
+=== function FadeInCharacter(time) ===
+~ PlaySFX("SFX_walkUp")
+~ FadeCharacter(0, 1, time)
+
+=== function FadeOutCharacter(time) ===
+~ PlaySFX("SFX_walkAway")
+~ FadeCharacter(1, 0, time)

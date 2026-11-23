@@ -2,9 +2,7 @@ using NUnit.Framework.Constraints;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Pool;
 using UnityEngine.SceneManagement;
-using static GameManager;
 
 // Singleton GameManager that manages the game
 public class GameManager : MonoBehaviour
