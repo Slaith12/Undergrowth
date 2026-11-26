@@ -12,6 +12,7 @@ public class Dialogue_View : MonoBehaviour, IDialogue_View
     [SerializeField] private GameObject dialoguePanel;
     [SerializeField] private Button nextDialogueButton;
     [SerializeField] private GameObject choiceButtonPanel;
+    [SerializeField] private RectTransform choiceButtonViewport;
     [SerializeField] private TextMeshProUGUI characterName;
     [SerializeField] private GameObject character;
     [SerializeField] private Button retryButton;
@@ -34,6 +35,7 @@ public class Dialogue_View : MonoBehaviour, IDialogue_View
         retryButton.onClick.AddListener(() => OnRetryClicked?.Invoke());
         choiceButtons = new();
         portraitRenderer = character.GetComponentInChildren<SpriteRenderer>();
+        HideChoices();
     }
    
     // Logic for displaying the text 
@@ -55,11 +57,13 @@ public class Dialogue_View : MonoBehaviour, IDialogue_View
 
     public void DisplayChoices(List<string> choiceTexts)
     {
+        choiceButtonPanel.SetActive(true);
+
         // If button cache doesn't have enough buttons, create more of them 
         for (int i = choiceButtons.Count; i < choiceTexts.Count; i++)
         {
             // Add new buttons
-            ChoiceButton newButton = Instantiate(choiceButtonPrefab, choiceButtonPanel.transform);
+            ChoiceButton newButton = Instantiate(choiceButtonPrefab, choiceButtonViewport);
             int buttonIndex = i; //temp variable needed for delegate, using i directly won't work
 
             newButton.SetCallback(delegate { OnChoiceSelected?.Invoke(buttonIndex); });
@@ -83,10 +87,7 @@ public class Dialogue_View : MonoBehaviour, IDialogue_View
     
     public void HideChoices()
     {
-        foreach (ChoiceButton button in choiceButtons)
-        {
-            button.gameObject.SetActive(false);
-        }
+        choiceButtonPanel.SetActive(false);
     }
 
     public void HideContinueButton()
