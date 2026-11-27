@@ -12,15 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a6989a1832001547904705f276dbb59, type: 3}
   m_Name: Succulent_Data
   m_EditorClassIdentifier: Assembly-CSharp::Plant_Data
-  plantName: Succulent
+  price: 15
+  name: Succulent
+  scientificName: Echeveria elegans
   seedName: Succulent Seed
   growthTime: 1
-  plantPrice: 7
   plantSprite: {fileID: 21300000, guid: 86fe4626e4fd29b408f56caa0daa5ac3, type: 3}
-  plantDescription: 'Value: $7
-
-    Time to Grow: 1 Day
-
-
-    [INSERT DESCRIPTION
-    HERE]'
+  size: 2-4in tall
+  growthSpeed: 1 day
+  sunlightNeeds: '6+ hrs a day. Close proximity to light source '
+  waterNeeds: Once every 1-2 wks. Does not handle overwatering well
+  fertilizerNeeds: N/A
+  healthRisks: Overwatering, pests
+  soilPreference: Dry soil
+  plantFlavorText: The thick, fleshy leaves of succulents are easily mistaken for
+    the feel of fake plants. An ideal plant for a new botanist due to being low-maintenance
+    - but don't water it too often!
+  plantSeedDescription: "Value: $7\r\n\r\n    Time to Grow: 1 Day\r\n\r\n\r\n   
+    [INSERT DESCRIPTION\r\n    HERE]"
