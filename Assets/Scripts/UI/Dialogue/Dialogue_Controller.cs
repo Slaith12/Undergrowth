@@ -33,7 +33,6 @@ public class Dialogue_Controller : MonoBehaviour
 
     public Dialogue_View dialogueView;
     private InkFile inkFile;
-    private Character_Database character_Database;
 
     private Dialogue_Model _model;
     private Dialogue_Presenter _presenter;
@@ -112,11 +111,31 @@ public class Dialogue_Controller : MonoBehaviour
         _model.story.BindExternalFunction("evnt_CopArrest", CopArrest);
         _model.story.BindExternalFunction<float>("SetCharacterAlpha", SetCharacterAlpha);
         _model.story.BindExternalFunction("evnt_sell_plant", OnSellPlant);
-        _model.story.BindExternalFunction("evnt_refuse_service", OnRefuseService);
+        _model.story.BindExternalFunction("refuse_service", OnRefuseService);
+        _model.story.BindExternalFunction<string>("PlaySFX", PlaySFX);
         SetCharacterAlpha(0);
         fadeActive = false;
     
     }
+
+    private void PlaySFX(string sfxID)
+    {
+        switch(sfxID)
+        {
+            //TODO: Have GameManager have a dedicated function for playing sfx
+            //  OR: Have shop-related sfx be handled by the shop scene, not the GameManager
+            case "SFX_walkUp":
+                GameManager.Instance.AudioSource.PlayOneShot(GameManager.Instance.walkUp, 1.0f);
+                break;
+            case "SFX_walkAway":
+                GameManager.Instance.AudioSource.PlayOneShot(GameManager.Instance.walkAway, 1.0f);
+                break;
+            default:
+                Debug.LogError($"Attempted to play invalid sfx ID: \"{sfxID}\"");
+                break;
+        }
+    }
+
     private void Update()
     {
         if (fadeActive)
@@ -135,9 +154,34 @@ public class Dialogue_Controller : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// <para>Advances the dialogue. SHOULD ONLY BE CALLED FROM EVENTS.</para>
+    /// 
+    /// <para>If an event would advance the dialogue immediately when called, do not use this function as it will cause a recursive loop. 
+    /// Use QueueAdvanceDialogue() instead.</para>
+    /// </summary>
+    public void AdvanceDialogue()
+    {
+        _presenter.ProgressDialogue();
+    }
+
+    /// <summary>
+    /// Advances the dialogue at the end of the current frame. SHOULD ONLY BE CALLED FROM EVENTS.
+    /// </summary>
+    public void QueueAdvanceDialogue()
+    {
+        StartCoroutine(WaitForFrameThenAdvance());
+    }
+
     private IEnumerator WaitThenAdvance(float time)
     {
         yield return new WaitForSeconds(time);
+        _presenter.ProgressDialogue();
+    }
+
+    private IEnumerator WaitForFrameThenAdvance()
+    {
+        yield return new WaitForEndOfFrame();
         _presenter.ProgressDialogue();
     }
 
@@ -155,21 +199,18 @@ public class Dialogue_Controller : MonoBehaviour
     private void CopArrest()
     {
         //Placeholder since game over screen is missing
-        //This still needs to eventually call ProgressDialogue() like a regular event, so it uses the Wait event.
         Debug.Log("Arrested! Oh no!");
-        StartCoroutine(WaitThenAdvance(0.1f));
+        QueueAdvanceDialogue();
     }
 
     private void OnSellPlant()
     {
-        Debug.Log("[Dialogue_Controller] - OnSellPlant() called");
         SellPlant.Invoke();
         dialogueView.HideDialogue();
     }
 
     private void OnRefuseService()
     {
-        Debug.Log("[Dialogue_Controller] - OnRefuseService() Called");
         RefusedService?.Invoke();
     }
 

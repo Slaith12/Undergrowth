@@ -65,7 +65,6 @@ public class Dialogue_Model
     {
         if (index >= 0 && index < CurrentChoices.Count)
         {
-            Debug.Log("[Dialogue_Model] - ChooseIndex() - Choice: " + index);
             story.ChooseChoiceIndex(index);
         }
     }
