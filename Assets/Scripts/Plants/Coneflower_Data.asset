@@ -12,16 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a6989a1832001547904705f276dbb59, type: 3}
   m_Name: Coneflower_Data
   m_EditorClassIdentifier: Assembly-CSharp::Plant_Data
-  plantName: Coneflower
+  price: 15
+  name: Coneflower
+  scientificName: Echinacea paradoxa
   seedName: Coneflower Seed
   growthTime: 5
-  plantPrice: 20
-  plantInformation: 
   plantSprite: {fileID: 21300000, guid: be0238205b614824291d9123bc0c3862, type: 3}
-  plantDescription: 'Value: $20
-
-    Time to Grow: 5 Days
-
-
-    [INSERT DESCRIPTION
-    HERE]'
+  size: 2-3ft tall
+  growthSpeed: 2+ years for blooms
+  sunlightNeeds: 12-16 hrs a day
+  waterNeeds: Light watering every 2 days
+  fertilizerNeeds: Every 2 weeks after sprouting
+  healthRisks: Fungi, pests
+  soilPreference: Clay, dry soil, rocky soil
+  plantFlavorText: Remembered even now for having been easy to care for, coneflowers
+    used to attract plenty of bees. They can brighten any space up with their vibrant
+    petals.
+  plantSeedDescription: "Value: $20\r\n\r\n    Time to Grow: 5 Days\r\n\r\n\r\n   
+    [INSERT DESCRIPTION\r\n    HERE]"

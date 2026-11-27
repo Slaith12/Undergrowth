@@ -6,10 +6,30 @@ public class Plant : MonoBehaviour
 {
     [SerializeField] private Plant_Data plant_data;
     public string plantName;
-    public string plantInfo;
+    public string plantSeedInfo;
+    public string plantInformation;
     public float plantPrice;
+    public string plantSize;
+    public string plantGrowthSpeed;
+    public string plantSunlightNeeds; 
+    public string plantWaterNeeds;
+    public string plantFertilizerNeeds;
+    public string plantHealthRisks;
+    public string plantSoilPreference;
+    public string plantFlavorText;
+    public string plantScientificName; 
+
+
+
+
+
     private Sprite plantSprite; 
     private SpriteRenderer plantRenderer;
+
+
+
+
+
 
     private GameObject plantInfoUI; 
 
@@ -26,36 +46,29 @@ public class Plant : MonoBehaviour
     void Start()
     {
         // Assign all of the information 
-        plantName = plant_data.plantName;
-        plantInfo = plant_data.plantDescription; 
+        plantName = plant_data.name;
+        plantSeedInfo = plant_data.plantSeedDescription; 
+        plantInformation = plant_data.plantFlavorText;
+        plantPrice = plant_data.price; 
+        plantSize = plant_data.size;
+        plantGrowthSpeed = plant_data.growthSpeed;
+        plantSunlightNeeds = plant_data.sunlightNeeds;
+        plantWaterNeeds = plant_data.waterNeeds;
+        plantFertilizerNeeds = plant_data.fertilizerNeeds;
+        plantHealthRisks = plant_data.healthRisks;
+        plantSoilPreference = plant_data.soilPreference;
+        plantFlavorText = plant_data.plantFlavorText;
+        plantScientificName = plant_data.scientificName;
         plantSprite = plant_data.plantSprite;
-        plantPrice = plant_data.plantPrice;
 
         // Get the image 
         plantRenderer = gameObject.GetComponentInChildren<SpriteRenderer>();
         plantRenderer.sprite = plantSprite;
-
-        // Get the UI Canvas
-        // plantInfoUI = gameObject.GetComponentInChildren<Canvas>().gameObject; 
-        // Hide the UI canvas 
-        // plantInfoUI.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
 
-    }
-
-    public void ShowInformation()
-    {
-        //Debug.Log("Information: " + plantName);
-        plantInfoUI.SetActive(true);
-    }
-
-    public void HideInformation()
-    {
-        //Debug.Log("Information hid");
-        plantInfoUI.SetActive(false);
     }
 }

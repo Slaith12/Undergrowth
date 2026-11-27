@@ -12,16 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a6989a1832001547904705f276dbb59, type: 3}
   m_Name: Airplant_Data
   m_EditorClassIdentifier: Assembly-CSharp::Plant_Data
-  plantName: Airplant
+  price: 15
+  name: Air Plant
+  scientificName: Tillandsia geminiflora
   seedName: Airplant Seed
   growthTime: 4
-  plantPrice: 15
-  plantInformation: 
   plantSprite: {fileID: 21300000, guid: 4a0d48ad6a0123a4caaf344360498cfe, type: 3}
-  plantDescription: 'Value: $15
-
-    Time to Grow: 4 Days
-
-
-    [INSERT DESCRIPTION
-    HERE]'
+  size: 6in tall
+  growthSpeed: 4 days
+  sunlightNeeds: 6+ hrs a day. Close proximity to light source
+  waterNeeds: Mist every day. Thorough soak every week
+  fertilizerNeeds: Optionally once a month
+  healthRisks: Drought, pests
+  soilPreference: No soil; bowl only
+  plantFlavorText: Air plants don't need soil to grow, but they need lots of sunlight
+    and water to stay healthy. Novice gardeners used to hang them behind their windowsills,
+    using strange objects as pots.
+  plantSeedDescription: "Value: $15\r\n\r\n    Time to Grow: 4 Days\r\n\r\n\r\n   
+    [INSERT DESCRIPTION\r\n    HERE]"

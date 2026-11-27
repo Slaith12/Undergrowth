@@ -17,10 +17,10 @@ public class PlantInfoDisplay : MonoBehaviour
 
     public void DisplayPlant(Plant_Data plantType)
     {
-        plantLabel.text = plantType.plantName;
+        plantLabel.text = plantType.name;
         plantImage.enabled = true;
         plantImage.sprite = plantType.plantSprite;
-        plantDesc.text = plantType.plantDescription;
+        plantDesc.text = plantType.plantSeedDescription;
     }
 
     public void DisplaySeed(Plant_Data seedType)
