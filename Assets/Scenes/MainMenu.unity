@@ -1405,46 +1405,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1549541459}
     m_Modifications:
-    - target: {fileID: 511925021748102544, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
-      propertyPath: textPages.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 511925021748102544, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
-      propertyPath: 'textPages.Array.data[0]'
-      value: Long before you were born, a nuclear disaster struck, combined with
-        global warming, to make Earth uninhabitable. Humanity retreated into bunkers
-        underground to wait out the worst in the hopes that the Earth would eventually
-        begin to heal.
-      objectReference: {fileID: 0}
-    - target: {fileID: 511925021748102544, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
-      propertyPath: 'textPages.Array.data[1]'
-      value: 'Several generations have passed since then and humanity has now begun
-        to rebuild on the remnants of their ancestors. The city you live in is controlled
-        by one family who''s bunker contains an unfathomable amount of resources
-        and weapons. They have outlawed the sale of many different things to monopolize
-        their collection and extort the local people. They''ve used their overwhelming
-        influence to arm obedient citizens into a secret police force that works
-        under them for scraps. '
-      objectReference: {fileID: 0}
-    - target: {fileID: 511925021748102544, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
-      propertyPath: 'textPages.Array.data[2]'
-      value: "You are continuing the operations at your family's shop. The bunker
-        your family lived in had been home to a line of incredibly passionate botanists
-        who hoped to help regrow the world into what it once was, and this shop was
-        going to be how they\u2019d help. But when the ruling family outlawed the
-        sale of plants, your shop pivoted from selling real plants to decorational
-        fake plants\u2026 or so your family claimed."
-      objectReference: {fileID: 0}
-    - target: {fileID: 511925021748102544, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
-      propertyPath: 'textPages.Array.data[3]'
-      value: "In reality, your family\u2019s greenhouse is still secretly growing
-        plants, and you continue to stock and sell real plants in hopes of reaching
-        that dream you and your family had hoped for for so long."
-      objectReference: {fileID: 0}
-    - target: {fileID: 2255286068999947614, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
-      propertyPath: m_text
-      value: Background
-      objectReference: {fileID: 0}
     - target: {fileID: 2977468227999177065, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1525,21 +1485,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6921486812966038894, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
-      propertyPath: m_margin.w
-      value: -20.347595
-      objectReference: {fileID: 0}
-    - target: {fileID: 6921486812966038894, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
-      propertyPath: m_margin.y
-      value: -28.864868
-      objectReference: {fileID: 0}
     - target: {fileID: 7427874300361341413, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
       propertyPath: m_Name
       value: Tutorial Panel
-      objectReference: {fileID: 0}
-    - target: {fileID: 7427874300361341413, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -392,6 +392,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6921486812966038894, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
+      propertyPath: m_margin.y
+      value: -4.1295853
+      objectReference: {fileID: 0}
     - target: {fileID: 7427874300361341413, guid: 410d3aaf25bacd5448f7c35b45e3a243, type: 3}
       propertyPath: m_Name
       value: Tutorial Panel
@@ -4497,7 +4501,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 681910535}
   m_HandleRect: {fileID: 681910534}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -6760,8 +6764,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 9b7003adf5f45df4e94af017b9d63e9e, type: 2}
+  m_sharedMaterial: {fileID: -3977428171934922930, guid: 9b7003adf5f45df4e94af017b9d63e9e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -7459,8 +7463,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: New Text
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0261744deb9d43a43b03169f53280704, type: 2}
+  m_sharedMaterial: {fileID: 8711938937505252647, guid: 0261744deb9d43a43b03169f53280704, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

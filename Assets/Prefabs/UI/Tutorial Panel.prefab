@@ -67,8 +67,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Back
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0261744deb9d43a43b03169f53280704, type: 2}
+  m_sharedMaterial: {fileID: 8711938937505252647, guid: 0261744deb9d43a43b03169f53280704, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -348,8 +348,8 @@ MonoBehaviour:
     sit amet fringilla nulla, vitae pretium nunc. Fusce ut convallis diam. Nullam
     molestie gravida consequat.
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 2ec40dbcc617b034181f459875c1d707, type: 2}
+  m_sharedMaterial: {fileID: -369900770683296274, guid: 2ec40dbcc617b034181f459875c1d707, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -412,7 +412,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: -28.864868, z: 0, w: -20.347595}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -485,8 +485,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: 1/4
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0261744deb9d43a43b03169f53280704, type: 2}
+  m_sharedMaterial: {fileID: 8711938937505252647, guid: 0261744deb9d43a43b03169f53280704, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -620,10 +620,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Tutorial
+  m_text: Background
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0261744deb9d43a43b03169f53280704, type: 2}
+  m_sharedMaterial: {fileID: 8711938937505252647, guid: 0261744deb9d43a43b03169f53280704, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1158,8 +1158,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Next
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 0261744deb9d43a43b03169f53280704, type: 2}
+  m_sharedMaterial: {fileID: 8711938937505252647, guid: 0261744deb9d43a43b03169f53280704, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1326,5 +1326,23 @@ MonoBehaviour:
   backButton: {fileID: 2405935835670924207}
   nextButton: {fileID: 9153222412336672795}
   pageCountText: {fileID: 7706523348198209410}
-  textPages: []
+  textPages:
+  - Long before you were born, a nuclear disaster struck, combined with global warming,
+    to make Earth uninhabitable. Humanity retreated into bunkers underground to wait
+    out the worst in the hopes that the Earth would eventually begin to heal.
+  - 'Several generations have passed since then and humanity has now begun to rebuild
+    on the remnants of their ancestors. The city you live in is controlled by one
+    family who''s bunker contains an unfathomable amount of resources and weapons.
+    They have outlawed the sale of many different things to monopolize their collection
+    and extort the local people. They''ve used their overwhelming influence to arm
+    obedient citizens into a secret police force that works under them for scraps. '
+  - "You are continuing the operations at your family's shop. The bunker your family
+    lived in had been home to a line of incredibly passionate botanists who hoped
+    to help regrow the world into what it once was, and this shop was going to be
+    how they\u2019d help. But when the ruling family outlawed the sale of plants,
+    your shop pivoted from selling real plants to decorational fake plants\u2026
+    or so your family claimed."
+  - "In reality, your family\u2019s greenhouse is still secretly growing plants,
+    and you continue to stock and sell real plants in hopes of reaching that dream
+    you and your family had hoped for for so long."
   currentPageNum: 0
